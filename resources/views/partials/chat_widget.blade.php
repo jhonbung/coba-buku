@@ -132,7 +132,7 @@
     });
 
     function checkUnreadCustomerCount() {
-      fetch("{{ route('chat.unread_count') }}")
+      fetch("{{ route('chat.unread_count', [], false) }}")
         .then(res => res.json())
         .then(data => {
           const badgeEl = document.getElementById('bv-chat-badge');
@@ -147,7 +147,7 @@
     }
 
     function loadCustomerChatMessages(forceScroll = false) {
-      fetch("{{ route('chat.messages') }}")
+      fetch("{{ route('chat.messages', [], false) }}")
         .then(res => res.json())
         .then(data => {
           if (!data.authenticated) return;
@@ -232,7 +232,7 @@
 
       inputEl.value = '';
 
-      fetch("{{ route('chat.send') }}", {
+      fetch("{{ route('chat.send', [], false) }}", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

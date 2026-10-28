@@ -128,45 +128,55 @@ class ChatController extends Controller
      */
     public function adminGetConversations()
     {
-        // Ambil ID semua customer yang pernah mengirim atau menerima pesan
-        $customerIds = ChatMessage::select('user_id')
-            ->distinct()
-            ->pluck('user_id');
+        try {
+            // Ambil ID semua customer yang pernah mengirim atau menerima pesan
+            $customerIds = ChatMessage::select('user_id')
+                ->distinct()
+                ->pluck('user_id');
 
-        $users = User::whereIn('id', $customerIds)
-            ->withCount(['chatMessages as unread_count' => function ($q) {
-                $q->where('sender_type', 'customer')->where('is_read_by_admin', false);
-            }])
-            ->get();
+            $users = User::whereIn('id', $customerIds)
+                ->withCount(['chatMessages as unread_count' => function ($q) {
+                    $q->where('sender_type', 'customer')->where('is_read_by_admin', false);
+                }])
+                ->get();
 
-        $conversations = [];
-        foreach ($users as $user) {
-            $lastMsg = ChatMessage::where('user_id', $user->id)->latest()->first();
-            $conversations[] = [
-                'user_id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'phone' => $user->phone ?? '-',
-                'last_message' => $lastMsg ? $lastMsg->message : '',
-                'last_time' => $lastMsg ? $lastMsg->created_at->diffForHumans() : '',
-                'last_created_at' => $lastMsg ? $lastMsg->created_at->timestamp : 0,
-                'unread_count' => $user->unread_count,
-            ];
+            $conversations = [];
+            foreach ($users as $user) {
+                $lastMsg = ChatMessage::where('user_id', $user->id)->latest()->first();
+                $conversations[] = [
+                    'user_id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'phone' => $user->phone ?? '-',
+                    'last_message' => $lastMsg ? $lastMsg->message : '',
+                    'last_time' => $lastMsg ? $lastMsg->created_at->diffForHumans() : '',
+                    'last_created_at' => $lastMsg ? $lastMsg->created_at->timestamp : 0,
+                    'unread_count' => $user->unread_count,
+                ];
+            }
+
+            // Urutkan dari percakapan paling terbaru
+            usort($conversations, function ($a, $b) {
+                return $b['last_created_at'] <=> $a['last_created_at'];
+            });
+
+            $totalUnread = ChatMessage::where('sender_type', 'customer')
+                ->where('is_read_by_admin', false)
+                ->count();
+
+            return response()->json([
+                'success' => true,
+                'conversations' => $conversations,
+                'total_unread' => $totalUnread,
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'conversations' => [],
+                'total_unread' => 0,
+                'error' => $e->getMessage(),
+            ], 200);
         }
-
-        // Urutkan dari percakapan paling terbaru
-        usort($conversations, function ($a, $b) {
-            return $b['last_created_at'] <=> $a['last_created_at'];
-        });
-
-        $totalUnread = ChatMessage::where('sender_type', 'customer')
-            ->where('is_read_by_admin', false)
-            ->count();
-
-        return response()->json([
-            'conversations' => $conversations,
-            'total_unread' => $totalUnread,
-        ]);
     }
 
     /**

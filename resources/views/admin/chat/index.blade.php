@@ -160,10 +160,23 @@
 
   // Load conversation list from server
   function loadConversations(isBackground = false) {
-    fetch("{{ route('admin.chat.conversations') }}")
+    fetch("{{ route('admin.chat.conversations', [], false) }}")
       .then(res => res.json())
       .then(data => {
-        conversationsData = data.conversations;
+        if (data.error && !isBackground) {
+          const listEl = document.getElementById('conversationsList');
+          listEl.innerHTML = `
+            <div style="padding: 24px 16px; text-align: center; color: #DC2626; font-size: 0.82rem;">
+              <i class="fa-solid fa-triangle-exclamation" style="font-size: 1.8rem; margin-bottom: 8px; display: block;"></i>
+              <strong>Kendala Memuat Pesan:</strong>
+              <div style="font-size: 0.72rem; color: #64748B; margin-top: 6px; word-break: break-word;">${data.error}</div>
+              <button onclick="loadConversations()" class="btn btn-gold" style="margin-top: 12px; font-size: 0.75rem; padding: 6px 14px;">Coba Lagi</button>
+            </div>
+          `;
+          return;
+        }
+
+        conversationsData = data.conversations || [];
         renderConversationsList();
         
         // Auto open selected user if requested via query param
@@ -171,7 +184,21 @@
           selectConversation(currentUserId);
         }
       })
-      .catch(err => console.error("Error loading chat conversations:", err));
+      .catch(err => {
+        console.error("Error loading chat conversations:", err);
+        if (!isBackground) {
+          const listEl = document.getElementById('conversationsList');
+          listEl.innerHTML = `
+            <div style="padding: 24px 16px; text-align: center; color: #64748B; font-size: 0.82rem;">
+              <i class="fa-solid fa-wifi" style="font-size: 1.8rem; margin-bottom: 8px; display: block; color: #DC2626;"></i>
+              Gagal memuat percakapan.
+              <div style="margin-top: 10px;">
+                <button onclick="loadConversations()" class="btn btn-gold" style="font-size: 0.75rem; padding: 6px 14px;">Muat Ulang</button>
+              </div>
+            </div>
+          `;
+        }
+      });
   }
 
   // Render conversations list in left panel
@@ -363,7 +390,7 @@
 
     inputEl.value = '';
 
-    fetch("{{ route('admin.chat.send') }}", {
+    fetch("{{ route('admin.chat.send', [], false) }}", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -157,7 +157,7 @@
       window.snap.pay(snapToken, {
         onSuccess: function(result) {
           console.log('Payment success:', result);
-          fetch("{{ route('checkout.finish', $order->order_number) }}", {
+          fetch("{{ route('checkout.finish', $order->order_number, false) }}", {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -165,7 +165,7 @@
             },
             body: JSON.stringify(result)
           }).then(() => {
-            window.location.href = "{{ route('checkout.success', $order->order_number) }}";
+            window.location.href = "{{ route('checkout.success', $order->order_number, false) }}";
           });
         },
         onPending: function(result) {
