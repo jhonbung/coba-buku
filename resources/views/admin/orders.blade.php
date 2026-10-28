@@ -47,13 +47,22 @@
 
             <td style="padding: 16px 20px; vertical-align: top; max-width: 250px;">
               <strong>{{ $order->customer_name }}</strong>
-              <div style="font-size: 0.78rem; color: var(--text-muted);">{{ $order->customer_phone }}</div>
-              <div style="font-size: 0.78rem; color: var(--text-dark); margin-top: 4px;">
-                {{ $order->shipping_address }}, {{ $order->city }}
-              </div>
-              <div style="font-size: 0.75rem; background: var(--ivory); display: inline-block; padding: 2px 6px; border-radius: 4px; margin-top: 6px; font-weight: 600;">
-                {{ $order->courier }}
-              </div>
+              <div style="font-size: 0.78rem; color: var(--text-muted);"><i class="fa-brands fa-whatsapp" style="color: #16A34A;"></i> {{ $order->customer_phone }}</div>
+              @if(str_contains($order->shipping_address, 'Digital') || $order->courier === 'Digital Delivery (Email Langsung)')
+                <div style="font-size: 0.78rem; color: #1E40AF; margin-top: 4px; font-weight: 600;">
+                  <i class="fa-solid fa-envelope"></i> {{ $order->customer_email }}
+                </div>
+                <div style="font-size: 0.75rem; background: #DBEAFE; color: #1E40AF; display: inline-block; padding: 2px 8px; border-radius: 4px; margin-top: 6px; font-weight: 700;">
+                  <i class="fa-solid fa-bolt"></i> Akses Digital Instan
+                </div>
+              @else
+                <div style="font-size: 0.78rem; color: var(--text-dark); margin-top: 4px;">
+                  {{ $order->shipping_address }}, {{ $order->city }}
+                </div>
+                <div style="font-size: 0.75rem; background: var(--ivory); display: inline-block; padding: 2px 6px; border-radius: 4px; margin-top: 6px; font-weight: 600;">
+                  {{ $order->courier }}
+                </div>
+              @endif
             </td>
 
             <td style="padding: 16px 20px; vertical-align: top;">

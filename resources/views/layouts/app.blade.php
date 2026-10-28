@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>@yield('title', 'BIANCA VEANA — Official Author & Luxury Bookstore')</title>
   <meta name="description" content="Website resmi Bianca Veana Bookstore. Pusat penjualan novel cetak, e-book eksklusif, dan merchandise resmi The Seven Notonegoro Series.">
+  <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&display=swap" rel="stylesheet">
@@ -14,25 +15,6 @@
 </head>
 <body>
 
-  <!-- ANNOUNCEMENT & REVIEW TICKER BAR -->
-  <div class="announcement-bar">
-    <div class="container" style="display: flex; align-items: center; justify-content: space-between;">
-      <div style="flex-shrink: 0; font-weight: 700; color: var(--champagne-gold); margin-right: 20px;">
-        <i class="fa-solid fa-crown"></i> BIANCA VEANA UNIVERSE
-      </div>
-      <div class="ticker-wrap">
-        <div class="ticker">
-          <span class="ticker-item"><i class="fa-solid fa-star" style="color: #C6A16B;"></i> PRE-ORDER NOVEL FATE TELAH DIBUKA! AMANKAN EDISI SPESIAL ANDA</span>
-          <span class="ticker-item"><i class="fa-solid fa-star" style="color: #C6A16B;"></i> "Novel Mantra luar biasa menguras emosi! Sadewa benar-benar standar pria fiksi tertinggi." — Alika P. (5★)</span>
-          <span class="ticker-item"><i class="fa-solid fa-star" style="color: #C6A16B;"></i> "Packaging sangat mewah, aman berlipat bubble wrap tebal." — Vania S. (5★)</span>
-          <span class="ticker-item"><i class="fa-solid fa-star" style="color: #C6A16B;"></i> PENGIRIMAN DIGITAL E-BOOK OTOMATIS AKTIF 24/7 LANGSUNG KE EMAIL</span>
-        </div>
-      </div>
-      <div style="flex-shrink: 0; margin-left: 20px; font-size: 0.75rem;">
-        <span style="color: var(--champagne-gold);"><i class="fa-solid fa-gem"></i> Butik Buku Resmi</span>
-      </div>
-    </div>
-  </div>
 
   <!-- SITE HEADER & NAVIGATION -->
   <header class="site-header">
@@ -48,9 +30,12 @@
       </nav>
 
       <div class="brand-logo">
-        <a href="{{ route('home') }}">
-          <h1 class="brand-name">BIANCA VEANA</h1>
-          <div class="brand-tagline">OFFICIAL BOOKSTORE</div>
+        <a href="{{ route('home') }}" class="brand-link">
+          <img src="{{ asset('images/logo.png') }}" alt="Bianca Veana Logo" class="brand-crest-img">
+          <div class="brand-text-wrap">
+            <h1 class="brand-name">BIANCA VEANA</h1>
+            <div class="brand-tagline">OFFICIAL BOOKSTORE</div>
+          </div>
         </a>
       </div>
 
@@ -102,8 +87,13 @@
       <div class="footer-grid">
         <!-- Col 1: About -->
         <div class="footer-brand">
-          <h3 class="brand-name">BIANCA VEANA</h3>
-          <div class="brand-tagline" style="color: var(--champagne-gold);">BIANCA VEANA UNIVERSE</div>
+          <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 14px;">
+            <img src="{{ asset('images/logo.png') }}" alt="Bianca Veana Logo" style="height: 52px; width: auto; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.35));">
+            <div>
+              <h3 class="brand-name" style="margin-bottom: 0;">BIANCA VEANA</h3>
+              <div class="brand-tagline" style="color: var(--champagne-gold);">BIANCA VEANA UNIVERSE</div>
+            </div>
+          </div>
           <p class="footer-about-text">
             Bianca Veana is a literary brand that brings stories of love, passion, ambition, and the complexities of the human heart to life. Through compelling characters and interconnected worlds, Bianca Veana creates stories that invite readers to feel deeply, dream freely, and discover a piece of themselves in every chapter.
           </p>

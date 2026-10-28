@@ -40,7 +40,7 @@ class CheckoutController extends Controller
             'jnt_express' => ['name' => 'J&T Express (1-3 hari)', 'cost' => $hasPhysicalItems ? 17000 : 0],
         ];
 
-        return view('checkout.index', compact('cart', 'subtotal', 'totalWeight', 'hasPhysicalItems', 'courierRates'));
+        return view('checkout.index', compact('cart', 'subtotal', 'totalWeight', 'hasPhysicalItems', 'hasDigitalItems', 'courierRates'));
     }
 
     public function store(Request $request)
@@ -51,26 +51,36 @@ class CheckoutController extends Controller
             return redirect()->route('novels.index');
         }
 
-        $request->validate([
-            'customer_name' => 'required|string|max:100',
-            'customer_email' => 'required|email|max:100',
-            'customer_phone' => 'required|string|max:25',
-            'shipping_address' => 'required|string|max:500',
-            'city' => 'required|string|max:100',
-            'postal_code' => 'required|string|max:10',
-            'courier' => 'required|string',
-            'payment_method' => 'required|string',
-        ]);
-
         $subtotal = 0;
         $hasPhysicalItems = false;
+        $hasDigitalItems = false;
 
         foreach ($cart as $item) {
             $subtotal += $item['price'] * $item['quantity'];
             if ($item['category'] === 'novel' || $item['category'] === 'merchandise') {
                 $hasPhysicalItems = true;
+            } else {
+                $hasDigitalItems = true;
             }
         }
+
+        // Base validation for essential customer data
+        $rules = [
+            'customer_name' => 'required|string|max:100',
+            'customer_email' => 'required|email|max:100',
+            'customer_phone' => 'required|string|max:25',
+            'payment_method' => 'required|string',
+        ];
+
+        // Address & courier are ONLY required if there are physical items
+        if ($hasPhysicalItems) {
+            $rules['shipping_address'] = 'required|string|max:500';
+            $rules['city'] = 'required|string|max:100';
+            $rules['postal_code'] = 'required|string|max:10';
+            $rules['courier'] = 'required|string';
+        }
+
+        $request->validate($rules);
 
         $shippingCosts = [
             'JNE Regular (1-2 hari kerja)' => 18000,
@@ -90,17 +100,19 @@ class CheckoutController extends Controller
             'customer_name' => $request->input('customer_name'),
             'customer_email' => $request->input('customer_email'),
             'customer_phone' => $request->input('customer_phone'),
-            'shipping_address' => $request->input('shipping_address'),
-            'city' => $request->input('city'),
-            'postal_code' => $request->input('postal_code'),
+            'shipping_address' => $hasPhysicalItems 
+                ? $request->input('shipping_address') 
+                : 'Pengiriman Digital (Akses dikirim via Email & WhatsApp)',
+            'city' => $hasPhysicalItems ? $request->input('city') : 'Online / Digital Delivery',
+            'postal_code' => $hasPhysicalItems ? $request->input('postal_code') : '-',
             'courier' => $courierName,
             'shipping_cost' => $shippingCost,
             'subtotal' => $subtotal,
             'total_amount' => $totalAmount,
             'payment_method' => $request->input('payment_method'),
             'payment_status' => 'paid', // Auto-verified payment simulation for instant delight
-            'order_status' => 'processing',
-            'tracking_number' => 'BV-' . strtoupper(Str::random(8)),
+            'order_status' => $hasPhysicalItems ? 'processing' : 'completed',
+            'tracking_number' => $hasPhysicalItems ? ('BV-' . strtoupper(Str::random(8))) : 'DIGITAL-ACCESS',
             'digital_delivered' => true,
             'notes' => $request->input('notes'),
         ]);

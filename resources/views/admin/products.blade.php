@@ -21,6 +21,10 @@
     </div>
 
     <div style="display: flex; gap: 12px; align-items: center;">
+      <a href="{{ route('admin.ebook_parts.hub') }}" class="btn btn-outline-gold" style="font-size: 0.82rem; padding: 10px 18px; font-weight: 700; background: #FFFFFF;">
+        <i class="fa-solid fa-layer-group"></i> Pusat Kontrol Part E-Book
+      </a>
+
       <div style="background: #FFFFFF; border: 1px solid #E2E8F0; padding: 10px 18px; border-radius: 8px; font-size: 0.82rem; color: #1E293B; display: flex; align-items: center; gap: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.03);">
         <i class="fa-solid fa-boxes-stacked" style="color: var(--admin-gold);"></i>
         <span>Total: <strong>{{ $products->count() }} Judul Aktif</strong></span>
@@ -32,12 +36,38 @@
     </div>
   </div>
 
-  <!-- Filter Pills Bar -->
-  <div style="display: flex; gap: 10px; margin-bottom: 20px; align-items: center; flex-wrap: wrap;">
-    <button type="button" onclick="filterTable('all')" class="filter-tab active" data-filter="all">Semua Koleksi ({{ $products->count() }})</button>
-    <button type="button" onclick="filterTable('novel')" class="filter-tab" data-filter="novel">Novel Cetak</button>
-    <button type="button" onclick="filterTable('ebook')" class="filter-tab" data-filter="ebook">E-Book & Bab Digital</button>
-    <button type="button" onclick="filterTable('merchandise')" class="filter-tab" data-filter="merchandise">Merchandise</button>
+  <!-- Grouped Filter Pills & Search Bar -->
+  <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 10px; padding: 16px 20px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.03);">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #F1F5F9;">
+      <!-- Series Universe Group Filters -->
+      <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+        <span style="font-size: 0.72rem; font-weight: 700; color: #64748B; text-transform: uppercase;">
+          <i class="fa-solid fa-crown" style="color: var(--admin-gold);"></i> Kelompok Seri:
+        </span>
+        <button type="button" onclick="filterBySeries('all')" class="series-filter-tab active" data-series="all">Semua Seri</button>
+        <button type="button" onclick="filterBySeries('notonegoro')" class="series-filter-tab" data-series="notonegoro">👑 The Seven Notonegoro</button>
+        <button type="button" onclick="filterBySeries('standalone')" class="series-filter-tab" data-series="standalone">🌙 Standalone Novels</button>
+        <button type="button" onclick="filterBySeries('limited')" class="series-filter-tab" data-series="limited">💎 Limited Editions</button>
+        <button type="button" onclick="filterBySeries('merch')" class="series-filter-tab" data-series="merch">🎁 Merchandise</button>
+      </div>
+
+      <!-- Live Search Box -->
+      <div style="position: relative; min-width: 240px;">
+        <input type="text" id="admin_table_search" onkeyup="searchAdminTable()" placeholder="Cari judul, ISBN, seri..." style="width: 100%; padding: 8px 14px 8px 34px; border: 1px solid #CBD5E1; border-radius: 6px; font-size: 0.82rem;">
+        <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 12px; top: 10px; color: #94A3B8; font-size: 0.8rem;"></i>
+      </div>
+    </div>
+
+    <!-- Category Filter Pills Bar -->
+    <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+      <span style="font-size: 0.72rem; font-weight: 700; color: #64748B; text-transform: uppercase;">
+        <i class="fa-solid fa-shapes"></i> Kategori:
+      </span>
+      <button type="button" onclick="filterTable('all')" class="filter-tab active" data-filter="all">Semua Kategori ({{ $products->count() }})</button>
+      <button type="button" onclick="filterTable('novel')" class="filter-tab" data-filter="novel">📖 Novel Cetak</button>
+      <button type="button" onclick="filterTable('ebook')" class="filter-tab" data-filter="ebook">📱 E-Book Digital</button>
+      <button type="button" onclick="filterTable('merchandise')" class="filter-tab" data-filter="merchandise">🎁 Merchandise</button>
+    </div>
   </div>
 
   <!-- Main Table Card -->
@@ -46,15 +76,21 @@
       <thead>
         <tr>
           <th style="width: 320px;">Cover & Judul Produk</th>
-          <th style="width: 140px;">Kategori</th>
-          <th>Seri / Subtitle</th>
-          <th style="text-align: center; width: 230px;">Update Harga & Stok</th>
-          <th style="text-align: center; width: 180px;">Tindakan</th>
+          <th style="width: 130px;">Kategori</th>
+          <th>Seri / Kelompok Universe</th>
+          <th style="text-align: center; width: 220px;">Update Harga & Stok</th>
+          <th style="text-align: center; width: 230px;">Kontrol & Tindakan</th>
         </tr>
       </thead>
       <tbody>
         @foreach($products as $prod)
-          <tr data-cat="{{ $prod->category }}">
+          @php
+            $subcat = $prod->subcategory ?? 'notonegoro';
+            $seriesKey = (str_contains(strtolower($prod->series_name ?? ''), 'notonegoro') || $subcat === 'notonegoro') 
+              ? 'notonegoro' 
+              : ($subcat === 'standalone' ? 'standalone' : ($subcat === 'limited' ? 'limited' : 'merch'));
+          @endphp
+          <tr data-cat="{{ $prod->category }}" data-series="{{ $seriesKey }}" data-title="{{ strtolower($prod->title . ' ' . $prod->series_name . ' ' . $prod->isbn) }}">
             <td>
               <div style="display: flex; gap: 16px; align-items: center;">
                 <div style="width: 48px; height: 68px; flex-shrink: 0; border-radius: 6px; overflow: hidden; background: #0E1A2B; border: 1px solid rgba(198, 161, 107, 0.4); box-shadow: 0 2px 6px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center;">
@@ -102,10 +138,15 @@
             </td>
 
             <td>
-              <div style="display: flex; gap: 6px; justify-content: center; align-items: center;">
+              <div style="display: flex; gap: 6px; justify-content: center; align-items: center; flex-wrap: wrap;">
                 <button type="submit" form="form-{{ $prod->id }}" class="btn-tool-save" title="Simpan Cepat Stok & Harga">
                   <i class="fa-solid fa-floppy-disk"></i>
                 </button>
+                @if($prod->category === 'novel')
+                  <a href="{{ route('admin.products.parts', $prod->id) }}" class="btn-tool-edit" style="background: #EFF6FF; color: #1D4ED8; border-color: #BFDBFE; font-weight: 700;" title="Kelola Part E-Book untuk {{ $prod->title }}">
+                    <i class="fa-solid fa-layer-group"></i> Part ({{ $prod->ebookParts->count() }})
+                  </a>
+                @endif
                 <a href="{{ route('admin.products.edit', $prod->id) }}" class="btn-tool-edit" title="Edit Lengkap">
                   <i class="fa-solid fa-pen-to-square"></i> Edit
                 </a>
@@ -131,9 +172,9 @@
   .filter-tab {
     background: #FFFFFF;
     border: 1px solid #E2E8F0;
-    padding: 7px 16px;
-    border-radius: 8px;
-    font-size: 0.8rem;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.78rem;
     font-weight: 600;
     color: #475569;
     cursor: pointer;
@@ -147,6 +188,28 @@
     background: #0B1424;
     color: #F8FAFC;
     border-color: #0B1424;
+  }
+
+  .series-filter-tab {
+    background: #F8FAFC;
+    border: 1px solid #CBD5E1;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #334155;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .series-filter-tab:hover {
+    background: #EFF6FF;
+    color: #1D4ED8;
+    border-color: #93C5FD;
+  }
+  .series-filter-tab.active {
+    background: #1E293B;
+    color: var(--champagne-gold);
+    border-color: #0F172A;
   }
   .btn-tool-save {
     background: linear-gradient(135deg, #DFBA7D 0%, #C6A16B 100%);
@@ -202,13 +265,40 @@
 
 @push('scripts')
 <script>
+  let activeCat = 'all';
+  let activeSeries = 'all';
+
   function filterTable(cat) {
+    activeCat = cat;
     document.querySelectorAll('.filter-tab').forEach(b => {
       b.classList.toggle('active', b.getAttribute('data-filter') === cat);
     });
+    applyFilters();
+  }
+
+  function filterBySeries(seriesKey) {
+    activeSeries = seriesKey;
+    document.querySelectorAll('.series-filter-tab').forEach(b => {
+      b.classList.toggle('active', b.getAttribute('data-series') === seriesKey);
+    });
+    applyFilters();
+  }
+
+  function searchAdminTable() {
+    applyFilters();
+  }
+
+  function applyFilters() {
+    const q = (document.getElementById('admin_table_search').value || '').toLowerCase().trim();
     const rows = document.querySelectorAll('#products-table tbody tr');
+
     rows.forEach(r => {
-      if (cat === 'all' || r.getAttribute('data-cat') === cat) {
+      const matchCat = (activeCat === 'all' || r.getAttribute('data-cat') === activeCat);
+      const matchSeries = (activeSeries === 'all' || r.getAttribute('data-series') === activeSeries);
+      const titleData = r.getAttribute('data-title') || '';
+      const matchQuery = !q || titleData.includes(q);
+
+      if (matchCat && matchSeries && matchQuery) {
         r.style.display = '';
       } else {
         r.style.display = 'none';

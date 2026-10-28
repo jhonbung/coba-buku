@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Quote;
 use App\Models\Review;
+use App\Models\TeaserVideo;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -26,12 +27,17 @@ class HomeController extends Controller
         $quotes = Quote::orderBy('order_index')->get();
         $reviews = Review::latest()->take(6)->get();
 
+        $teaserVideos = TeaserVideo::where('is_active', true)->orderBy('order_index')->latest()->get();
+        $teaserVideo = $teaserVideos->first();
+
         return view('home', compact(
             'notonegoroSeries',
             'standaloneNovel',
             'newArrivals',
             'quotes',
-            'reviews'
+            'reviews',
+            'teaserVideo',
+            'teaserVideos'
         ));
     }
 }

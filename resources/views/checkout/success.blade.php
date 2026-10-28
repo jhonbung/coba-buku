@@ -69,9 +69,17 @@
           <span style="color: var(--text-muted); display: block;">Jasa Kurir:</span>
           <strong>{{ $order->courier }}</strong>
         </div>
+        @php
+          $isDigital = str_contains($order->shipping_address, 'Digital') || $order->courier === 'Digital Delivery (Email Langsung)';
+        @endphp
         <div>
-          <span style="color: var(--text-muted); display: block;">Alamat Pengiriman:</span>
-          <strong>{{ $order->shipping_address }}, {{ $order->city }} {{ $order->postal_code }}</strong>
+          <span style="color: var(--text-muted); display: block;">{{ $isDigital ? 'Tujuan Pengiriman Akses E-Book:' : 'Alamat Pengiriman:' }}</span>
+          @if($isDigital)
+            <strong style="color: #1D4ED8;"><i class="fa-solid fa-envelope"></i> {{ $order->customer_email }}</strong>
+            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px;">Notifikasi WhatsApp: {{ $order->customer_phone }}</div>
+          @else
+            <strong>{{ $order->shipping_address }}, {{ $order->city }} {{ $order->postal_code }}</strong>
+          @endif
         </div>
         <div>
           <span style="color: var(--text-muted); display: block;">Metode Pembayaran:</span>

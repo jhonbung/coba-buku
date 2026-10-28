@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Resi Pengiriman — #{{ $order->order_number }}</title>
+  <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
@@ -171,9 +172,12 @@
 
   <div class="resi-container">
     <div class="resi-header">
-      <div>
-        <div class="resi-brand-title">BIANCA VEANA</div>
-        <div style="font-size: 0.72rem; letter-spacing: 2px; color: #C6A16B; font-weight: 600;">OFFICIAL BOOKSTORE SHIPPING LABEL</div>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <img src="{{ asset('images/logo.png') }}" alt="Logo" style="height: 48px; width: auto; object-fit: contain;">
+        <div>
+          <div class="resi-brand-title">BIANCA VEANA</div>
+          <div style="font-size: 0.72rem; letter-spacing: 2px; color: #C6A16B; font-weight: 600;">OFFICIAL BOOKSTORE SHIPPING LABEL</div>
+        </div>
       </div>
       <div class="resi-courier-badge">
         {{ $order->courier }}
@@ -206,8 +210,13 @@
         <div class="party-name">{{ strtoupper($order->customer_name) }}</div>
         <div class="party-desc">
           <strong>Telp/WA:</strong> {{ $order->customer_phone }}<br>
-          <strong>Alamat:</strong> {{ $order->shipping_address }}<br>
-          <strong>Kota/Pos:</strong> {{ $order->city }} {{ $order->postal_code }}
+          @if(str_contains($order->shipping_address, 'Digital') || $order->courier === 'Digital Delivery (Email Langsung)')
+            <strong>Email Akses:</strong> {{ $order->customer_email }}<br>
+            <strong>Status Pengiriman:</strong> Akses Digital Instan (E-Book)
+          @else
+            <strong>Alamat:</strong> {{ $order->shipping_address }}<br>
+            <strong>Kota/Pos:</strong> {{ $order->city }} {{ $order->postal_code }}
+          @endif
         </div>
       </div>
     </div>

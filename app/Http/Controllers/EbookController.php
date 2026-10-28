@@ -9,17 +9,15 @@ class EbookController extends Controller
 {
     public function index()
     {
-        $fullEbooks = Product::where('category', 'ebook')
-            ->where('subcategory', 'ebook')
+        // 1 judul tampilan luar (Mantra, Hierarchy, Fate, Serenity)
+        $ebookTitles = Product::with('ebookParts')
+            ->whereNull('parent_id')
+            ->where('category', 'novel')
+            ->where('subcategory', 'notonegoro')
             ->orderBy('order_index')
             ->get();
 
-        $chapterEbooks = Product::where('category', 'ebook')
-            ->where('subcategory', 'chapter')
-            ->orderBy('order_index')
-            ->get();
-
-        return view('ebooks.index', compact('fullEbooks', 'chapterEbooks'));
+        return view('ebooks.index', compact('ebookTitles'));
     }
 
     public function downloadDemo(int $id)

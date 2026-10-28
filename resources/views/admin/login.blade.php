@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login Administrator — BIANCA VEANA</title>
+  <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
@@ -111,8 +112,8 @@
 <body>
 
   <div class="login-card">
-    <div style="width: 56px; height: 56px; border-radius: 50%; background: var(--ocean-navy); color: var(--champagne-gold); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 16px; border: 2px solid var(--champagne-gold);">
-      <i class="fa-solid fa-crown"></i>
+    <div style="width: 84px; height: 84px; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;">
+      <img src="{{ asset('images/logo.png') }}" alt="Bianca Veana Logo" style="width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(10, 25, 47, 0.15));">
     </div>
 
     <h2 class="login-brand">BIANCA VEANA</h2>

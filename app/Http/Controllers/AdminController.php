@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\TeaserVideo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -53,7 +54,11 @@ class AdminController extends Controller
 
     public function products()
     {
-        $products = Product::orderBy('category')->orderBy('order_index')->get();
+        $products = Product::whereNull('parent_id')
+            ->with('ebookParts')
+            ->orderBy('category')
+            ->orderBy('order_index')
+            ->get();
         return view('admin.products', compact('products'));
     }
 
@@ -76,6 +81,31 @@ class AdminController extends Controller
         $data['author'] = $request->input('author', 'Bianca Veana') ?: 'Bianca Veana';
         $data['is_featured'] = $request->boolean('is_featured');
         $data['is_preorder'] = $request->boolean('is_preorder');
+
+        // Normalize Merchandise vs Novel/E-Book fields
+        if ($request->input('category') === 'merchandise') {
+            $data['pages'] = null;
+            $data['digital_file_type'] = null;
+            $data['digital_file_url'] = null;
+        } else {
+            if ($request->filled('book_genre')) $data['genre'] = $request->input('book_genre');
+            if ($request->filled('book_publisher')) $data['publisher'] = $request->input('book_publisher');
+            if ($request->filled('book_isbn')) $data['isbn'] = $request->input('book_isbn');
+            if ($request->filled('book_dimensions')) $data['dimensions'] = $request->input('book_dimensions');
+            if ($request->filled('book_weight_grams')) $data['weight_grams'] = (int) $request->input('book_weight_grams');
+            
+            if ($request->input('category') === 'ebook') {
+                $data['weight_grams'] = 0;
+                $data['dimensions'] = null;
+            }
+        }
+        unset(
+            $data['book_genre'], $data['book_publisher'], $data['book_isbn'], 
+            $data['book_dimensions'], $data['book_weight_grams'],
+            $data['gallery_image_2'], $data['gallery_image_3'],
+            $data['gallery_url_2'], $data['gallery_url_3'],
+            $data['remove_gallery_2'], $data['remove_gallery_3']
+        );
 
         // Generate Unique Slug
         $slug = Str::slug($request->input('title'));
@@ -103,6 +133,28 @@ class AdminController extends Controller
         } else {
             $data['collectors_items'] = null;
         }
+
+        // Handle Physical Book Extra Gallery Images (up to 3 images total)
+        $gallery = [];
+        if ($request->hasFile('gallery_image_2')) {
+            $f2 = $request->file('gallery_image_2');
+            $fn2 = time() . '_2_' . Str::slug($request->input('title')) . '.' . $f2->getClientOriginalExtension();
+            $f2->move(public_path('images'), $fn2);
+            $gallery[] = '/images/' . $fn2;
+        } elseif ($request->filled('gallery_url_2')) {
+            $gallery[] = $request->input('gallery_url_2');
+        }
+
+        if ($request->hasFile('gallery_image_3')) {
+            $f3 = $request->file('gallery_image_3');
+            $fn3 = time() . '_3_' . Str::slug($request->input('title')) . '.' . $f3->getClientOriginalExtension();
+            $f3->move(public_path('images'), $fn3);
+            $gallery[] = '/images/' . $fn3;
+        } elseif ($request->filled('gallery_url_3')) {
+            $gallery[] = $request->input('gallery_url_3');
+        }
+
+        $data['gallery_images'] = !empty($gallery) ? $gallery : null;
 
         Product::create($data);
 
@@ -132,6 +184,31 @@ class AdminController extends Controller
         $data['is_featured'] = $request->boolean('is_featured');
         $data['is_preorder'] = $request->boolean('is_preorder');
 
+        // Normalize Merchandise vs Novel/E-Book fields
+        if ($request->input('category') === 'merchandise') {
+            $data['pages'] = null;
+            $data['digital_file_type'] = null;
+            $data['digital_file_url'] = null;
+        } else {
+            if ($request->filled('book_genre')) $data['genre'] = $request->input('book_genre');
+            if ($request->filled('book_publisher')) $data['publisher'] = $request->input('book_publisher');
+            if ($request->filled('book_isbn')) $data['isbn'] = $request->input('book_isbn');
+            if ($request->filled('book_dimensions')) $data['dimensions'] = $request->input('book_dimensions');
+            if ($request->filled('book_weight_grams')) $data['weight_grams'] = (int) $request->input('book_weight_grams');
+            
+            if ($request->input('category') === 'ebook') {
+                $data['weight_grams'] = 0;
+                $data['dimensions'] = null;
+            }
+        }
+        unset(
+            $data['book_genre'], $data['book_publisher'], $data['book_isbn'], 
+            $data['book_dimensions'], $data['book_weight_grams'],
+            $data['gallery_image_2'], $data['gallery_image_3'],
+            $data['gallery_url_2'], $data['gallery_url_3'],
+            $data['remove_gallery_2'], $data['remove_gallery_3']
+        );
+
         // Update Slug if title changed
         if ($request->input('title') !== $product->title) {
             $slug = Str::slug($request->input('title'));
@@ -159,6 +236,36 @@ class AdminController extends Controller
             $data['collectors_items'] = null;
         }
 
+        // Handle Physical Book Extra Gallery Images
+        $existingGallery = is_array($product->gallery_images) ? $product->gallery_images : [];
+        $img2 = $existingGallery[0] ?? null;
+        $img3 = $existingGallery[1] ?? null;
+
+        if ($request->boolean('remove_gallery_2')) {
+            $img2 = null;
+        } elseif ($request->hasFile('gallery_image_2')) {
+            $f2 = $request->file('gallery_image_2');
+            $fn2 = time() . '_2_' . Str::slug($request->input('title')) . '.' . $f2->getClientOriginalExtension();
+            $f2->move(public_path('images'), $fn2);
+            $img2 = '/images/' . $fn2;
+        } elseif ($request->filled('gallery_url_2')) {
+            $img2 = $request->input('gallery_url_2');
+        }
+
+        if ($request->boolean('remove_gallery_3')) {
+            $img3 = null;
+        } elseif ($request->hasFile('gallery_image_3')) {
+            $f3 = $request->file('gallery_image_3');
+            $fn3 = time() . '_3_' . Str::slug($request->input('title')) . '.' . $f3->getClientOriginalExtension();
+            $f3->move(public_path('images'), $fn3);
+            $img3 = '/images/' . $fn3;
+        } elseif ($request->filled('gallery_url_3')) {
+            $img3 = $request->input('gallery_url_3');
+        }
+
+        $newGallery = array_values(array_filter([$img2, $img3]));
+        $data['gallery_images'] = !empty($newGallery) ? $newGallery : null;
+
         $product->update($data);
 
         return redirect()->route('admin.products')->with('success', 'Produk "' . $product->title . '" berhasil diperbarui!');
@@ -182,5 +289,271 @@ class AdminController extends Controller
         ]);
 
         return back()->with('success', "Stok & harga {$product->title} berhasil diperbarui.");
+    }
+
+    // ==========================================
+    // 11. TEASER VIDEO MANAGEMENT
+    // ==========================================
+
+    public function videos()
+    {
+        $videos = TeaserVideo::latest()->get();
+        return view('admin.videos', compact('videos'));
+    }
+
+    public function createVideo()
+    {
+        return view('admin.videos_create');
+    }
+
+    public function storeVideo(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'video_type' => 'required|in:file,youtube,url',
+            'video_file' => 'nullable|file|mimes:mp4,webm,ogg,mov,mkv|max:204800',
+            'youtube_url' => 'nullable|string',
+            'video_url' => 'nullable|string',
+            'thumbnail_file' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+        ]);
+
+        $data = [
+            'title' => $request->input('title'),
+            'tagline' => $request->input('tagline', 'OFFICIAL CINEMATIC TRAILER'),
+            'subtitle' => $request->input('subtitle'),
+            'video_type' => $request->input('video_type', 'file'),
+            'badge_1' => $request->input('badge_1', '1080p Full HD'),
+            'badge_2' => $request->input('badge_2', 'Original Soundtrack'),
+            'badge_3' => $request->input('badge_3', 'Official Universe'),
+            'cta_text' => $request->input('cta_text', 'Beli Seri Novel'),
+            'cta_link' => $request->input('cta_link', '#notonegoro-series'),
+            'is_active' => $request->boolean('is_active'),
+        ];
+
+        // Handle Video Type
+        if ($data['video_type'] === 'file') {
+            if ($request->hasFile('video_file')) {
+                $file = $request->file('video_file');
+                $filename = 'teaser_' . time() . '_' . Str::slug($request->title) . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('videos'), $filename);
+                $data['video_path'] = '/videos/' . $filename;
+            } elseif (file_exists(public_path('videos/teaser.mp4'))) {
+                $data['video_path'] = '/videos/teaser.mp4';
+            }
+        } elseif ($data['video_type'] === 'youtube') {
+            $data['youtube_url'] = $request->input('youtube_url');
+        } elseif ($data['video_type'] === 'url') {
+            $data['video_path'] = $request->input('video_url');
+        }
+
+        // Handle Thumbnail Poster
+        if ($request->hasFile('thumbnail_file')) {
+            $thumb = $request->file('thumbnail_file');
+            $thumbName = 'poster_' . time() . '.' . $thumb->getClientOriginalExtension();
+            $thumb->move(public_path('images'), $thumbName);
+            $data['thumbnail_path'] = '/images/' . $thumbName;
+        } elseif ($request->filled('thumbnail_url')) {
+            $data['thumbnail_path'] = $request->input('thumbnail_url');
+        } else {
+            $data['thumbnail_path'] = '/images/hero-slide-1.jpg';
+        }
+
+        // Create video without deactivating other videos (multiple videos can be active)
+        TeaserVideo::create($data);
+
+        return redirect()->route('admin.videos')->with('success', 'Video Teaser "' . $request->title . '" berhasil ditambahkan!');
+    }
+
+    public function editVideo(int $id)
+    {
+        $video = TeaserVideo::findOrFail($id);
+        return view('admin.videos_edit', compact('video'));
+    }
+
+    public function updateVideo(Request $request, int $id)
+    {
+        $video = TeaserVideo::findOrFail($id);
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'video_type' => 'required|in:file,youtube,url',
+            'video_file' => 'nullable|file|mimes:mp4,webm,ogg,mov,mkv|max:204800',
+            'youtube_url' => 'nullable|string',
+            'video_url' => 'nullable|string',
+            'thumbnail_file' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+        ]);
+
+        $data = [
+            'title' => $request->input('title'),
+            'tagline' => $request->input('tagline'),
+            'subtitle' => $request->input('subtitle'),
+            'video_type' => $request->input('video_type', 'file'),
+            'badge_1' => $request->input('badge_1'),
+            'badge_2' => $request->input('badge_2'),
+            'badge_3' => $request->input('badge_3'),
+            'cta_text' => $request->input('cta_text'),
+            'cta_link' => $request->input('cta_link'),
+            'is_active' => $request->boolean('is_active'),
+        ];
+
+        // Handle Video Replacement
+        if ($data['video_type'] === 'file') {
+            if ($request->hasFile('video_file')) {
+                if ($video->video_path && str_starts_with($video->video_path, '/videos/teaser_') && file_exists(public_path($video->video_path))) {
+                    @unlink(public_path($video->video_path));
+                }
+                $file = $request->file('video_file');
+                $filename = 'teaser_' . time() . '_' . Str::slug($request->title) . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('videos'), $filename);
+                $data['video_path'] = '/videos/' . $filename;
+            }
+        } elseif ($data['video_type'] === 'youtube') {
+            $data['youtube_url'] = $request->input('youtube_url');
+        } elseif ($data['video_type'] === 'url') {
+            $data['video_path'] = $request->input('video_url');
+        }
+
+        // Handle Thumbnail Replacement
+        if ($request->hasFile('thumbnail_file')) {
+            $thumb = $request->file('thumbnail_file');
+            $thumbName = 'poster_' . time() . '.' . $thumb->getClientOriginalExtension();
+            $thumb->move(public_path('images'), $thumbName);
+            $data['thumbnail_path'] = '/images/' . $thumbName;
+        } elseif ($request->filled('thumbnail_url')) {
+            $data['thumbnail_path'] = $request->input('thumbnail_url');
+        }
+
+        $video->update($data);
+
+        return redirect()->route('admin.videos')->with('success', 'Video Teaser "' . $video->title . '" berhasil diperbarui!');
+    }
+
+    public function destroyVideo(int $id)
+    {
+        $video = TeaserVideo::findOrFail($id);
+        $title = $video->title;
+
+        if ($video->video_path && str_starts_with($video->video_path, '/videos/teaser_') && file_exists(public_path($video->video_path))) {
+            @unlink(public_path($video->video_path));
+        }
+
+        $video->delete();
+
+        return redirect()->route('admin.videos')->with('success', 'Video Teaser "' . $title . '" berhasil dihapus.');
+    }
+
+    public function activateVideo(int $id)
+    {
+        $video = TeaserVideo::findOrFail($id);
+        $video->update(['is_active' => !$video->is_active]);
+
+        $statusMsg = $video->is_active ? 'kini AKTIF ditayangkan' : 'kini DI-NON-AKTIFKAN';
+        return back()->with('success', "Video Teaser \"{$video->title}\" {$statusMsg} di website!");
+    }
+
+    // ==========================================
+    // 12. E-BOOK PARTS MANAGEMENT (PART 1, 2, ...)
+    // ==========================================
+
+    public function ebookPartsHub()
+    {
+        $notonegoroTitles = Product::with('ebookParts')
+            ->whereNull('parent_id')
+            ->where('category', 'novel')
+            ->where('subcategory', 'notonegoro')
+            ->orderBy('order_index')
+            ->get();
+
+        $standaloneTitles = Product::with('ebookParts')
+            ->whereNull('parent_id')
+            ->where('category', 'novel')
+            ->where('subcategory', 'standalone')
+            ->orderBy('order_index')
+            ->get();
+
+        $allParentTitles = Product::whereNull('parent_id')
+            ->where('category', 'novel')
+            ->orderBy('order_index')
+            ->get();
+
+        $totalParts = Product::whereNotNull('parent_id')->count();
+
+        return view('admin.ebook_parts_hub', compact('notonegoroTitles', 'standaloneTitles', 'allParentTitles', 'totalParts'));
+    }
+
+    public function parts(int $id)
+    {
+        $product = Product::with('ebookParts')->findOrFail($id);
+        $parts = $product->ebookParts;
+        return view('admin.parts', compact('product', 'parts'));
+    }
+
+    public function storePart(Request $request, int $id)
+    {
+        $parent = Product::findOrFail($id);
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'part_number' => 'nullable|integer|min:1',
+            'price' => 'required|numeric|min:0',
+            'digital_file_url' => 'nullable|string',
+            'ebook_file' => 'nullable|file|mimes:pdf,epub,zip|max:51200',
+            'synopsis' => 'nullable|string',
+        ]);
+
+        $fileUrl = $request->input('digital_file_url');
+        $fileType = 'gdrive';
+
+        if ($request->hasFile('ebook_file')) {
+            $file = $request->file('ebook_file');
+            $filename = 'part_' . time() . '_' . Str::slug($request->title) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('ebooks'), $filename);
+            $fileUrl = '/ebooks/' . $filename;
+            $fileType = $file->getClientOriginalExtension();
+        }
+
+        $partNum = $request->input('part_number') ? (int) $request->input('part_number') : null;
+        $orderIndex = $partNum ? (10 + $partNum) : 99;
+
+        $slug = Str::slug($request->input('title'));
+        if (Product::where('slug', $slug)->exists()) {
+            $slug .= '-' . time();
+        }
+
+        Product::create([
+            'parent_id' => $parent->id,
+            'part_number' => $partNum,
+            'title' => $request->input('title'),
+            'slug' => $slug,
+            'subtitle' => $parent->title . ($partNum ? " — Part {$partNum}" : " — Edisi Lengkap"),
+            'series_name' => $parent->series_name,
+            'category' => 'ebook',
+            'subcategory' => $partNum ? 'chapter' : 'ebook',
+            'author' => $parent->author,
+            'price' => (int) $request->input('price'),
+            'stock' => 9999,
+            'cover_image' => $parent->cover_image,
+            'synopsis' => $request->input('synopsis', "Part serial digital untuk judul {$parent->title}"),
+            'genre' => $parent->genre,
+            'digital_file_type' => $fileType,
+            'digital_file_url' => $fileUrl,
+            'order_index' => $orderIndex,
+        ]);
+
+        return back()->with('success', "Part e-book \"{$request->title}\" berhasil ditambahkan untuk {$parent->title}!");
+    }
+
+    public function destroyPart(int $part_id)
+    {
+        $part = Product::findOrFail($part_id);
+        $title = $part->title;
+
+        if ($part->digital_file_url && str_starts_with($part->digital_file_url, '/ebooks/') && file_exists(public_path($part->digital_file_url))) {
+            @unlink(public_path($part->digital_file_url));
+        }
+
+        $part->delete();
+
+        return back()->with('success', "Part e-book \"{$title}\" berhasil dihapus.");
     }
 }

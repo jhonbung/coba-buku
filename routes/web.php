@@ -20,6 +20,7 @@ Route::get('/novels/{slug}', [NovelController::class, 'show'])->name('novels.sho
 
 // 3. E-Books
 Route::get('/ebooks', [EbookController::class, 'index'])->name('ebooks.index');
+Route::get('/ebooks/{slug}', [NovelController::class, 'show'])->name('ebooks.show');
 Route::get('/ebooks/download/{id}', [EbookController::class, 'downloadDemo'])->name('ebooks.download');
 
 // 4. Merchandise
@@ -62,4 +63,19 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
     Route::put('/products/{id}', [AdminController::class, 'updateProduct'])->name('products.update');
     Route::delete('/products/{id}', [AdminController::class, 'destroyProduct'])->name('products.destroy');
     Route::post('/products/{id}/stock', [AdminController::class, 'updateStock'])->name('products.stock');
+
+    // 11. Video Teaser Management
+    Route::get('/videos', [AdminController::class, 'videos'])->name('videos');
+    Route::get('/videos/create', [AdminController::class, 'createVideo'])->name('videos.create');
+    Route::post('/videos', [AdminController::class, 'storeVideo'])->name('videos.store');
+    Route::get('/videos/{id}/edit', [AdminController::class, 'editVideo'])->name('videos.edit');
+    Route::put('/videos/{id}', [AdminController::class, 'updateVideo'])->name('videos.update');
+    Route::delete('/videos/{id}', [AdminController::class, 'destroyVideo'])->name('videos.destroy');
+    Route::post('/videos/{id}/activate', [AdminController::class, 'activateVideo'])->name('videos.activate');
+
+    // 12. E-Book Parts Management
+    Route::get('/ebook-parts', [AdminController::class, 'ebookPartsHub'])->name('ebook_parts.hub');
+    Route::get('/products/{id}/parts', [AdminController::class, 'parts'])->name('products.parts');
+    Route::post('/products/{id}/parts', [AdminController::class, 'storePart'])->name('products.parts.store');
+    Route::delete('/products/parts/{part_id}', [AdminController::class, 'destroyPart'])->name('products.parts.destroy');
 });

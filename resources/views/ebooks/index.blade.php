@@ -14,45 +14,70 @@
 </div>
 
 <div class="container" style="padding: 60px 24px;">
-  <!-- Section 1: Full E-Books -->
-  <div class="section-header" style="text-align: left; margin-bottom: 30px;">
-    <span class="section-tag">COMPLETE DIGITAL EDITIONS</span>
-    <h2 class="section-title" style="font-size: 2rem;">E-BOOK NOVEL LENGKAP</h2>
-    <p style="color: var(--text-muted);">Format PDF Resolusi Tinggi & Akses Google Drive Permanen.</p>
+  <!-- Section Title & Explanation -->
+  <div class="section-header" style="text-align: left; margin-bottom: 36px;">
+    <span class="section-tag"><i class="fa-solid fa-tablet-screen-button"></i> DIGITAL UNIVERSE BOOKSTORE</span>
+    <h2 class="section-title" style="font-size: 2.3rem;">KATALOG E-BOOKS & SERIAL BAB</h2>
+    <p style="color: var(--text-muted); font-size: 0.95rem; max-width: 720px; line-height: 1.7;">
+      Pilih judul buku favorit Anda di bawah ini untuk melihat dan membeli <strong>Part E-Book</strong> (baca bertahap per bab hemat) atau <strong>E-Book Lengkap</strong>. Akses PDF & tautan Google Drive langsung dikirim instan tanpa biaya ongkir.
+    </p>
   </div>
 
-  <div class="series-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 60px;">
-    @foreach($fullEbooks as $ebook)
-      <div class="product-card" style="border: 1px solid var(--champagne-gold); background: var(--white);">
+  <!-- Outer 1-Title-Per-Book Grid: Mantra, Hierarchy, Fate, Serenity -->
+  <div class="series-grid" style="grid-template-columns: repeat(4, 1fr); gap: 26px; margin-bottom: 70px;">
+    @foreach($ebookTitles as $book)
+      @php
+        $parts = $book->ebookParts;
+        $chapterCount = $parts->whereNotNull('part_number')->count();
+        $hasFull = $parts->whereNull('part_number')->count() > 0;
+      @endphp
+      <div class="product-card" style="border: 1.5px solid var(--soft-beige); background: var(--white); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.25s ease;" onmouseover="this.style.borderColor='var(--champagne-gold)'; this.style.transform='translateY(-4px)';" onmouseout="this.style.borderColor='var(--soft-beige)'; this.style.transform='none';">
         <div class="card-image-wrap" style="aspect-ratio: 4/5;">
-          <img src="{{ asset($ebook->cover_image) }}" alt="{{ $ebook->title }}">
-          <span class="badge-series"><i class="fa-solid fa-file-pdf"></i> FORMAT PDF & DRIVE</span>
+          <img src="{{ asset($book->cover_image) }}" alt="Cover {{ $book->title }}">
+          <span class="badge-series" style="background: var(--ocean-navy); color: var(--champagne-gold); font-weight: 700;">
+            {{ $book->series_number ?? 'SERI NOTONEGORO' }}
+          </span>
+          @if($book->is_preorder)
+            <span class="badge-preorder">DIGITAL PRE-ORDER</span>
+          @endif
         </div>
-        <div class="card-details">
-          <span class="product-series">{{ $ebook->series_name }}</span>
-          <h3 class="product-title">{{ $ebook->title }}</h3>
-          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px; line-height: 1.6;">
-            {{ Str::limit($ebook->synopsis, 110) }}
-          </p>
-          <div style="background: var(--ivory); padding: 8px 12px; border-radius: 4px; font-size: 0.78rem; color: var(--ocean-navy); margin-bottom: 16px;">
-            <i class="fa-solid fa-paper-plane" style="color: var(--champagne-gold);"></i> Pengiriman otomatis via email pelanggan
+
+        <div class="card-details" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <span class="product-series" style="color: var(--champagne-gold); font-weight: 700; font-size: 0.74rem;">
+              {{ $book->series_name }}
+            </span>
+            <h3 class="product-title" style="font-size: 1.25rem; line-height: 1.2; margin: 6px 0 8px;">
+              {{ $book->title }}
+            </h3>
+            
+            <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px; line-height: 1.5;">
+              {{ Str::limit($book->synopsis, 85) }}
+            </p>
+
+            <!-- Parts Summary Badge -->
+            <div style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 6px; padding: 10px 12px; margin-bottom: 16px;">
+              <div style="font-size: 0.75rem; font-weight: 700; color: #1E40AF; display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                <i class="fa-solid fa-layer-group" style="color: #2563EB;"></i> Tersedia Pilihan E-Book:
+              </div>
+              <div style="font-size: 0.74rem; color: #3B82F6; line-height: 1.4;">
+                • {{ $chapterCount > 0 ? $chapterCount . ' Part Serial Digital (Bab)' : 'Serial Bab' }}<br>
+                • {{ $hasFull ? '1 Edisi Lengkap Full Novel' : 'Edisi Lengkap' }}
+              </div>
+            </div>
           </div>
-          <div class="product-price-row">
-            <span class="price-current">{{ $ebook->formatted_price }}</span>
-            @if($ebook->original_price)
-              <span class="price-original">{{ $ebook->formatted_original_price }}</span>
-            @endif
-          </div>
-          <div class="card-actions">
-            <form action="{{ route('cart.add') }}" method="POST" style="flex: 1;">
-              @csrf
-              <input type="hidden" name="product_id" value="{{ $ebook->id }}">
-              <button type="submit" class="btn-card btn-card-primary" style="width: 100%;">
-                <i class="fa-solid fa-bag-shopping"></i> Beli E-Book
-              </button>
-            </form>
-            <a href="{{ route('ebooks.download', $ebook->id) }}" target="_blank" class="btn-wishlist" title="Preview Akses Link G-Drive">
-              <i class="fa-brands fa-google-drive"></i>
+
+          <div>
+            <div class="product-price-row" style="margin-bottom: 12px;">
+              <div>
+                <span style="font-size: 0.72rem; color: var(--text-muted); display: block;">Mulai dari:</span>
+                <span class="price-current" style="font-size: 1.15rem; color: #15803D;">Rp 15.000 <span style="font-size: 0.74rem; font-weight: 500; color: var(--text-muted);">/ part</span></span>
+              </div>
+            </div>
+
+            <a href="{{ route('novels.show', $book->slug) }}" class="btn-card btn-card-primary" style="width: 100%; text-align: center; padding: 12px 10px; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px;">
+              <span>Buka & Pilih Part</span>
+              <i class="fa-solid fa-arrow-right"></i>
             </a>
           </div>
         </div>
@@ -60,44 +85,22 @@
     @endforeach
   </div>
 
-  <!-- Section 2: Chapter-based serials (Mantra Bab 1-5, dst) -->
-  <div class="section-header" style="text-align: left; margin-bottom: 30px;">
-    <span class="section-tag">SERIAL BAB TERPISAH (LYKN STYLE)</span>
-    <h2 class="section-title" style="font-size: 2rem;">SERIAL BAB DIGITAL</h2>
-    <p style="color: var(--text-muted);">Akses per bab atau bagian cerita untuk membaca secara bertahap.</p>
-  </div>
-
-  <div class="series-grid" style="grid-template-columns: repeat(3, 1fr);">
-    @foreach($chapterEbooks as $ch)
-      <div class="product-card" style="background: var(--white);">
-        <div class="card-image-wrap" style="aspect-ratio: 16/9; max-height: 180px;">
-          <img src="{{ asset($ch->cover_image) }}" alt="{{ $ch->title }}">
-          <span class="badge-series">BAB DIGITAL</span>
-        </div>
-        <div class="card-details">
-          <span class="product-series">{{ $ch->series_name }}</span>
-          <h3 class="product-title" style="font-size: 1.1rem;">{{ $ch->title }}</h3>
-          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">
-            {{ $ch->synopsis }}
-          </p>
-          <div class="product-price-row">
-            <span class="price-current">{{ $ch->formatted_price }}</span>
-          </div>
-          <div class="card-actions">
-            <form action="{{ route('cart.add') }}" method="POST" style="flex: 1;">
-              @csrf
-              <input type="hidden" name="product_id" value="{{ $ch->id }}">
-              <button type="submit" class="btn-card btn-card-primary" style="width: 100%;">
-                Beli Bab Ini
-              </button>
-            </form>
-            <a href="{{ route('ebooks.download', $ch->id) }}" target="_blank" class="btn-wishlist" title="Lihat Contoh Link Drive">
-              <i class="fa-solid fa-arrow-up-right-from-square"></i>
-            </a>
-          </div>
-        </div>
+  <!-- Notice switch to physical -->
+  <div style="background: #FFFDF9; border: 1px solid var(--champagne-gold); border-radius: var(--radius-md); padding: 22px 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; box-shadow: var(--shadow-sm); margin-bottom: 60px;">
+    <div style="display: flex; align-items: center; gap: 16px;">
+      <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--ivory); color: var(--champagne-gold); display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">
+        <i class="fa-solid fa-book-open"></i>
       </div>
-    @endforeach
+      <div>
+        <strong style="color: var(--ocean-navy); font-size: 1rem; display: block; margin-bottom: 2px;">Lebih Suka Membaca Buku Cetak Fisik?</strong>
+        <span style="font-size: 0.85rem; color: var(--text-muted);">
+          Judul-judul di atas juga tersedia dalam bentuk novel cetak resmi bertandatangan dengan dust jacket & photocard eksklusif.
+        </span>
+      </div>
+    </div>
+    <a href="{{ route('novels.index') }}" class="btn btn-gold" style="padding: 12px 22px; font-size: 0.82rem;">
+      <i class="fa-solid fa-layer-group"></i> Katalog Novel Cetak Fisik
+    </a>
   </div>
 
   <!-- How E-Book Works Guide -->

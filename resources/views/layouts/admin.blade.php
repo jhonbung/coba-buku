@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>@yield('title', 'Admin Portal — BIANCA VEANA')</title>
+  <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
@@ -66,16 +67,17 @@
     }
 
     .admin-logo-mark {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      background: linear-gradient(135deg, #DFBA7D 0%, #C6A16B 100%);
-      color: var(--admin-navy-deep);
+      width: 42px;
+      height: 42px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.1rem;
-      box-shadow: 0 2px 8px rgba(198, 161, 107, 0.3);
+    }
+    .admin-logo-mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 6px rgba(198, 161, 107, 0.4));
     }
 
     .admin-title-wrap {
@@ -312,7 +314,7 @@
       <!-- Brand & Scope Identity -->
       <div class="admin-brand-group">
         <div class="admin-logo-mark">
-          <i class="fa-solid fa-crown"></i>
+          <img src="{{ asset('images/logo.png') }}" alt="Bianca Veana Logo">
         </div>
         <div class="admin-title-wrap">
           <a href="{{ route('admin.index') }}" style="text-decoration: none;">
@@ -329,11 +331,17 @@
         <a href="{{ route('admin.index') }}" class="admin-nav-tab {{ request()->routeIs('admin.index') ? 'active' : '' }}">
           <i class="fa-solid fa-chart-line"></i> Ringkasan Toko
         </a>
-        <a href="{{ route('admin.products') }}" class="admin-nav-tab {{ request()->routeIs('admin.products*') ? 'active' : '' }}">
+        <a href="{{ route('admin.products') }}" class="admin-nav-tab {{ (request()->routeIs('admin.products') || request()->routeIs('admin.products.edit') || request()->routeIs('admin.products.create')) ? 'active' : '' }}">
           <i class="fa-solid fa-boxes-stacked"></i> Stok & Produk
+        </a>
+        <a href="{{ route('admin.ebook_parts.hub') }}" class="admin-nav-tab {{ request()->routeIs('admin.ebook_parts*') || request()->routeIs('admin.products.parts*') ? 'active' : '' }}">
+          <i class="fa-solid fa-layer-group"></i> Serial & Part E-Book
         </a>
         <a href="{{ route('admin.orders') }}" class="admin-nav-tab {{ request()->routeIs('admin.orders*') ? 'active' : '' }}">
           <i class="fa-solid fa-receipt"></i> Pesanan & Cetak Resi
+        </a>
+        <a href="{{ route('admin.videos') }}" class="admin-nav-tab {{ request()->routeIs('admin.videos*') ? 'active' : '' }}">
+          <i class="fa-solid fa-film"></i> Video Teaser
         </a>
       </nav>
 

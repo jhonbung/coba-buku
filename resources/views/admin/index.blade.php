@@ -93,6 +93,26 @@
     </div>
   </div>
 
+  <!-- Quick Access Hub to Grouped E-Book Parts -->
+  <div style="background: linear-gradient(135deg, #172B49 0%, #203A5E 100%); color: #F4EBDD; border-radius: 10px; border: 1.5px solid var(--champagne-gold); padding: 22px 28px; margin-bottom: 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; box-shadow: 0 4px 14px rgba(15,23,42,0.12);">
+    <div style="display: flex; align-items: center; gap: 16px;">
+      <div style="width: 48px; height: 48px; border-radius: 8px; background: rgba(198,161,107,0.2); color: var(--champagne-gold); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; border: 1px solid rgba(198,161,107,0.4);">
+        <i class="fa-solid fa-layer-group"></i>
+      </div>
+      <div>
+        <h4 style="font-family: var(--font-display); font-size: 1.2rem; margin: 0 0 3px; color: #FFFFFF;">
+          Pusat Kontrol Part E-Book Berkelompok
+        </h4>
+        <p style="margin: 0; font-size: 0.82rem; color: #BAC7D7;">
+          Upload dan kelola serial bab berbayar (Part 1, Part 2, Part 3, dst.) untuk Mantra, Hierarchy, Fate, dan Serenity.
+        </p>
+      </div>
+    </div>
+    <a href="{{ route('admin.ebook_parts.hub') }}" class="btn btn-gold" style="font-size: 0.82rem; padding: 10px 20px; font-weight: 700;">
+      <i class="fa-solid fa-gear"></i> Buka Pusat Kontrol Part
+    </a>
+  </div>
+
   <!-- Recent Orders Table -->
   <div class="admin-card">
     <div style="padding: 20px 24px; border-bottom: 1px solid var(--admin-border-subtle); display: flex; justify-content: space-between; align-items: center;">
