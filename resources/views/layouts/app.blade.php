@@ -49,10 +49,14 @@
         <a href="{{ route('cart.index') }}" class="icon-btn" title="Keranjang Belanja" id="nav-cart-btn">
           <i class="fa-solid fa-bag-shopping"></i>
           @php
-            if (Auth::guard('web')->check()) {
-                $cartCount = Auth::guard('web')->user()->cartItems()->sum('quantity');
-            } else {
-                $cartCount = array_sum(array_column(session('cart', []), 'quantity'));
+            try {
+                if (Auth::guard('web')->check()) {
+                    $cartCount = Auth::guard('web')->user()->cartItems()->sum('quantity');
+                } else {
+                    $cartCount = array_sum(array_column(session('cart', []), 'quantity'));
+                }
+            } catch (\Throwable $e) {
+                $cartCount = 0;
             }
           @endphp
           @if($cartCount > 0)
