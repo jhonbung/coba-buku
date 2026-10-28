@@ -90,7 +90,14 @@
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding-top: 10px; font-size: 0.85rem;">
               <div>
                 @if($order->tracking_number && $order->tracking_number !== 'DIGITAL-ACCESS')
-                  <span style="color: var(--text-muted);">Kurir: <strong>{{ $order->courier }}</strong> · No. Resi: <strong style="color: var(--ocean-navy); letter-spacing: 0.5px;">{{ $order->tracking_number }}</strong></span>
+                  <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    <span style="color: var(--text-muted);">Kurir: <strong>{{ $order->courier }}</strong></span>
+                    <span style="color: var(--border-color);">|</span>
+                    <span style="color: var(--text-muted);">No. Resi:</span>
+                    <span style="background: var(--ivory); border: 1px solid var(--soft-beige); padding: 3px 8px; border-radius: 4px; font-weight: 700; color: var(--ocean-navy); letter-spacing: 0.5px;">
+                      {{ $order->tracking_number }}
+                    </span>
+                  </div>
                 @else
                   <span style="color: var(--text-muted);"><i class="fa-solid fa-bolt" style="color: #10B981;"></i> Pengiriman Otomatis Digital via Email</span>
                 @endif
@@ -107,7 +114,12 @@
           </div>
 
           <!-- Bottom Action Buttons -->
-          <div style="background: #FAF7F2; padding: 12px 24px; border-top: 1px solid var(--soft-beige); display: flex; justify-content: flex-end; gap: 12px; flex-wrap: wrap;">
+          <div style="background: #FAF7F2; padding: 12px 24px; border-top: 1px solid var(--soft-beige); display: flex; justify-content: flex-end; gap: 12px; flex-wrap: wrap; align-items: center;">
+            @if($order->tracking_number && $order->tracking_number !== 'DIGITAL-ACCESS')
+              <a href="https://cekresi.com/?noresi={{ urlencode($order->tracking_number) }}" target="_blank" class="btn btn-gold" style="font-size: 0.8rem; padding: 6px 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+                <i class="fa-solid fa-magnifying-glass-location"></i> Lacak Paket Kurir
+              </a>
+            @endif
             @if($order->payment_status === 'pending')
               <a href="{{ route('checkout.payment', $order->order_number) }}" class="btn btn-gold" style="font-size: 0.8rem; padding: 6px 16px;">
                 <i class="fa-solid fa-credit-card"></i> Lanjutkan Pembayaran

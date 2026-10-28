@@ -44,12 +44,21 @@ class AdminController extends Controller
     {
         $order = Order::where('order_number', $order_number)->firstOrFail();
 
-        $order->update([
+        $updateData = [
             'order_status' => $request->input('order_status', $order->order_status),
-            'tracking_number' => $request->input('tracking_number', $order->tracking_number),
-        ]);
+        ];
 
-        return back()->with('success', 'Status pesanan dan resi berhasil diperbarui!');
+        if ($request->filled('tracking_number')) {
+            $updateData['tracking_number'] = trim($request->input('tracking_number'));
+        }
+
+        if ($request->filled('courier')) {
+            $updateData['courier'] = trim($request->input('courier'));
+        }
+
+        $order->update($updateData);
+
+        return back()->with('success', "Status dan resi pesanan #{$order->order_number} berhasil diperbarui!");
     }
 
     public function products()
