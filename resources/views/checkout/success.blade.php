@@ -110,11 +110,8 @@
 
     <!-- Actions -->
     <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
-      <a href="{{ route('home') }}" class="btn btn-gold">
+      <a href="{{ route('home') }}" class="btn btn-gold" style="padding: 12px 28px; font-weight: 700;">
         <i class="fa-solid fa-house"></i> KEMBALI KE HOMEPAGE
-      </a>
-      <a href="{{ route('order.resi', $order->order_number) }}" target="_blank" class="btn btn-outline-gold" style="color: var(--ocean-navy); border-color: var(--ocean-navy);">
-        <i class="fa-solid fa-print"></i> LIHAT RESI PENGIRIMAN (AIRWAY BILL)
       </a>
     </div>
 

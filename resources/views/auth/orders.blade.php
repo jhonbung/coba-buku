@@ -113,11 +113,6 @@
                 <i class="fa-solid fa-credit-card"></i> Lanjutkan Pembayaran
               </a>
             @endif
-            @if($order->shipping_cost > 0 || ($order->tracking_number && $order->tracking_number !== 'DIGITAL-ACCESS'))
-              <a href="{{ route('order.resi', $order->order_number) }}" target="_blank" class="btn btn-outline" style="font-size: 0.8rem; padding: 6px 14px; color: var(--ocean-navy);">
-                <i class="fa-solid fa-print"></i> Cetak Resi
-              </a>
-            @endif
             <a href="{{ route('checkout.success', $order->order_number) }}" class="btn btn-outline" style="font-size: 0.8rem; padding: 6px 14px;">
               <i class="fa-solid fa-file-invoice"></i> Lihat Bukti Invoice
             </a>
