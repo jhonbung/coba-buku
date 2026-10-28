@@ -131,9 +131,6 @@
               <div style="background: #FFFFFF; border: 1px solid #E2E8F0; padding: 6px 14px; border-radius: 6px; font-size: 0.8rem; color: #334155;">
                 <i class="fa-solid fa-weight-hanging" style="color: var(--champagne-gold);"></i> Berat Total: <strong>{{ number_format($totalWeight) }} gram ({{ $weightInKg }} kg)</strong>
               </div>
-              <span style="background: #ECFDF5; color: #047857; border: 1px solid #A7F3D0; padding: 6px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 5px;">
-                <i class="fa-solid fa-bolt"></i> RajaOngkir API Terhubung
-              </span>
             </div>
           </div>
 
@@ -270,32 +267,19 @@
             {{ $hasPhysicalItems ? '4. Metode Pembayaran Resmi Indonesia' : '3. Metode Pembayaran Resmi Indonesia' }}
           </h3>
           <div style="display: flex; flex-direction: column; gap: 12px;">
-            <label style="display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; border: 2px solid var(--champagne-gold); border-radius: 6px; cursor: pointer; background: var(--ivory);">
+            <label style="display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; border: 2px solid var(--champagne-gold); border-radius: 8px; cursor: pointer; background: var(--ivory);">
               <div style="display: flex; align-items: center; gap: 14px;">
                 <input type="radio" name="payment_method" value="Midtrans Snap (QRIS, VA BCA/Mandiri/BRI, E-Wallet)" checked>
                 <div>
                   <strong style="font-size: 0.98rem; color: var(--ocean-navy);">Midtrans Payment Gateway (QRIS & Virtual Account)</strong>
                   <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 3px;">
-                    Scan QRIS instan dari semua m-Banking (BCA, Mandiri, BRI) & E-Wallet (GoPay, OVO, ShopeePay, DANA). Verifikasi otomatis 24/7.
+                    Scan QRIS instan dari semua m-Banking (BCA, Mandiri, BRI, BNI) & E-Wallet (GoPay, OVO, ShopeePay, DANA). Verifikasi otomatis 24/7.
                   </div>
                 </div>
               </div>
               <span style="font-size: 0.72rem; background: var(--champagne-gold); color: var(--ocean-navy-deep); padding: 5px 10px; border-radius: 4px; font-weight: 700; white-space: nowrap;">
                 OTOMATIS & INSTAN
               </span>
-            </label>
-
-            <label style="display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border: 1px solid var(--soft-beige); border-radius: 6px; cursor: pointer; background: #FFFFFF;">
-              <div style="display: flex; align-items: center; gap: 14px;">
-                <input type="radio" name="payment_method" value="Transfer Manual Bank BCA (Konfirmasi WhatsApp)">
-                <div>
-                  <strong style="font-size: 0.95rem; color: var(--ocean-navy);">Transfer Manual Rekening BCA</strong>
-                  <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 3px;">
-                    Transfer manual ke rekening toko lalu konfirmasi kirim bukti via WhatsApp resmi.
-                  </div>
-                </div>
-              </div>
-              <i class="fa-solid fa-building-columns" style="color: var(--champagne-gold); font-size: 1.2rem;"></i>
             </label>
           </div>
         </div>

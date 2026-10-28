@@ -369,4 +369,10 @@ class CheckoutController extends Controller
         $order = Order::with('items.product')->where('order_number', $order_number)->firstOrFail();
         return view('checkout.success', compact('order'));
     }
+
+    public function resi(string $order_number)
+    {
+        $order = Order::with('items.product')->where('order_number', $order_number)->firstOrFail();
+        return view('admin.resi', compact('order'));
+    }
 }

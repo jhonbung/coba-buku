@@ -46,6 +46,7 @@ Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.s
 Route::get('/checkout/payment/{order_number}', [CheckoutController::class, 'payment'])->name('checkout.payment');
 Route::post('/checkout/finish/{order_number}', [CheckoutController::class, 'finishPayment'])->name('checkout.finish');
 Route::get('/order/success/{order_number}', [CheckoutController::class, 'success'])->name('checkout.success');
+Route::get('/order/{order_number}/resi', [CheckoutController::class, 'resi'])->name('order.resi');
 Route::post('/midtrans/callback', [CheckoutController::class, 'handleNotification'])->name('midtrans.callback');
 Route::get('/shipping/destinations', [CheckoutController::class, 'searchDestinations'])->name('shipping.destinations');
 Route::post('/shipping/calculate', [CheckoutController::class, 'calculateShipping'])->name('shipping.calculate');

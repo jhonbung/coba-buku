@@ -162,9 +162,19 @@
 <body>
 
   <div class="print-actions">
-    <a href="{{ route('admin.orders') }}" style="color: #172B49; text-decoration: none; font-size: 0.85rem; font-weight: 600;">
-      &larr; Kembali ke Daftar Pesanan
-    </a>
+    @if(Auth::guard('admin')->check())
+      <a href="{{ route('admin.orders') }}" style="color: #172B49; text-decoration: none; font-size: 0.85rem; font-weight: 600;">
+        &larr; Kembali ke Panel Admin
+      </a>
+    @elseif(Auth::guard('web')->check())
+      <a href="{{ route('account.orders') }}" style="color: #172B49; text-decoration: none; font-size: 0.85rem; font-weight: 600;">
+        &larr; Kembali ke Riwayat Pesanan
+      </a>
+    @else
+      <a href="{{ route('home') }}" style="color: #172B49; text-decoration: none; font-size: 0.85rem; font-weight: 600;">
+        &larr; Kembali ke Halaman Utama
+      </a>
+    @endif
     <button onclick="window.print()" class="btn-print">
       &#128438; CETAK RESI PENGIRIMAN (AIRWAY BILL)
     </button>

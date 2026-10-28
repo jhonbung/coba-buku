@@ -107,10 +107,15 @@
           </div>
 
           <!-- Bottom Action Buttons -->
-          <div style="background: #FAF7F2; padding: 12px 24px; border-top: 1px solid var(--soft-beige); display: flex; justify-content: flex-end; gap: 12px;">
+          <div style="background: #FAF7F2; padding: 12px 24px; border-top: 1px solid var(--soft-beige); display: flex; justify-content: flex-end; gap: 12px; flex-wrap: wrap;">
             @if($order->payment_status === 'pending')
               <a href="{{ route('checkout.payment', $order->order_number) }}" class="btn btn-gold" style="font-size: 0.8rem; padding: 6px 16px;">
                 <i class="fa-solid fa-credit-card"></i> Lanjutkan Pembayaran
+              </a>
+            @endif
+            @if($order->shipping_cost > 0 || ($order->tracking_number && $order->tracking_number !== 'DIGITAL-ACCESS'))
+              <a href="{{ route('order.resi', $order->order_number) }}" target="_blank" class="btn btn-outline" style="font-size: 0.8rem; padding: 6px 14px; color: var(--ocean-navy);">
+                <i class="fa-solid fa-print"></i> Cetak Resi
               </a>
             @endif
             <a href="{{ route('checkout.success', $order->order_number) }}" class="btn btn-outline" style="font-size: 0.8rem; padding: 6px 14px;">
