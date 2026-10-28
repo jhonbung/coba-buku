@@ -159,6 +159,12 @@
     <i class="fa-solid fa-chevron-right"></i>
   </button>
 
+  <!-- Minimalist Modern Dots Indicator (Tanpa Tulisan Teks) -->
+  <div class="hero-minimal-dots" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 25; display: flex; align-items: center; gap: 8px;">
+    @foreach([0, 1, 2] as $idx)
+      <button type="button" class="hero-dot-btn {{ $idx === 0 ? 'active' : '' }}" data-target="{{ $idx }}" aria-label="Slide {{ $idx + 1 }}" style="width: {{ $idx === 0 ? '36px' : '14px' }}; height: 5px; border-radius: 4px; background: {{ $idx === 0 ? 'var(--champagne-gold, #C6A16B)' : 'rgba(255, 255, 255, 0.35)' }}; border: none; cursor: pointer; transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1); padding: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.3);"></button>
+    @endforeach
+  </div>
 
 </section>
 
@@ -523,7 +529,7 @@
     if (!slider) return;
 
     const slides = slider.querySelectorAll('.hero-slide');
-    const indicators = slider.querySelectorAll('.hero-indicator');
+    const dotBtns = slider.querySelectorAll('.hero-dot-btn');
     const prevBtn = document.getElementById('hero-prev-btn');
     const nextBtn = document.getElementById('hero-next-btn');
     const totalSlides = slides.length;
@@ -532,32 +538,22 @@
 
     let currentSlide = 0;
     let autoplayTimer = null;
-    let isHovered = false;
-    const SLIDE_DURATION = 5500; // 5.5 seconds per slide
+    const SLIDE_DURATION = 4500; // 4.5 detik per slide secara otomatis
 
-    function resetProgressBars() {
-      indicators.forEach((ind) => {
-        ind.classList.remove('active');
-        const fill = ind.querySelector('.indicator-progress-fill');
-        if (fill) {
-          fill.style.transition = 'none';
-          fill.style.width = '0%';
+    function updateDots(index) {
+      dotBtns.forEach((dot, i) => {
+        if (i === index) {
+          dot.classList.add('active');
+          dot.style.width = '36px';
+          dot.style.background = 'var(--champagne-gold, #C6A16B)';
+          dot.style.opacity = '1';
+        } else {
+          dot.classList.remove('active');
+          dot.style.width = '14px';
+          dot.style.background = 'rgba(255, 255, 255, 0.35)';
+          dot.style.opacity = '0.7';
         }
       });
-    }
-
-    function triggerProgressBar(index) {
-      const activeIndicator = indicators[index];
-      if (!activeIndicator) return;
-
-      activeIndicator.classList.add('active');
-      const fill = activeIndicator.querySelector('.indicator-progress-fill');
-      if (fill) {
-        // Trigger browser reflow so width transition starts cleanly from 0%
-        void fill.offsetWidth;
-        fill.style.transition = `width ${SLIDE_DURATION - 300}ms linear`;
-        fill.style.width = '100%';
-      }
     }
 
     function goToSlide(targetIndex) {
@@ -567,14 +563,13 @@
 
       // Deactivate current slide
       slides.forEach((s) => s.classList.remove('active'));
-      resetProgressBars();
 
       // Normalize index
       currentSlide = (targetIndex + totalSlides) % totalSlides;
 
-      // Activate new slide & indicator
+      // Activate new slide & dot
       slides[currentSlide].classList.add('active');
-      triggerProgressBar(currentSlide);
+      updateDots(currentSlide);
 
       // Reset autoplay timer
       resetAutoplay();
@@ -590,11 +585,9 @@
 
     function startAutoplay() {
       stopAutoplay();
-      if (!isHovered) {
-        autoplayTimer = setInterval(() => {
-          nextSlide();
-        }, SLIDE_DURATION);
-      }
+      autoplayTimer = setInterval(() => {
+        nextSlide();
+      }, SLIDE_DURATION);
     }
 
     function stopAutoplay() {
@@ -624,9 +617,9 @@
       });
     }
 
-    // Indicator tab click events
-    indicators.forEach((indicator) => {
-      indicator.addEventListener('click', function(e) {
+    // Dot click events (Interaktif tanpa teks)
+    dotBtns.forEach((dot) => {
+      dot.addEventListener('click', function(e) {
         e.preventDefault();
         const target = parseInt(this.getAttribute('data-target'), 10);
         if (!isNaN(target)) {
@@ -635,31 +628,8 @@
       });
     });
 
-    // Pause on hover so reading or clicking isn't interrupted
-    slider.addEventListener('mouseenter', () => {
-      isHovered = true;
-      stopAutoplay();
-      const currentFill = indicators[currentSlide]?.querySelector('.indicator-progress-fill');
-      if (currentFill) {
-        const computedWidth = window.getComputedStyle(currentFill).width;
-        currentFill.style.transition = 'none';
-        currentFill.style.width = computedWidth;
-      }
-    });
-
-    slider.addEventListener('mouseleave', () => {
-      isHovered = false;
-      const currentFill = indicators[currentSlide]?.querySelector('.indicator-progress-fill');
-      if (currentFill) {
-        currentFill.style.transition = `width ${SLIDE_DURATION - 300}ms linear`;
-        currentFill.style.width = '100%';
-      }
-      startAutoplay();
-    });
-
     // Keyboard navigation
     window.addEventListener('keydown', (e) => {
-      // Only when slider is in viewport
       const rect = slider.getBoundingClientRect();
       const inView = rect.top < window.innerHeight && rect.bottom > 0;
       if (!inView) return;
@@ -691,8 +661,8 @@
       }
     }, { passive: true });
 
-    // Initialize first slide & start timer
-    triggerProgressBar(0);
+    // Mulai autoplay saat pertama kali halaman terbuka
+    updateDots(0);
     startAutoplay();
   })();
 
