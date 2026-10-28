@@ -335,13 +335,19 @@
           <i class="fa-solid fa-boxes-stacked"></i> Stok & Produk
         </a>
         <a href="{{ route('admin.ebook_parts.hub') }}" class="admin-nav-tab {{ request()->routeIs('admin.ebook_parts*') || request()->routeIs('admin.products.parts*') ? 'active' : '' }}">
-          <i class="fa-solid fa-layer-group"></i> Serial & Part E-Book
+          <i class="fa-solid fa-layer-group"></i> Serial & Part
         </a>
         <a href="{{ route('admin.orders') }}" class="admin-nav-tab {{ request()->routeIs('admin.orders*') ? 'active' : '' }}">
-          <i class="fa-solid fa-receipt"></i> Pesanan & Cetak Resi
+          <i class="fa-solid fa-receipt"></i> Pesanan
+        </a>
+        <a href="{{ route('admin.customers.index') }}" class="admin-nav-tab {{ request()->routeIs('admin.customers*') ? 'active' : '' }}">
+          <i class="fa-solid fa-users"></i> Customer
+        </a>
+        <a href="{{ route('admin.chat.index') }}" class="admin-nav-tab {{ request()->routeIs('admin.chat*') ? 'active' : '' }}">
+          <i class="fa-solid fa-comments"></i> Live Chat
         </a>
         <a href="{{ route('admin.videos') }}" class="admin-nav-tab {{ request()->routeIs('admin.videos*') ? 'active' : '' }}">
-          <i class="fa-solid fa-film"></i> Video Teaser
+          <i class="fa-solid fa-film"></i> Video
         </a>
       </nav>
 
@@ -351,13 +357,13 @@
           <i class="fa-solid fa-arrow-up-right-from-square"></i> Toko Customer
         </a>
 
-        @if(Auth::check())
+        @if(Auth::guard('admin')->check())
           <div class="admin-user-card">
             <div class="admin-user-avatar">
-              {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+              {{ strtoupper(substr(Auth::guard('admin')->user()->name, 0, 1)) }}
             </div>
             <div>
-              <span class="admin-user-name">{{ Auth::user()->name }}</span>
+              <span class="admin-user-name">{{ Auth::guard('admin')->user()->name }}</span>
               <span class="admin-user-role">· Admin</span>
             </div>
           </div>

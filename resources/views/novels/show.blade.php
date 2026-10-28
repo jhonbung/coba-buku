@@ -63,98 +63,70 @@
       </div>
 
       <!-- Price Box -->
-      <div style="background: var(--white); padding: 20px 28px; border-radius: var(--radius-md); border: 1px solid var(--soft-beige); margin-bottom: 20px; display: flex; align-items: baseline; gap: 16px;">
-        <span style="font-size: 2.2rem; font-weight: 700; color: var(--ocean-navy);">
-          {{ $novel->formatted_price }}
+      <div style="background: var(--white); padding: 22px 28px; border-radius: var(--radius-md); border: 1.5px solid var(--champagne-gold); margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+        <div style="display: flex; align-items: baseline; gap: 14px;">
+          <span style="font-size: 2.3rem; font-weight: 700; color: var(--ocean-navy);">
+            {{ $novel->formatted_price }}
+          </span>
+          @if($novel->original_price)
+            <span style="font-size: 1.15rem; color: #9AA5B8; text-decoration: line-through;">
+              {{ $novel->formatted_original_price }}
+            </span>
+            <span style="background: #FFE4E6; color: #E11D48; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 700;">
+              HEMAT {{ round((($novel->original_price - $novel->price) / $novel->original_price) * 100) }}%
+            </span>
+          @endif
+        </div>
+        <span style="background: #ECFDF5; color: #065F46; padding: 6px 14px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; border: 1px solid #A7F3D0;">
+          <i class="fa-solid fa-book-open"></i> Edisi Buku Cetak Fisik
         </span>
-        @if($novel->original_price)
-          <span style="font-size: 1.15rem; color: #9AA5B8; text-decoration: line-through;">
-            {{ $novel->formatted_original_price }}
-          </span>
-          <span style="background: #FFE4E6; color: #E11D48; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 700;">
-            HEMAT {{ round((($novel->original_price - $novel->price) / $novel->original_price) * 100) }}%
-          </span>
-        @endif
       </div>
 
-
-      <!-- Available E-Book Parts Section (Mantra Part 1, Part 2, Full E-Book, etc.) -->
-      @php
-        $bookParts = $novel->all_parts;
-      @endphp
-      @if($bookParts->count() > 0)
-        <div style="background: #FFFFFF; border: 2px solid var(--champagne-gold); border-radius: var(--radius-md); padding: 24px; margin-bottom: 28px; box-shadow: var(--shadow-sm);">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;">
-            <div>
-              <span style="font-size: 0.72rem; letter-spacing: 1px; text-transform: uppercase; font-weight: 700; color: #1D4ED8; background: #EFF6FF; padding: 3px 10px; border-radius: 4px; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 6px;">
-                <i class="fa-solid fa-tablet-screen-button"></i> PILIHAN PART & SERIAL DIGITAL BERBAYAR
-              </span>
-              <h3 style="font-family: var(--font-serif); font-size: 1.35rem; color: var(--ocean-navy); margin: 0 0 4px;">
-                Beli Part E-Book "{{ $novel->base_title }}"
-              </h3>
-              <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0;">
-                Mulai membaca dari bab awal atau beli edisi lengkap tanpa biaya ongkos kirim (Rp 0):
-              </p>
-            </div>
-            <span style="font-size: 0.75rem; background: #DCFCE7; color: #15803D; padding: 4px 10px; border-radius: 4px; font-weight: 700;">
-              <i class="fa-solid fa-bolt"></i> Bebas Ongkir (Digital)
-            </span>
-          </div>
-
-          <div style="display: flex; flex-direction: column; gap: 10px;">
-            @foreach($bookParts as $part)
-              <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border: 1px solid var(--soft-beige); border-radius: 6px; background: {{ $part->part_number ? '#FAFAFA' : '#FFFDF9' }}; transition: all 0.2s ease;">
-                <div style="display: flex; align-items: center; gap: 12px;">
-                  <div style="width: 34px; height: 34px; border-radius: 50%; background: {{ $part->part_number ? '#EFF6FF' : '#FEF3C7' }}; color: {{ $part->part_number ? '#1D4ED8' : '#B45309' }}; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; flex-shrink: 0;">
-                    <i class="fa-solid {{ $part->part_number ? 'fa-file-lines' : 'fa-crown' }}"></i>
-                  </div>
-                  <div>
-                    <strong style="color: var(--ocean-navy); font-size: 0.9rem; display: block;">
-                      {{ $part->title }}
-                    </strong>
-                    <span style="font-size: 0.75rem; color: var(--text-muted);">
-                      {{ $part->synopsis ?: ($part->part_number ? 'Serial Bab Digital' : 'Edisi Lengkap Semua Bab') }}
-                    </span>
-                  </div>
-                </div>
-
-                <div style="display: flex; align-items: center; gap: 14px;">
-                  <div style="text-align: right;">
-                    <span style="font-size: 1.05rem; font-weight: 700; color: #15803D;">
-                      {{ $part->formatted_price }}
-                    </span>
-                  </div>
-                  <form action="{{ route('cart.add') }}" method="POST" style="margin: 0;">
-                    @csrf
-                    <input type="hidden" name="product_id" value="{{ $part->id }}">
-                    <input type="hidden" name="quantity" value="1">
-                    <button type="submit" class="btn btn-gold" style="padding: 8px 16px; font-size: 0.78rem; font-weight: 700; white-space: nowrap;">
-                      <i class="fa-solid fa-cart-shopping"></i> Beli Part Ini
-                    </button>
-                  </form>
-                </div>
-              </div>
-            @endforeach
-          </div>
-        </div>
-      @endif
-
-      <!-- Stock Status -->
-      <div style="margin-bottom: 24px; font-size: 0.88rem;">
+      <!-- Stock & Delivery Status -->
+      <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 24px; flex-wrap: wrap;">
         @if($novel->is_preorder)
-          <span style="color: #B45309; background: #FEF3C7; padding: 6px 14px; border-radius: 4px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;">
-            <i class="fa-solid fa-clock"></i> SISTEM PRE-ORDER (Estimasi pengiriman batch pertama)
+          <span style="color: #B45309; background: #FEF3C7; padding: 8px 16px; border-radius: 6px; font-weight: 600; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 8px; border: 1px solid #FDE68A;">
+            <i class="fa-solid fa-clock"></i> SISTEM PRE-ORDER (Estimasi Pengiriman Batch Pertama)
           </span>
         @elseif($novel->stock > 0)
-          <span style="color: #15803D; background: #DCFCE7; padding: 6px 14px; border-radius: 4px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;">
-            <i class="fa-solid fa-check-circle"></i> Stok Tersedia ({{ $novel->stock }} eksemplar siap kirim)
+          <span style="color: #15803D; background: #DCFCE7; padding: 8px 16px; border-radius: 6px; font-weight: 600; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 8px; border: 1px solid #86EFAC;">
+            <i class="fa-solid fa-circle-check"></i> Stok Tersedia ({{ $novel->stock }} eksemplar fisik siap kirim)
           </span>
         @else
-          <span style="color: #B91C1C; background: #FEE2E2; padding: 6px 14px; border-radius: 4px; font-weight: 600;">
+          <span style="color: #B91C1C; background: #FEE2E2; padding: 8px 16px; border-radius: 6px; font-weight: 600; font-size: 0.82rem;">
             <i class="fa-solid fa-circle-xmark"></i> Stok Habis
           </span>
         @endif
+
+        <span style="color: #4338CA; background: #EEF2FF; padding: 8px 16px; border-radius: 6px; font-weight: 600; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 8px; border: 1px solid #C7D2FE;">
+          <i class="fa-solid fa-truck-fast"></i> Pengiriman Langsung dari Tebet, Jakarta Selatan
+        </span>
       </div>
+
+      <!-- Add to Cart & Buy Physical Novel Form -->
+      <form action="{{ route('cart.add') }}" method="POST" style="background: var(--white); padding: 24px 28px; border-radius: var(--radius-md); border: 1.5px solid var(--champagne-gold); margin-bottom: 30px; box-shadow: var(--shadow-sm);">
+        @csrf
+        <input type="hidden" name="product_id" value="{{ $novel->id }}">
+        
+        <label style="display: block; font-size: 0.88rem; font-weight: 700; color: var(--ocean-navy); margin-bottom: 12px;">
+          <i class="fa-solid fa-box"></i> Pesan Buku Cetak Fisik "{{ $novel->title }}":
+        </label>
+
+        <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+          <div style="display: flex; align-items: center; border: 1.5px solid var(--soft-beige); border-radius: 6px; overflow: hidden; background: #FFFFFF;">
+            <button type="button" onclick="decrementQty()" style="background: var(--ivory); border: none; padding: 12px 18px; cursor: pointer; font-size: 1.1rem; color: var(--ocean-navy); font-weight: 700; transition: background 0.2s;">-</button>
+            <input type="number" id="qty-input" name="quantity" value="1" min="1" max="{{ $novel->stock }}" style="width: 55px; text-align: center; border: none; font-size: 1.05rem; font-weight: 700; padding: 10px 0; color: var(--ocean-navy);">
+            <button type="button" onclick="incrementQty()" style="background: var(--ivory); border: none; padding: 12px 18px; cursor: pointer; font-size: 1.1rem; color: var(--ocean-navy); font-weight: 700; transition: background 0.2s;">+</button>
+          </div>
+
+          <button type="submit" class="btn btn-gold" style="flex: 1; padding: 16px 28px; font-size: 0.95rem; font-weight: 700; letter-spacing: 0.5px; box-shadow: 0 4px 15px rgba(198, 161, 107, 0.4);">
+            <i class="fa-solid fa-cart-shopping"></i> TAMBAH NOVEL FISIK KE KERANJANG
+          </button>
+        </div>
+        <div style="font-size: 0.74rem; color: var(--text-muted); margin-top: 10px;">
+          <i class="fa-solid fa-shield-halved" style="color: var(--champagne-gold);"></i> Setiap pembelian buku cetak fisik dikemas aman dengan bubble wrap berlapis tebal dan boks pelindung.
+        </div>
+      </form>
 
       <!-- Synopsis -->
       <div style="margin-bottom: 32px;">
@@ -180,22 +152,6 @@
           </ul>
         </div>
       @endif
-
-      <!-- Add to Cart Form -->
-      <form action="{{ route('cart.add') }}" method="POST" style="background: var(--white); padding: 24px; border-radius: var(--radius-md); border: 1px solid var(--soft-beige); margin-bottom: 32px;">
-        @csrf
-        <input type="hidden" name="product_id" value="{{ $novel->id }}">
-        <div style="display: flex; gap: 16px; align-items: center;">
-          <div style="display: flex; align-items: center; border: 1px solid var(--soft-beige); border-radius: var(--radius-sm); overflow: hidden;">
-            <button type="button" onclick="decrementQty()" style="background: var(--ivory); border: none; padding: 12px 18px; cursor: pointer; font-size: 1rem; color: var(--ocean-navy);">-</button>
-            <input type="number" id="qty-input" name="quantity" value="1" min="1" max="{{ $novel->stock }}" style="width: 50px; text-align: center; border: none; font-size: 1rem; font-weight: 600; padding: 10px 0;">
-            <button type="button" onclick="incrementQty()" style="background: var(--ivory); border: none; padding: 12px 18px; cursor: pointer; font-size: 1rem; color: var(--ocean-navy);">+</button>
-          </div>
-          <button type="submit" class="btn btn-gold" style="flex: 1; padding: 16px 24px;">
-            <i class="fa-solid fa-cart-shopping"></i> TAMBAH KE KERANJANG
-          </button>
-        </div>
-      </form>
 
       <!-- Physical Book Specifications Table -->
       <div style="background: var(--white); border-radius: var(--radius-md); border: 1px solid var(--soft-beige); overflow: hidden;">

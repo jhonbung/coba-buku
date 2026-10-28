@@ -507,8 +507,8 @@ class AdminController extends Controller
         if ($request->hasFile('ebook_file')) {
             $file = $request->file('ebook_file');
             $filename = 'part_' . time() . '_' . Str::slug($request->title) . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('ebooks'), $filename);
-            $fileUrl = '/ebooks/' . $filename;
+            $file->move(public_path('uploads/ebooks'), $filename);
+            $fileUrl = '/uploads/ebooks/' . $filename;
             $fileType = $file->getClientOriginalExtension();
         }
 
@@ -548,7 +548,7 @@ class AdminController extends Controller
         $part = Product::findOrFail($part_id);
         $title = $part->title;
 
-        if ($part->digital_file_url && str_starts_with($part->digital_file_url, '/ebooks/') && file_exists(public_path($part->digital_file_url))) {
+        if ($part->digital_file_url && (str_starts_with($part->digital_file_url, '/uploads/ebooks/') || str_starts_with($part->digital_file_url, '/ebooks/')) && file_exists(public_path($part->digital_file_url))) {
             @unlink(public_path($part->digital_file_url));
         }
 

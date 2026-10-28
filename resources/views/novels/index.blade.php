@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
-@section('title', 'Katalog Novels & E-Books — BIANCA VEANA')
+@section('title', 'Katalog Novel Cetak Fisik — BIANCA VEANA')
 
 @section('content')
 <div style="background: radial-gradient(circle at 50% 50%, #1c365d 0%, #172B49 100%); color: var(--ivory); padding: 54px 0; border-bottom: 2px solid var(--champagne-gold);">
   <div class="container text-center" style="text-align: center;">
-    <span class="hero-subtitle" style="justify-content: center;"><i class="fa-solid fa-layer-group"></i> OFFICIAL UNIVERSE CATALOG</span>
-    <h1 style="font-size: 2.8rem; margin: 10px 0;">KATALOG BUKU & SERIAL BIANCA VEANA</h1>
+    <span class="hero-subtitle" style="justify-content: center;"><i class="fa-solid fa-book"></i> OFFICIAL PHYSICAL NOVELS CATALOG</span>
+    <h1 style="font-size: 2.8rem; margin: 10px 0;">KATALOG NOVEL CETAK FISIK</h1>
     <p style="color: #BAC7D7; max-width: 650px; margin: 0 auto; line-height: 1.8;">
-      Jelajahi seluruh karya berdasarkan <strong>Seri & Semesta Cerita</strong>. Tersedia lengkap dalam edisi <strong>Novel Cetak Fisik</strong> bertandatangan dan <strong>E-Book Digital</strong> instan.
+      Jelajahi seluruh karya novel cetak fisik eksklusif Bianca Veana berdasarkan <strong>Seri & Semesta Cerita</strong>. Dikemas premium dengan kualitas cetak resmi dan bertandatangan asli penulis.
     </p>
   </div>
 </div>
@@ -45,21 +45,8 @@
         </a>
       </div>
 
-      <!-- Format Filter Tabs (All / Novel / Ebook) -->
-      <div style="display: flex; gap: 6px; align-items: center; background: var(--ivory); padding: 4px; border-radius: 6px; border: 1px solid var(--soft-beige);">
-        <span style="font-size: 0.74rem; font-weight: 700; color: var(--text-muted); margin: 0 6px;">Format:</span>
-        <a href="{{ route('novels.index', array_merge(request()->except('format', 'page'), ['format' => 'all'])) }}" 
-           style="padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; text-decoration: none; {{ ($format ?? 'all') === 'all' ? 'background: var(--ocean-navy); color: #FFF;' : 'color: var(--ocean-navy);' }}">
-          Semua
-        </a>
-        <a href="{{ route('novels.index', array_merge(request()->except('format', 'page'), ['format' => 'novel'])) }}" 
-           style="padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; text-decoration: none; {{ ($format ?? '') === 'novel' ? 'background: #065F46; color: #FFF;' : 'color: var(--ocean-navy);' }}">
-          <i class="fa-solid fa-book-open"></i> Cetak
-        </a>
-        <a href="{{ route('novels.index', array_merge(request()->except('format', 'page'), ['format' => 'ebook'])) }}" 
-           style="padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; text-decoration: none; {{ ($format ?? '') === 'ebook' ? 'background: #1D4ED8; color: #FFF;' : 'color: var(--ocean-navy);' }}">
-          <i class="fa-solid fa-tablet-screen-button"></i> E-Book
-        </a>
+      <div style="font-size: 0.8rem; color: var(--ocean-navy); font-weight: 600; display: flex; align-items: center; gap: 6px;">
+        <i class="fa-solid fa-box-archive" style="color: var(--champagne-gold);"></i> Edisi Fisik & Kolektor
       </div>
     </div>
 
@@ -68,12 +55,9 @@
       @if(request('category'))
         <input type="hidden" name="category" value="{{ request('category') }}">
       @endif
-      @if(request('format') && request('format') !== 'all')
-        <input type="hidden" name="format" value="{{ request('format') }}">
-      @endif
 
-      <div style="position: relative; flex: 1; max-width: 380px;">
-        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari judul novel, e-book, atau tokoh..." style="width: 100%; padding: 10px 16px 10px 38px; border: 1px solid var(--soft-beige); border-radius: var(--radius-sm); font-size: 0.85rem;">
+      <div style="position: relative; flex: 1; max-width: 420px;">
+        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari judul novel fisik, seri, atau tokoh..." style="width: 100%; padding: 10px 16px 10px 38px; border: 1px solid var(--soft-beige); border-radius: var(--radius-sm); font-size: 0.85rem;">
         <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 14px; top: 12px; color: #8E9BAE; font-size: 0.85rem;"></i>
       </div>
 
@@ -83,7 +67,7 @@
           <option value="price_asc" {{ request('sort') === 'price_asc' ? 'selected' : '' }}>Harga: Termurah</option>
           <option value="price_desc" {{ request('sort') === 'price_desc' ? 'selected' : '' }}>Harga: Tertinggi</option>
         </select>
-        @if(request('search') || request('category') || request('sort') || request('format'))
+        @if(request('search') || request('category') || request('sort'))
           <a href="{{ route('novels.index') }}" style="font-size: 0.8rem; color: #B91C1C; text-decoration: underline;">
             <i class="fa-solid fa-rotate-left"></i> Reset Filter
           </a>
@@ -109,7 +93,7 @@
               The Seven Notonegoro Series
             </h2>
             <p style="color: var(--text-muted); font-size: 0.92rem; margin: 0; max-width: 720px; line-height: 1.6;">
-              Kisah kemegahan dinasti, intrik kekuasaan, dan pengorbanan cinta sejati tujuh keturunan trah Notonegoro. Tersedia dalam format buku cetak fisik maupun e-book digital.
+              Kisah kemegahan dinasti, intrik kekuasaan, dan pengorbanan cinta sejati tujuh keturunan trah Notonegoro. Tersedia dalam edisi buku cetak fisik resmi ber-ISBN.
             </p>
           </div>
           <span style="font-size: 0.82rem; background: var(--ivory); color: var(--ocean-navy); padding: 8px 14px; border-radius: 6px; border: 1px solid var(--soft-beige); font-weight: 600;">
@@ -135,15 +119,9 @@
                     <span class="product-series" style="font-size: 0.75rem; color: var(--champagne-gold); font-weight: 700;">
                       {{ $book->series_number }}
                     </span>
-                    @if($book->category === 'ebook')
-                      <span style="background: #EFF6FF; color: #1E40AF; padding: 2px 6px; border-radius: 3px; font-size: 0.68rem; font-weight: 700;">
-                        <i class="fa-solid fa-tablet-screen-button"></i> E-Book
-                      </span>
-                    @else
-                      <span style="background: #ECFDF5; color: #065F46; padding: 2px 6px; border-radius: 3px; font-size: 0.68rem; font-weight: 700;">
-                        <i class="fa-solid fa-book-open"></i> Cetak Fisik
-                      </span>
-                    @endif
+                    <span style="background: #ECFDF5; color: #065F46; padding: 2px 8px; border-radius: 3px; font-size: 0.68rem; font-weight: 700;">
+                      <i class="fa-solid fa-book-open"></i> Novel Cetak Fisik
+                    </span>
                   </div>
                   <h3 class="product-title" style="font-size: 1.05rem; line-height: 1.3;">{{ $book->title }}</h3>
                   <span class="product-author" style="font-size: 0.75rem;">Oleh {{ $book->author }}</span>
@@ -158,7 +136,7 @@
                   </div>
                   <div class="card-actions" style="margin-top: 10px;">
                     <a href="{{ route('novels.show', $book->slug) }}" class="btn-card btn-card-primary" style="flex: 1; text-align: center; padding: 10px 8px; font-size: 0.78rem;">
-                      <i class="fa-solid fa-eye"></i> Detail & Format
+                      <i class="fa-solid fa-eye"></i> Detail Novel
                     </a>
                     <form action="{{ route('cart.add') }}" method="POST" style="display: inline;">
                       @csrf
@@ -335,15 +313,9 @@
                   <span class="product-series" style="font-size: 0.72rem; color: var(--champagne-gold); font-weight: 700;">
                     {{ $novel->series_name }}
                   </span>
-                  @if($novel->category === 'ebook')
-                    <span style="background: #EFF6FF; color: #1E40AF; padding: 2px 6px; border-radius: 3px; font-size: 0.68rem; font-weight: 700;">
-                      <i class="fa-solid fa-tablet-screen-button"></i> E-Book
-                    </span>
-                  @else
-                    <span style="background: #ECFDF5; color: #065F46; padding: 2px 6px; border-radius: 3px; font-size: 0.68rem; font-weight: 700;">
-                      <i class="fa-solid fa-book-open"></i> Cetak Fisik
-                    </span>
-                  @endif
+                  <span style="background: #ECFDF5; color: #065F46; padding: 2px 8px; border-radius: 3px; font-size: 0.68rem; font-weight: 700;">
+                    <i class="fa-solid fa-book-open"></i> Novel Cetak Fisik
+                  </span>
                 </div>
                 <h3 class="product-title" style="font-size: 1.05rem;">{{ $novel->title }}</h3>
                 <span class="product-author" style="font-size: 0.75rem;">Oleh {{ $novel->author }}</span>
@@ -358,7 +330,7 @@
                 </div>
                 <div class="card-actions" style="margin-top: 10px;">
                   <a href="{{ route('novels.show', $novel->slug) }}" class="btn-card btn-card-primary" style="flex: 1; text-align: center; font-size: 0.78rem;">
-                    Detail & Format
+                    <i class="fa-solid fa-eye"></i> Detail Novel
                   </a>
                   <form action="{{ route('cart.add') }}" method="POST" style="display: inline;">
                     @csrf

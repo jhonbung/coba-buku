@@ -58,11 +58,11 @@
             <!-- Parts Summary Badge -->
             <div style="background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 6px; padding: 10px 12px; margin-bottom: 16px;">
               <div style="font-size: 0.75rem; font-weight: 700; color: #1E40AF; display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
-                <i class="fa-solid fa-layer-group" style="color: #2563EB;"></i> Tersedia Pilihan E-Book:
+                <i class="fa-solid fa-tablet-screen-button" style="color: #2563EB;"></i> Pilihan Digital Tersedia:
               </div>
               <div style="font-size: 0.74rem; color: #3B82F6; line-height: 1.4;">
-                • {{ $chapterCount > 0 ? $chapterCount . ' Part Serial Digital (Bab)' : 'Serial Bab' }}<br>
-                • {{ $hasFull ? '1 Edisi Lengkap Full Novel' : 'Edisi Lengkap' }}
+                • {{ $chapterCount > 0 ? $chapterCount . ' Part Serial Bab (Rp 15.000/part)' : 'Serial Bab' }}<br>
+                • {{ $hasFull ? '1 E-Book Full Novel Lengkap' : 'Edisi Lengkap' }}
               </div>
             </div>
           </div>
@@ -73,10 +73,13 @@
                 <span style="font-size: 0.72rem; color: var(--text-muted); display: block;">Mulai dari:</span>
                 <span class="price-current" style="font-size: 1.15rem; color: #15803D;">Rp 15.000 <span style="font-size: 0.74rem; font-weight: 500; color: var(--text-muted);">/ part</span></span>
               </div>
+              <span style="font-size: 0.68rem; font-weight: 700; color: #15803D; background: #DCFCE7; padding: 2px 6px; border-radius: 4px;">
+                <i class="fa-solid fa-check"></i> Bebas Ongkir
+              </span>
             </div>
 
-            <a href="{{ route('novels.show', $book->slug) }}" class="btn-card btn-card-primary" style="width: 100%; text-align: center; padding: 12px 10px; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px;">
-              <span>Buka & Pilih Part</span>
+            <a href="{{ route('ebooks.show', $book->slug) }}" class="btn-card btn-card-primary" style="width: 100%; text-align: center; padding: 12px 10px; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;">
+              <span>Buka & Pilih Bab E-Book</span>
               <i class="fa-solid fa-arrow-right"></i>
             </a>
           </div>

@@ -16,7 +16,7 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check() || !Auth::user()->is_admin) {
+        if (!Auth::guard('admin')->check() || !Auth::guard('admin')->user()->is_admin) {
             return redirect()->route('admin.login')->with('warning', 'Akses terbatas! Silakan masuk dengan akun administrator yang aman.');
         }
 

@@ -1,9 +1,12 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminCustomerController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\CustomerAuthController;
 use App\Http\Controllers\EbookController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MerchandiseController;
@@ -20,7 +23,7 @@ Route::get('/novels/{slug}', [NovelController::class, 'show'])->name('novels.sho
 
 // 3. E-Books
 Route::get('/ebooks', [EbookController::class, 'index'])->name('ebooks.index');
-Route::get('/ebooks/{slug}', [NovelController::class, 'show'])->name('ebooks.show');
+Route::get('/ebooks/{slug}', [EbookController::class, 'show'])->name('ebooks.show');
 Route::get('/ebooks/download/{id}', [EbookController::class, 'downloadDemo'])->name('ebooks.download');
 
 // 4. Merchandise
@@ -40,17 +43,41 @@ Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear')
 // 7. Checkout & Orders
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+Route::get('/checkout/payment/{order_number}', [CheckoutController::class, 'payment'])->name('checkout.payment');
+Route::post('/checkout/finish/{order_number}', [CheckoutController::class, 'finishPayment'])->name('checkout.finish');
 Route::get('/order/success/{order_number}', [CheckoutController::class, 'success'])->name('checkout.success');
+Route::post('/midtrans/callback', [CheckoutController::class, 'handleNotification'])->name('midtrans.callback');
+Route::get('/shipping/destinations', [CheckoutController::class, 'searchDestinations'])->name('shipping.destinations');
+Route::post('/shipping/calculate', [CheckoutController::class, 'calculateShipping'])->name('shipping.calculate');
 
 // 8. Newsletter
 Route::post('/newsletter', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
 
-// 9. Admin Authentication
+// 9. Customer Authentication
+Route::get('/login', [CustomerAuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [CustomerAuthController::class, 'login'])->name('login.submit');
+Route::get('/register', [CustomerAuthController::class, 'showRegisterForm'])->name('register');
+Route::post('/register', [CustomerAuthController::class, 'register'])->name('register.submit');
+Route::post('/logout', [CustomerAuthController::class, 'logout'])->name('logout');
+
+// Customer Account Protected
+Route::middleware('auth')->group(function () {
+    Route::get('/account/profile', [CustomerAuthController::class, 'profile'])->name('account.profile');
+    Route::post('/account/profile', [CustomerAuthController::class, 'updateProfile'])->name('account.profile.update');
+    Route::get('/account/orders', [CustomerAuthController::class, 'orders'])->name('account.orders');
+});
+
+// 10. Live Chat (Customer Side)
+Route::get('/chat/messages', [ChatController::class, 'getMessages'])->name('chat.messages');
+Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('chat.send');
+Route::get('/chat/unread-count', [ChatController::class, 'getUnreadCount'])->name('chat.unread_count');
+
+// 11. Admin Authentication
 Route::get('/admin/login', [\App\Http\Controllers\AuthController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/admin/login', [\App\Http\Controllers\AuthController::class, 'login'])->name('admin.login.submit');
 Route::post('/admin/logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('admin.logout');
 
-// 10. Admin Protected Backend (Strict Auth Guard)
+// 12. Admin Protected Backend (Strict Auth Guard)
 Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('index');
     Route::get('/orders', [AdminController::class, 'orders'])->name('orders');
@@ -64,7 +91,7 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
     Route::delete('/products/{id}', [AdminController::class, 'destroyProduct'])->name('products.destroy');
     Route::post('/products/{id}/stock', [AdminController::class, 'updateStock'])->name('products.stock');
 
-    // 11. Video Teaser Management
+    // Video Teaser Management
     Route::get('/videos', [AdminController::class, 'videos'])->name('videos');
     Route::get('/videos/create', [AdminController::class, 'createVideo'])->name('videos.create');
     Route::post('/videos', [AdminController::class, 'storeVideo'])->name('videos.store');
@@ -73,9 +100,21 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
     Route::delete('/videos/{id}', [AdminController::class, 'destroyVideo'])->name('videos.destroy');
     Route::post('/videos/{id}/activate', [AdminController::class, 'activateVideo'])->name('videos.activate');
 
-    // 12. E-Book Parts Management
+    // E-Book Parts Management
     Route::get('/ebook-parts', [AdminController::class, 'ebookPartsHub'])->name('ebook_parts.hub');
     Route::get('/products/{id}/parts', [AdminController::class, 'parts'])->name('products.parts');
     Route::post('/products/{id}/parts', [AdminController::class, 'storePart'])->name('products.parts.store');
     Route::delete('/products/parts/{part_id}', [AdminController::class, 'destroyPart'])->name('products.parts.destroy');
+
+    // 13. Customer Management (Admin)
+    Route::get('/customers', [AdminCustomerController::class, 'index'])->name('customers.index');
+    Route::get('/customers/{id}/edit', [AdminCustomerController::class, 'edit'])->name('customers.edit');
+    Route::put('/customers/{id}', [AdminCustomerController::class, 'update'])->name('customers.update');
+    Route::delete('/customers/{id}', [AdminCustomerController::class, 'destroy'])->name('customers.destroy');
+
+    // 14. Live Chat (Admin Side)
+    Route::get('/chat', [ChatController::class, 'adminIndex'])->name('chat.index');
+    Route::get('/chat/conversations', [ChatController::class, 'adminGetConversations'])->name('chat.conversations');
+    Route::get('/chat/messages/{userId}', [ChatController::class, 'adminGetMessages'])->name('chat.messages');
+    Route::post('/chat/send', [ChatController::class, 'adminSendMessage'])->name('chat.send');
 });

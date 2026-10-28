@@ -25,3 +25,5 @@ Homestead.yaml
 Thumbs.db
 /public/videos/*
 !/public/videos/.gitkeep
+/public/uploads/ebooks/*
+!/public/uploads/ebooks/.gitkeep

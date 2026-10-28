@@ -49,12 +49,72 @@
         <a href="{{ route('cart.index') }}" class="icon-btn" title="Keranjang Belanja" id="nav-cart-btn">
           <i class="fa-solid fa-bag-shopping"></i>
           @php
-            $cartCount = array_sum(array_column(session('cart', []), 'quantity'));
+            if (Auth::guard('web')->check()) {
+                $cartCount = Auth::guard('web')->user()->cartItems()->sum('quantity');
+            } else {
+                $cartCount = array_sum(array_column(session('cart', []), 'quantity'));
+            }
           @endphp
           @if($cartCount > 0)
             <span class="cart-badge">{{ $cartCount }}</span>
           @endif
         </a>
+
+        <!-- User Authentication & Account Menu (Customer Guard 'web') -->
+        @if(Auth::guard('web')->check())
+          @php
+            $currentUser = Auth::guard('web')->user();
+          @endphp
+          <div style="position: relative; display: inline-block;" id="userMenuDropdown">
+            <button type="button" onclick="toggleUserDropdown()" style="display: flex; align-items: center; gap: 8px; background: var(--ivory); border: 1.5px solid var(--champagne-gold); padding: 5px 12px 5px 6px; border-radius: 20px; cursor: pointer; color: var(--ocean-navy); font-size: 0.82rem; font-weight: 700;">
+              <span style="width: 28px; height: 28px; border-radius: 50%; background: var(--ocean-navy); color: var(--champagne-gold); display: flex; align-items: center; justify-content: center; font-size: 0.78rem;">
+                {{ strtoupper(substr($currentUser->name, 0, 1)) }}
+              </span>
+              <span style="max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                {{ explode(' ', $currentUser->name)[0] }}
+              </span>
+              <i class="fa-solid fa-chevron-down" style="font-size: 0.65rem; color: var(--champagne-gold);"></i>
+            </button>
+
+            <div id="userDropdownContent" style="display: none; position: absolute; right: 0; top: 115%; width: 200px; background: #FFFFFF; border-radius: 8px; border: 1px solid var(--soft-beige); box-shadow: var(--shadow-md); z-index: 1000; overflow: hidden;">
+              <div style="padding: 12px 16px; border-bottom: 1px solid #F1F5F9; background: #FAF9F6;">
+                <strong style="font-size: 0.85rem; color: var(--ocean-navy); display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $currentUser->name }}</strong>
+                <span style="font-size: 0.72rem; color: var(--text-muted); display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $currentUser->email }}</span>
+              </div>
+              <a href="{{ route('account.profile') }}" style="display: flex; align-items: center; gap: 10px; padding: 10px 16px; font-size: 0.82rem; color: var(--ocean-navy); text-decoration: none; transition: background 0.15s;" onmouseover="this.style.background='#F8FAFC'" onmouseout="this.style.background='transparent'">
+                <i class="fa-solid fa-user-circle" style="color: var(--champagne-gold); width: 16px;"></i> Profil Saya
+              </a>
+              <a href="{{ route('account.orders') }}" style="display: flex; align-items: center; gap: 10px; padding: 10px 16px; font-size: 0.82rem; color: var(--ocean-navy); text-decoration: none; transition: background 0.15s;" onmouseover="this.style.background='#F8FAFC'" onmouseout="this.style.background='transparent'">
+                <i class="fa-solid fa-boxes-packing" style="color: var(--champagne-gold); width: 16px;"></i> Riwayat Pesanan
+              </a>
+              <div style="border-top: 1px solid #F1F5F9;">
+                <form action="{{ route('logout') }}" method="POST" style="margin: 0;">
+                  @csrf
+                  <button type="submit" style="width: 100%; display: flex; align-items: center; gap: 10px; padding: 10px 16px; font-size: 0.82rem; color: #DC2626; background: none; border: none; cursor: pointer; text-align: left; transition: background 0.15s;" onmouseover="this.style.background='#FEF2F2'" onmouseout="this.style.background='transparent'">
+                    <i class="fa-solid fa-right-from-bracket" style="width: 16px;"></i> Keluar (Logout)
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <script>
+            function toggleUserDropdown() {
+              const el = document.getElementById('userDropdownContent');
+              el.style.display = el.style.display === 'block' ? 'none' : 'block';
+            }
+            window.addEventListener('click', function(e) {
+              const menu = document.getElementById('userMenuDropdown');
+              const dropdown = document.getElementById('userDropdownContent');
+              if (menu && dropdown && !menu.contains(e.target)) {
+                dropdown.style.display = 'none';
+              }
+            });
+          </script>
+        @else
+          <a href="{{ route('login') }}" style="display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px; border-radius: 6px; background: var(--ivory); border: 1.5px solid var(--champagne-gold); color: var(--ocean-navy); font-size: 0.82rem; font-weight: 700; text-decoration: none; transition: all 0.2s; box-shadow: var(--shadow-sm);" onmouseover="this.style.background='var(--champagne-gold)'; this.style.color='#FFF';" onmouseout="this.style.background='var(--ivory)'; this.style.color='var(--ocean-navy)';">
+            <i class="fa-solid fa-user"></i> Masuk / Daftar
+          </a>
+        @endif
       </div>
     </div>
   </header>
@@ -265,6 +325,9 @@
       }
     });
   </script>
+  <!-- FLOATING LIVE CHAT CUSTOMER SUPPORT -->
+  @include('partials.chat_widget')
+
   @stack('scripts')
 </body>
 </html>

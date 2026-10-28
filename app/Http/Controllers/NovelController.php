@@ -9,16 +9,8 @@ class NovelController extends Controller
 {
     public function index(Request $request)
     {
-        $format = $request->input('format', 'all');
-        
-        $query = Product::query();
-        if ($format === 'novel') {
-            $query->where('category', 'novel');
-        } elseif ($format === 'ebook') {
-            $query->where('category', 'ebook');
-        } else {
-            $query->whereIn('category', ['novel', 'ebook']);
-        }
+        // STRICTLY PHYSICAL NOVELS ONLY (No e-books or merchandise mixed in)
+        $query = Product::where('category', 'novel');
 
         if ($request->filled('category')) {
             $cat = $request->input('category');
@@ -60,41 +52,35 @@ class NovelController extends Controller
 
         $isGroupedView = !$request->filled('category') && !$request->filled('search') && !$request->filled('sort');
 
-        // Preload grouped series for seamless browsing
-        $notonegoroNovels = Product::whereIn('category', ['novel', 'ebook'])
+        // Preload grouped physical series for seamless browsing
+        $notonegoroNovels = Product::where('category', 'novel')
             ->where(function ($q) {
                 $q->where('subcategory', 'notonegoro')
                   ->orWhere('series_name', 'like', '%Notonegoro%');
             })
-            ->when($format === 'novel', fn($q) => $q->where('category', 'novel'))
-            ->when($format === 'ebook', fn($q) => $q->where('category', 'ebook'))
             ->orderBy('order_index')
             ->get();
 
-        $standaloneNovels = Product::whereIn('category', ['novel', 'ebook'])
+        $standaloneNovels = Product::where('category', 'novel')
             ->where(function ($q) {
                 $q->where('subcategory', 'standalone')
                   ->orWhere('series_name', 'like', '%Standalone%');
             })
-            ->when($format === 'novel', fn($q) => $q->where('category', 'novel'))
-            ->when($format === 'ebook', fn($q) => $q->where('category', 'ebook'))
             ->orderBy('order_index')
             ->get();
 
-        $limitedNovels = Product::whereIn('category', ['novel', 'ebook'])
+        $limitedNovels = Product::where('category', 'novel')
             ->where(function ($q) {
                 $q->where('subcategory', 'limited')
                   ->orWhere('series_name', 'like', '%Limited%');
             })
-            ->when($format === 'novel', fn($q) => $q->where('category', 'novel'))
-            ->when($format === 'ebook', fn($q) => $q->where('category', 'ebook'))
             ->orderBy('order_index')
             ->get();
 
         $novels = $query->paginate(12)->withQueryString();
 
         return view('novels.index', compact(
-            'novels', 'isGroupedView', 'format',
+            'novels', 'isGroupedView',
             'notonegoroNovels', 'standaloneNovels', 'limitedNovels'
         ));
     }

@@ -34,7 +34,17 @@
                     <div>
                       <span style="font-size: 0.75rem; color: var(--champagne-gold); text-transform: uppercase; font-weight: 600;">{{ $item['series_name'] ?? 'BIANCA VEANA' }}</span>
                       <h4 style="font-family: var(--font-serif); font-size: 1.05rem; color: var(--ocean-navy);">{{ $item['title'] }}</h4>
-                      <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Tipe: {{ $item['category'] }}</span>
+                      <div>
+                        @if(($item['category'] ?? '') === 'ebook')
+                          <span style="background: #EFF6FF; color: #1D4ED8; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px;">
+                            <i class="fa-solid fa-tablet-screen-button"></i> DIGITAL E-BOOK (Rp 0 ONGKIR)
+                          </span>
+                        @else
+                          <span style="background: #FDF2F8; color: #9D174D; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px;">
+                            <i class="fa-solid fa-box"></i> NOVEL CETAK FISIK
+                          </span>
+                        @endif
+                      </div>
                     </div>
                   </div>
                 </td>
@@ -95,9 +105,18 @@
           <span>Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
         </div>
 
-        <div style="font-size: 0.8rem; color: var(--text-muted); background: var(--ivory); padding: 12px; border-radius: 4px; margin-bottom: 24px; line-height: 1.5;">
-          <i class="fa-solid fa-truck" style="color: var(--champagne-gold);"></i> Ongkos kirim dan pilihan ekspedisi (JNE, SiCepat, J&T) akan dikalkulasi otomatis pada langkah checkout berikutnya.
-        </div>
+        @php
+          $hasPhysical = collect($cart)->contains(fn($i) => ($i['category'] ?? '') !== 'ebook');
+        @endphp
+        @if($hasPhysical)
+          <div style="font-size: 0.8rem; color: var(--text-muted); background: var(--ivory); padding: 12px; border-radius: 4px; margin-bottom: 24px; line-height: 1.5; border: 1px solid var(--soft-beige);">
+            <i class="fa-solid fa-truck" style="color: var(--champagne-gold);"></i> Ongkos kirim dan pilihan ekspedisi (JNE, SiCepat, J&T) akan dikalkulasi otomatis pada langkah checkout berikutnya.
+          </div>
+        @else
+          <div style="font-size: 0.8rem; color: #166534; background: #DCFCE7; padding: 12px; border-radius: 4px; margin-bottom: 24px; line-height: 1.5; border: 1px solid #86EFAC;">
+            <i class="fa-solid fa-bolt-lightning" style="color: #15803D;"></i> <strong>Pesanan 100% Digital:</strong> Bebas biaya kirim (Rp 0). Tautan Google Drive & file PDF akan langsung dikirimkan ke email Anda.
+          </div>
+        @endif
 
         <a href="{{ route('checkout.index') }}" class="btn btn-gold" style="width: 100%; text-align: center; padding: 16px;">
           LANJUT KE CHECKOUT <i class="fa-solid fa-arrow-right"></i>
