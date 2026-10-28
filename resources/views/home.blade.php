@@ -159,34 +159,7 @@
     <i class="fa-solid fa-chevron-right"></i>
   </button>
 
-  <!-- Segmented Indicators with Live Animated Progress Bar -->
-  <div class="hero-indicators-container">
-    <div class="container hero-indicators-wrap">
-      <button type="button" class="hero-indicator active" data-target="0">
-        <div class="indicator-progress-bar"><div class="indicator-progress-fill"></div></div>
-        <div class="indicator-label">
-          <span class="indicator-num">01</span>
-          <span class="indicator-name">The Universe</span>
-        </div>
-      </button>
 
-      <button type="button" class="hero-indicator" data-target="1">
-        <div class="indicator-progress-bar"><div class="indicator-progress-fill"></div></div>
-        <div class="indicator-label">
-          <span class="indicator-num">02</span>
-          <span class="indicator-name">Kastil & Takdir</span>
-        </div>
-      </button>
-
-      <button type="button" class="hero-indicator" data-target="2">
-        <div class="indicator-progress-bar"><div class="indicator-progress-fill"></div></div>
-        <div class="indicator-label">
-          <span class="indicator-num">03</span>
-          <span class="indicator-name">Hangat Cinta</span>
-        </div>
-      </button>
-    </div>
-  </div>
 </section>
 
 <!-- ==========================================================================
