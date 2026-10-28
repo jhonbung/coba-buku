@@ -353,6 +353,13 @@
 
       <!-- Right Actions: View Store & Profile -->
       <div class="admin-right-tools">
+        <!-- Live Real-Time Clock WIB -->
+        <div class="admin-live-clock" style="display: flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); padding: 6px 14px; border-radius: 20px; font-size: 0.78rem; color: #E2E8F0;" title="Waktu Sinkron Server Indonesia (WIB)">
+          <span style="width: 7px; height: 7px; border-radius: 50%; background: #10B981; box-shadow: 0 0 8px #10B981; display: inline-block;"></span>
+          <i class="fa-regular fa-clock" style="color: var(--admin-gold);"></i>
+          <span id="globalAdminWibClock" style="font-family: monospace; font-size: 0.82rem; font-weight: 600; color: #FFFFFF;">--:--:-- WIB</span>
+        </div>
+
         <a href="{{ route('home') }}" target="_blank" class="btn-view-store" title="Buka Toko Customer">
           <i class="fa-solid fa-arrow-up-right-from-square"></i> Toko Customer
         </a>
@@ -409,6 +416,17 @@
     </div>
   </footer>
 
+  <script>
+    function updateGlobalAdminClock() {
+      const el = document.getElementById('globalAdminWibClock');
+      if (!el) return;
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('id-ID', { timeZone: 'Asia/Jakarta', hour12: false });
+      el.textContent = timeStr + ' WIB';
+    }
+    setInterval(updateGlobalAdminClock, 1000);
+    updateGlobalAdminClock();
+  </script>
   @stack('scripts')
 </body>
 </html>

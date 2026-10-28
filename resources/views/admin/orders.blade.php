@@ -16,8 +16,14 @@
         Kelola pesanan masuk, verifikasi status pembayaran, dan cetak label resi ekspedisi (Airway Bill).
       </p>
     </div>
-    <div style="background: #FFFFFF; border: 1px solid #E2E8F0; padding: 10px 18px; border-radius: 8px; font-size: 0.82rem; color: #1E293B; display: flex; align-items: center; gap: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.03);">
-      <i class="fa-solid fa-receipt" style="color: var(--admin-gold);"></i> Total: <strong>{{ $orders->total() }} Transaksi</strong>
+    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+      <button type="button" onclick="location.reload()" class="btn" style="background: #FFFFFF; border: 1px solid #CBD5E1; color: #334155; padding: 9px 14px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.03);" title="Muat Ulang Pesanan Terbaru">
+        <i class="fa-solid fa-arrows-rotate" style="color: #64748B;"></i> Refresh Realtime
+      </button>
+
+      <div style="background: #FFFFFF; border: 1px solid #E2E8F0; padding: 9px 16px; border-radius: 8px; font-size: 0.82rem; color: #1E293B; display: flex; align-items: center; gap: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.03);">
+        <i class="fa-solid fa-receipt" style="color: var(--admin-gold);"></i> Total: <strong>{{ $orders->total() }} Transaksi</strong>
+      </div>
     </div>
   </div>
   <div class="admin-card">
@@ -56,8 +62,11 @@
           <tr style="border-bottom: 1px solid #F0EAE1;">
             <td style="padding: 16px 20px; vertical-align: top;">
               <strong style="color: var(--ocean-navy); font-size: 0.95rem;">#{{ $order->order_number }}</strong>
-              <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">
-                {{ $order->created_at->format('d M Y, H:i') }}
+              <div style="font-size: 0.78rem; color: #1E293B; margin-top: 4px; font-weight: 600; display: flex; align-items: center; gap: 5px;">
+                <i class="fa-regular fa-clock" style="color: #64748B;"></i> {{ $order->created_at->format('d M Y, H:i') }} WIB
+              </div>
+              <div style="font-size: 0.7rem; color: #059669; font-weight: 600; margin-top: 2px; display: flex; align-items: center; gap: 4px;">
+                <i class="fa-solid fa-stopwatch" style="font-size: 0.68rem;"></i> {{ $order->created_at->diffForHumans() }}
               </div>
               <div style="font-size: 0.75rem; color: #15803D; font-weight: 600; margin-top: 6px;">
                 <i class="fa-solid fa-check-double"></i> {{ $order->payment_method }}

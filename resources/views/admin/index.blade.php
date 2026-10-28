@@ -140,8 +140,11 @@
           <tr style="border-bottom: 1px solid #F0EAE1;">
             <td style="padding: 16px 20px; font-weight: 700; color: var(--ocean-navy);">
               #{{ $order->order_number }}
-              <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 400;">
-                {{ $order->created_at->format('d M Y, H:i') }}
+              <div style="font-size: 0.75rem; color: #475569; font-weight: 500; margin-top: 3px;">
+                <i class="fa-regular fa-clock" style="color: #94A3B8;"></i> {{ $order->created_at->format('d M Y, H:i') }} WIB
+              </div>
+              <div style="font-size: 0.68rem; color: #059669; font-weight: 600; margin-top: 1px;">
+                {{ $order->created_at->diffForHumans() }}
               </div>
             </td>
             <td style="padding: 16px 20px;">

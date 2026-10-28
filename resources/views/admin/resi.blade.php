@@ -200,7 +200,7 @@
         {{ $order->tracking_number ?? $order->order_number }}
       </div>
       <div style="font-size: 0.72rem; color: #6B7280; margin-top: 2px;">
-        No. Pesanan: #{{ $order->order_number }} · Tanggal: {{ $order->created_at->format('d M Y, H:i') }}
+        No. Pesanan: #{{ $order->order_number }} · Tanggal: {{ $order->created_at->format('d M Y, H:i') }} WIB
       </div>
     </div>
 
