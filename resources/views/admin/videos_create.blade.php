@@ -174,20 +174,53 @@
 
 <script>
   function toggleVideoSource(type) {
-    document.getElementById('box-file').style.display = (type === 'file') ? 'block' : 'none';
-    document.getElementById('box-youtube').style.display = (type === 'youtube') ? 'block' : 'none';
-    document.getElementById('box-url').style.display = (type === 'url') ? 'block' : 'none';
+    const boxFile = document.getElementById('box-file');
+    const boxYoutube = document.getElementById('box-youtube');
+    const boxUrl = document.getElementById('box-url');
+    const fileInput = document.getElementById('video_file');
+
+    boxFile.style.display = (type === 'file') ? 'block' : 'none';
+    boxYoutube.style.display = (type === 'youtube') ? 'block' : 'none';
+    boxUrl.style.display = (type === 'url') ? 'block' : 'none';
 
     document.querySelectorAll('.type-selector').forEach(el => el.style.borderColor = '#E2E8F0');
-    if (type === 'file') document.getElementById('lbl-file').style.borderColor = 'var(--admin-gold)';
-    if (type === 'youtube') document.getElementById('lbl-youtube').style.borderColor = 'var(--admin-gold)';
-    if (type === 'url') document.getElementById('lbl-url').style.borderColor = 'var(--admin-gold)';
+    if (type === 'file') {
+      document.getElementById('lbl-file').style.borderColor = 'var(--admin-gold)';
+      if (fileInput) fileInput.disabled = false;
+    } else {
+      // PENTING: Kosongkan dan nonaktifkan file input agar browser TIDAK mengirimkan file video berat saat menggunakan link!
+      if (fileInput) {
+        fileInput.value = '';
+        fileInput.disabled = true;
+      }
+      const display = document.getElementById('file-name-display');
+      if (display) display.innerHTML = '';
+
+      if (type === 'youtube') document.getElementById('lbl-youtube').style.borderColor = 'var(--admin-gold)';
+      if (type === 'url') document.getElementById('lbl-url').style.borderColor = 'var(--admin-gold)';
+    }
   }
 
   function showFileName(input) {
     const display = document.getElementById('file-name-display');
     if (input.files && input.files[0]) {
-      display.innerHTML = '<i class="fa-solid fa-circle-check"></i> File terpilih: ' + input.files[0].name + ' (' + (input.files[0].size / (1024*1024)).toFixed(2) + ' MB)';
+      const sizeMb = (input.files[0].size / (1024 * 1024)).toFixed(2);
+      if (parseFloat(sizeMb) > 95) {
+        display.innerHTML = `
+          <div style="background: #FEF2F2; border: 1.5px solid #FCA5A5; color: #991B1B; padding: 12px 16px; border-radius: 8px; margin-top: 12px; text-align: left; font-size: 0.82rem; line-height: 1.5;">
+            <strong><i class="fa-solid fa-triangle-exclamation"></i> Peringatan Ukuran File (${sizeMb} MB):</strong><br>
+            File video ini melebihi <strong>100 MB</strong>. Cloudflare Free secara ketat akan menolak upload di atas 100 MB dengan error <em>413 Payload Too Large</em>.<br>
+            <div style="margin-top: 6px;">
+              <strong>Solusi Cepat:</strong><br>
+              1. Pilih opsi <strong>Link YouTube</strong> di atas (sangat disarankan, tanpa batas ukuran & hemat kuota hosting).<br>
+              2. Atau kompres video Anda menjadi di bawah 90 MB.<br>
+              3. Atau matikan Proxy Cloudflare (DNS Only) pada domain Anda.
+            </div>
+          </div>
+        `;
+      } else {
+        display.innerHTML = '<div style="margin-top: 10px; font-weight: 600; font-size: 0.85rem; color: #16A34A;"><i class="fa-solid fa-circle-check"></i> File terpilih: ' + input.files[0].name + ' (' + sizeMb + ' MB)</div>';
+      }
     } else {
       display.innerHTML = '';
     }
@@ -197,10 +230,17 @@
   toggleVideoSource('file');
 
   document.querySelector('form').addEventListener('submit', function() {
+    const selectedType = document.querySelector('input[name="video_type"]:checked')?.value;
+    const fileInput = document.getElementById('video_file');
+    if (selectedType !== 'file' && fileInput) {
+      fileInput.disabled = true;
+      fileInput.value = '';
+    }
+
     const btn = this.querySelector('button[type="submit"]');
     if (btn) {
       btn.disabled = true;
-      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan & Mengunggah... Harap Tunggu';
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan... Harap Tunggu';
     }
   });
 </script>

@@ -308,14 +308,21 @@ class AdminController extends Controller
 
     public function storeVideo(Request $request)
     {
-        $request->validate([
+        $rules = [
             'title' => 'required|string|max:255',
             'video_type' => 'required|in:file,youtube,url',
-            'video_file' => 'nullable|file|mimes:mp4,webm,ogg,mov,mkv|max:204800',
-            'youtube_url' => 'nullable|string',
-            'video_url' => 'nullable|string',
             'thumbnail_file' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
-        ]);
+        ];
+
+        if ($request->input('video_type') === 'youtube') {
+            $rules['youtube_url'] = 'required|string';
+        } elseif ($request->input('video_type') === 'url') {
+            $rules['video_url'] = 'required|string';
+        } else {
+            $rules['video_file'] = 'nullable|file|mimes:mp4,webm,ogg,mov,mkv|max:204800';
+        }
+
+        $request->validate($rules);
 
         $data = [
             'title' => $request->input('title'),
@@ -374,14 +381,21 @@ class AdminController extends Controller
     {
         $video = TeaserVideo::findOrFail($id);
 
-        $request->validate([
+        $rules = [
             'title' => 'required|string|max:255',
             'video_type' => 'required|in:file,youtube,url',
-            'video_file' => 'nullable|file|mimes:mp4,webm,ogg,mov,mkv|max:204800',
-            'youtube_url' => 'nullable|string',
-            'video_url' => 'nullable|string',
             'thumbnail_file' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
-        ]);
+        ];
+
+        if ($request->input('video_type') === 'youtube') {
+            $rules['youtube_url'] = 'required|string';
+        } elseif ($request->input('video_type') === 'url') {
+            $rules['video_url'] = 'required|string';
+        } else {
+            $rules['video_file'] = 'nullable|file|mimes:mp4,webm,ogg,mov,mkv|max:204800';
+        }
+
+        $request->validate($rules);
 
         $data = [
             'title' => $request->input('title'),
