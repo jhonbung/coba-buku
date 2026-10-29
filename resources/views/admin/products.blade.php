@@ -141,11 +141,6 @@
                 <button type="submit" form="form-{{ $prod->id }}" class="btn-tool-save" title="Simpan Cepat Stok & Harga">
                   <i class="fa-solid fa-floppy-disk"></i>
                 </button>
-                @if($prod->category === 'novel')
-                  <a href="{{ route('admin.products.parts', $prod->id) }}" class="btn-tool-edit" style="background: #EFF6FF; color: #1D4ED8; border-color: #BFDBFE; font-weight: 700;" title="Kelola Part E-Book untuk {{ $prod->title }}">
-                    <i class="fa-solid fa-layer-group"></i> Part ({{ $prod->ebookParts->count() }})
-                  </a>
-                @endif
                 <a href="{{ route('admin.products.edit', $prod->id) }}" class="btn-tool-edit" title="Edit Lengkap">
                   <i class="fa-solid fa-pen-to-square"></i> Edit
                 </a>
