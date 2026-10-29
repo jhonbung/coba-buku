@@ -731,16 +731,16 @@
           </div>
 
           <div style="background: rgba(198, 161, 107, 0.1); border: 1px dashed var(--champagne-gold); border-radius: 12px; padding: 24px; text-align: center; margin-top: 24px;">
-            <i class="fa-solid fa-file-pdf" style="font-size: 2.2rem; color: var(--champagne-gold); margin-bottom: 12px;"></i>
+            <i class="fa-brands fa-google-drive" style="font-size: 2.2rem; color: #2563EB; margin-bottom: 12px;"></i>
             <h4 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.05rem; margin-bottom: 6px; color: var(--text-main);">
-              Naskah Lengkap Siap Dibaca via PDF
+              Naskah Digital via Google Drive Resmi
             </h4>
             <p style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 18px; max-width: 480px; margin-left: auto; margin-right: auto;">
-              Naskah digital lengkap untuk bab ini telah tersedia dalam format PDF resolusi tinggi atau tautan Google Drive resmi Anda.
+              Naskah digital resmi untuk bab ini dapat Anda buka melalui tautan Google Drive resmi berikut:
             </p>
             @if($part->digital_file_url)
-              <a href="{{ $part->digital_file_url }}" target="_blank" class="btn-buy-part" style="max-width: 260px; margin: 0 auto; padding: 10px 20px; font-size: 0.85rem;">
-                <i class="fa-solid fa-download"></i> Buka / Unduh File PDF
+              <a href="{{ $part->digital_file_url }}" target="_blank" class="btn-buy-part" style="max-width: 280px; margin: 0 auto; padding: 11px 22px; font-size: 0.85rem;">
+                <i class="fa-brands fa-google-drive"></i> Buka Google Drive Resmi
               </a>
             @endif
           </div>
@@ -965,3 +965,4 @@
   </script>
 </body>
 </html>
+

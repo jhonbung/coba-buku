@@ -80,8 +80,8 @@
                         </a>
                       @endif
                       @if($item->digital_access_url)
-                        <a href="{{ $item->digital_access_url }}" target="_blank" class="btn btn-outline" style="padding: 4px 10px; font-size: 0.74rem; border-radius: 4px; color: #16A34A; border-color: #86EFAC; display: inline-flex; align-items: center; gap: 4px;">
-                          <i class="fa-solid fa-download"></i> Unduh PDF
+                        <a href="{{ $item->digital_access_url }}" target="_blank" class="btn btn-outline" style="padding: 4px 10px; font-size: 0.74rem; border-radius: 4px; color: #2563EB; border-color: #BFDBFE; display: inline-flex; align-items: center; gap: 4px;">
+                          <i class="fa-brands fa-google-drive"></i> Google Drive
                         </a>
                       @endif
                     @endif

@@ -262,25 +262,17 @@
         </div>
       </div>
 
-      <!-- Field 5: File Access Section (Clean Box) -->
+      <!-- Field 5: Tautan Google Drive Resmi -->
       <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 16px; margin-bottom: 16px;">
-        <span style="font-size: 0.75rem; font-weight: 700; color: #334155; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px; margin-bottom: 12px;">
-          <i class="fa-solid fa-file-arrow-up" style="color: var(--champagne-gold);"></i> Berkas Digital Part (Opsional):
+        <label style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; font-weight: 700; color: #334155; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">
+          <i class="fa-brands fa-google-drive" style="color: #2563EB; font-size: 1rem;"></i> Tautan Google Drive Resmi Part E-Book
+        </label>
+        <div style="position: relative;">
+          <input type="url" name="digital_file_url" placeholder="https://drive.google.com/file/d/... atau https://drive.google.com/drive/folders/..." style="width: 100%; padding: 10px 14px; border: 1.5px solid #CBD5E1; border-radius: 6px; font-size: 0.86rem; box-sizing: border-box; background: #FFFFFF; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--champagne-gold)'" onblur="this.style.borderColor='#CBD5E1'">
+        </div>
+        <span style="font-size: 0.72rem; color: #64748B; margin-top: 5px; display: block;">
+          *Tautan Google Drive ini akan otomatis diberikan kepada pembeli setelah pembayaran pesanan terkonfirmasi lunas.
         </span>
-        
-        <div style="margin-bottom: 12px;">
-          <label style="display: block; font-size: 0.78rem; font-weight: 600; color: #475569; margin-bottom: 4px;">
-            Upload File PDF Part (Disimpan di Server)
-          </label>
-          <input type="file" name="ebook_file" accept=".pdf,.epub,.zip" style="width: 100%; padding: 8px 12px; border: 1.5px dashed #CBD5E1; border-radius: 6px; font-size: 0.82rem; background: #FFFFFF; box-sizing: border-box;">
-        </div>
-
-        <div>
-          <label style="display: block; font-size: 0.78rem; font-weight: 600; color: #475569; margin-bottom: 4px;">
-            Atau Tautan Google Drive Resmi
-          </label>
-          <input type="url" name="digital_file_url" placeholder="https://drive.google.com/file/d/..." style="width: 100%; padding: 9px 12px; border: 1.5px solid #CBD5E1; border-radius: 6px; font-size: 0.85rem; box-sizing: border-box; background: #FFFFFF; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--champagne-gold)'" onblur="this.style.borderColor='#CBD5E1'">
-        </div>
       </div>
 
       <!-- Field 6: Isi Naskah Cerita Bab (Untuk Pembaca Web Novel / Online Reader) -->

@@ -149,18 +149,12 @@
             </div>
           </div>
 
-          <div style="margin-bottom: 14px;">
-            <label style="display: block; font-size: 0.82rem; font-weight: 600; color: #1E293B; margin-bottom: 4px;">
-              Upload File PDF / E-Book Part
-            </label>
-            <input type="file" name="ebook_file" accept=".pdf,.epub,.zip" style="width: 100%; padding: 8px; border: 1px dashed var(--soft-beige); border-radius: 4px; font-size: 0.82rem; background: #FAF8F5;">
-          </div>
-
           <div style="margin-bottom: 18px;">
-            <label style="display: block; font-size: 0.82rem; font-weight: 600; color: #1E293B; margin-bottom: 4px;">
-              Atau Tautan Akses Google Drive
+            <label style="display: flex; align-items: center; gap: 6px; font-size: 0.82rem; font-weight: 700; color: #1E293B; margin-bottom: 4px;">
+              <i class="fa-brands fa-google-drive" style="color: #2563EB;"></i> Tautan Akses Google Drive Resmi
             </label>
-            <input type="url" name="digital_file_url" placeholder="https://drive.google.com/file/d/..." style="width: 100%; padding: 10px 14px; border: 1px solid var(--soft-beige); border-radius: 4px; font-size: 0.88rem;">
+            <input type="url" name="digital_file_url" placeholder="https://drive.google.com/file/d/... atau folder Drive" style="width: 100%; padding: 10px 14px; border: 1px solid var(--soft-beige); border-radius: 4px; font-size: 0.88rem;">
+            <span style="font-size: 0.72rem; color: #64748B; margin-top: 3px; display: block;">*Link ini otomatis dapat diakses oleh customer setelah pesanan lunas.</span>
           </div>
 
           <div style="margin-bottom: 20px;">

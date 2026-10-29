@@ -309,20 +309,20 @@
       <!-- KHUSUS E-BOOK DIGITAL -->
       <div id="box-ebook-digital" style="background: var(--ivory); padding: 18px; border-radius: 6px; border: 1px solid var(--soft-beige); margin-bottom: 10px;">
         <h4 style="font-size: 0.95rem; color: var(--ocean-navy); margin-bottom: 12px; font-weight: 700; display: flex; align-items: center; gap: 8px;">
-          <i class="fa-brands fa-google-drive" style="color: #2563EB;"></i> Khusus E-Book: Tautan Akses File Digital Pembeli
+          <i class="fa-brands fa-google-drive" style="color: #2563EB;"></i> Khusus E-Book: Tautan Akses Google Drive untuk Pembeli
         </h4>
-        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 16px;">
-          <div>
-            <label style="display: block; font-size: 0.8rem; font-weight: 600; color: var(--ocean-navy); margin-bottom: 6px;">Tipe File</label>
-            <select name="digital_file_type" style="width: 100%; padding: 10px 14px; border: 1px solid var(--soft-beige); border-radius: 4px; font-size: 0.85rem; background: #FFF;">
-              <option value="pdf" {{ old('digital_file_type', $product->digital_file_type) === 'pdf' ? 'selected' : '' }}>File PDF Langsung</option>
-              <option value="gdrive" {{ old('digital_file_type', $product->digital_file_type) === 'gdrive' ? 'selected' : '' }}>Tautan Google Drive</option>
-            </select>
+        <input type="hidden" name="digital_file_type" value="gdrive">
+        <div>
+          <label style="display: block; font-size: 0.82rem; font-weight: 600; color: var(--ocean-navy); margin-bottom: 6px;">
+            URL / Tautan Google Drive Resmi (Pembeli Otomatis Menerima Link Ini)
+          </label>
+          <div style="position: relative;">
+            <i class="fa-brands fa-google-drive" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #2563EB; font-size: 1rem;"></i>
+            <input type="url" name="digital_file_url" value="{{ old('digital_file_url', $product->digital_file_url) }}" placeholder="https://drive.google.com/file/d/... atau https://drive.google.com/drive/folders/..." style="width: 100%; padding: 11px 16px 11px 40px; border: 1px solid var(--soft-beige); border-radius: 6px; font-size: 0.88rem; box-sizing: border-box; background: #FFFFFF;">
           </div>
-          <div>
-            <label style="display: block; font-size: 0.8rem; font-weight: 600; color: var(--ocean-navy); margin-bottom: 6px;">URL / Link Google Drive untuk Pembeli</label>
-            <input type="text" name="digital_file_url" value="{{ old('digital_file_url', $product->digital_file_url) }}" placeholder="https://drive.google.com/file/d/..." style="width: 100%; padding: 10px 14px; border: 1px solid var(--soft-beige); border-radius: 4px; font-size: 0.85rem;">
-          </div>
+          <span style="font-size: 0.74rem; color: var(--text-muted); margin-top: 5px; display: block;">
+            *Pastikan izin akses tautan Google Drive disetel ke <em>"Siapa saja yang memiliki link dapat melihat"</em>.
+          </span>
         </div>
 
         <!-- Isi Naskah Bab (Web Novel Reader) -->

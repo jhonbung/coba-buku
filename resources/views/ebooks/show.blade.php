@@ -198,7 +198,7 @@
                       <span style="font-size: 1.35rem; font-weight: 800; color: #15803D; display: block; line-height: 1;">
                         {{ $part->formatted_price }}
                       </span>
-                      <span style="font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Bebas Ongkir · Baca Web & PDF</span>
+                      <span style="font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Bebas Ongkir · Baca Web & GDrive</span>
                     </div>
 
                     <a href="{{ route('reader.show', $part->slug) }}" class="btn" style="padding: 9px 14px; font-size: 0.8rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; border-radius: 6px; background: #F8FAFC; border: 1px solid #CBD5E1; color: #334155; text-decoration: none;" title="Pratinjau Bab di Web Reader">
@@ -256,8 +256,8 @@
             Bayar dengan mudah via QRIS (Gopay/OVO/ShopeePay/Dana) atau Virtual Account BCA, Mandiri, BNI, BRI. Verifikasi berjalan real-time detik itu juga.
           </div>
           <div>
-            <strong style="color: var(--ocean-navy); display: block; margin-bottom: 4px;">2. Langsung Baca di Web & Akses PDF</strong>
-            Setelah bayar, Anda dapat langsung membaca bab cerita di Web Reader interaktif tanpa perlu aplikasi tambahan, serta mendapatkan berkas PDF resmi.
+            <strong style="color: var(--ocean-navy); display: block; margin-bottom: 4px;">2. Langsung Baca di Web & Akses Google Drive</strong>
+            Setelah bayar, Anda dapat langsung membaca bab cerita di Web Reader interaktif tanpa perlu aplikasi tambahan, serta mendapatkan tautan Google Drive resmi.
           </div>
         </div>
       </div>

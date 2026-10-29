@@ -45,7 +45,7 @@
               <div>
                 <strong style="color: var(--ivory); font-size: 1.02rem; display: block; margin-bottom: 4px;">{{ $dItem->product_title }}</strong>
                 <div style="font-size: 0.78rem; color: var(--champagne-gold); display: flex; align-items: center; gap: 6px;">
-                  <i class="fa-solid fa-circle-check" style="color: #4ADE80;"></i> Akses Baca Web Novel & Unduhan PDF Aktif
+                  <i class="fa-solid fa-circle-check" style="color: #4ADE80;"></i> Akses Baca Web Novel & Tautan Google Drive Aktif
                 </div>
               </div>
               <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
@@ -56,7 +56,7 @@
                 @endif
                 @if($dItem->product && $dItem->product->digital_file_url)
                   <a href="{{ $dItem->product->digital_file_url }}" target="_blank" class="btn" style="background: rgba(255, 255, 255, 0.12); color: #FFF; border: 1px solid rgba(255, 255, 255, 0.25); padding: 9px 16px; font-size: 0.78rem; text-decoration: none; border-radius: 4px; display: inline-flex; align-items: center; gap: 6px;">
-                    <i class="fa-solid fa-download"></i> Unduh PDF
+                    <i class="fa-brands fa-google-drive" style="color: #60A5FA;"></i> Buka Google Drive
                   </a>
                 @endif
               </div>
