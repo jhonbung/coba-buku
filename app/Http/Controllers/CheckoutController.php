@@ -218,7 +218,7 @@ class CheckoutController extends Controller
             'payment_method' => $request->input('payment_method', 'Midtrans Snap (QRIS / VA / E-Wallet)'),
             'payment_status' => 'pending',
             'order_status' => 'pending',
-            'tracking_number' => $hasPhysicalItems ? ('BV-' . strtoupper(Str::random(8))) : 'DIGITAL-ACCESS',
+            'tracking_number' => $hasPhysicalItems ? $orderNumber : 'DIGITAL-ACCESS',
             'digital_delivered' => false,
             'notes' => $request->input('notes'),
         ]);

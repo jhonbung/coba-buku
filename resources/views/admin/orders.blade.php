@@ -117,13 +117,14 @@
                     'cancelled' => ['bg' => '#FEE2E2', 'color' => '#B91C1C', 'label' => 'Dibatalkan'],
                 ];
                 $st = $statusColors[strtolower($order->order_status)] ?? ['bg' => '#F1F5F9', 'color' => '#334155', 'label' => ucfirst($order->order_status)];
+                $hasRealCourierResi = $order->tracking_number && $order->tracking_number !== 'DIGITAL-ACCESS' && $order->tracking_number !== $order->order_number && !str_starts_with($order->tracking_number, 'BV-');
               @endphp
 
               <span style="background: {{ $st['bg'] }}; color: {{ $st['color'] }}; padding: 4px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 700; display: inline-block;">
                 {{ $st['label'] }}
               </span>
 
-              @if($order->tracking_number && $order->tracking_number !== 'DIGITAL-ACCESS')
+              @if($hasRealCourierResi)
                 <div style="font-size: 0.78rem; background: #FFFFFF; border: 1.5px solid #CBD5E1; padding: 5px 8px; border-radius: 6px; margin-top: 8px; font-weight: 700; color: var(--ocean-navy); display: flex; align-items: center; justify-content: space-between; gap: 4px;">
                   <span style="letter-spacing: 0.5px;">{{ $order->tracking_number }}</span>
                   <button type="button" onclick="navigator.clipboard.writeText('{{ $order->tracking_number }}'); alert('Resi disalin: {{ $order->tracking_number }}')" style="background: none; border: none; cursor: pointer; color: #64748B; padding: 2px;" title="Salin Nomor Resi">
@@ -134,6 +135,10 @@
                   <a href="{{ $trackingUrl }}" target="_blank" style="font-size: 0.7rem; color: #2563EB; text-decoration: underline; font-weight: 600;">
                     <i class="fa-solid fa-arrow-up-right-from-square"></i> Cek di CekResi.com
                   </a>
+                </div>
+              @elseif(!str_contains($order->shipping_address, 'Digital') && $order->courier !== 'Digital Delivery (Email Langsung)')
+                <div style="font-size: 0.72rem; color: #94A3B8; margin-top: 6px;">
+                  Resi: <em>Belum Diinput</em>
                 </div>
               @endif
             </td>
@@ -146,7 +151,7 @@
                 </button>
 
                 <!-- Tombol Kirim WhatsApp Resi -->
-                @if($order->customer_phone && $order->tracking_number && $order->tracking_number !== 'DIGITAL-ACCESS')
+                @if($order->customer_phone && $hasRealCourierResi)
                   <a href="{{ $waUrl }}" target="_blank" class="btn" style="background: #DCFCE7; color: #166534; border: 1px solid #86EFAC; padding: 6px 10px; font-size: 0.75rem; border-radius: 6px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none;" title="Kirim otomatis rincian nomor resi ke WhatsApp Customer">
                     <i class="fa-brands fa-whatsapp" style="font-size: 0.9rem;"></i> Kirim Resi via WA
                   </a>

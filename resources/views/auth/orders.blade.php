@@ -89,14 +89,25 @@
             <!-- Footer summary -->
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding-top: 10px; font-size: 0.85rem;">
               <div>
-                @if($order->tracking_number && $order->tracking_number !== 'DIGITAL-ACCESS')
+                @php
+                  $hasRealCourierResi = $order->tracking_number && $order->tracking_number !== 'DIGITAL-ACCESS' && $order->tracking_number !== $order->order_number && !str_starts_with($order->tracking_number, 'BV-');
+                @endphp
+
+                @if($order->courier && !str_contains($order->courier, 'Digital Delivery'))
                   <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                     <span style="color: var(--text-muted);">Kurir: <strong>{{ $order->courier }}</strong></span>
                     <span style="color: var(--border-color);">|</span>
-                    <span style="color: var(--text-muted);">No. Resi:</span>
-                    <span style="background: var(--ivory); border: 1px solid var(--soft-beige); padding: 3px 8px; border-radius: 4px; font-weight: 700; color: var(--ocean-navy); letter-spacing: 0.5px;">
-                      {{ $order->tracking_number }}
-                    </span>
+                    @if($hasRealCourierResi)
+                      <span style="color: var(--text-muted);">No. Resi Kurir:</span>
+                      <span style="background: #ECFDF5; border: 1px solid #A7F3D0; color: #065F46; padding: 3px 8px; border-radius: 4px; font-weight: 700; letter-spacing: 0.5px;">
+                        {{ $order->tracking_number }}
+                      </span>
+                    @else
+                      <span style="color: var(--text-muted);">No. Pesanan:</span>
+                      <span style="background: var(--ivory); border: 1px solid var(--soft-beige); padding: 3px 8px; border-radius: 4px; font-weight: 700; color: var(--ocean-navy); letter-spacing: 0.5px;">
+                        {{ $order->order_number }}
+                      </span>
+                    @endif
                   </div>
                 @else
                   <span style="color: var(--text-muted);"><i class="fa-solid fa-bolt" style="color: #10B981;"></i> Pengiriman Otomatis Digital via Email</span>
@@ -115,7 +126,7 @@
 
           <!-- Bottom Action Buttons -->
           <div style="background: #FAF7F2; padding: 12px 24px; border-top: 1px solid var(--soft-beige); display: flex; justify-content: flex-end; gap: 12px; flex-wrap: wrap; align-items: center;">
-            @if($order->tracking_number && $order->tracking_number !== 'DIGITAL-ACCESS')
+            @if($hasRealCourierResi)
               <a href="https://cekresi.com/?noresi={{ urlencode($order->tracking_number) }}" target="_blank" class="btn btn-gold" style="font-size: 0.8rem; padding: 6px 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
                 <i class="fa-solid fa-magnifying-glass-location"></i> Lacak Paket Kurir
               </a>
