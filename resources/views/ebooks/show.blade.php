@@ -233,9 +233,6 @@
 
               </div>
             @endforeach
-
-              </div>
-            @endforeach
           </div>
         @else
           <div style="background: var(--ivory); padding: 20px; border-radius: var(--radius-sm); text-align: center; color: var(--text-muted); font-size: 0.88rem;">
