@@ -80,15 +80,12 @@ class AdminController extends Controller
         }
         unset($catData);
 
-        $recentOrders = Order::with('items')->latest()->take(10)->get();
-
         return view('admin.index', compact(
             'totalSales',
             'totalOrders',
             'totalProducts',
             'lowStockCount',
-            'categorySales',
-            'recentOrders'
+            'categorySales'
         ));
     }
 

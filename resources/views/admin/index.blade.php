@@ -170,7 +170,7 @@
   </div>
 
   <!-- Quick Access Hub to Serial E-Book -->
-  <div style="background: linear-gradient(135deg, #172B49 0%, #203A5E 100%); color: #F4EBDD; border-radius: 10px; border: 1.5px solid var(--champagne-gold); padding: 22px 28px; margin-bottom: 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; box-shadow: 0 4px 14px rgba(15,23,42,0.12);">
+  <div style="background: linear-gradient(135deg, #172B49 0%, #203A5E 100%); color: #F4EBDD; border-radius: 10px; border: 1.5px solid var(--champagne-gold); padding: 22px 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; box-shadow: 0 4px 14px rgba(15,23,42,0.12);">
     <div style="display: flex; align-items: center; gap: 16px;">
       <div style="width: 48px; height: 48px; border-radius: 8px; background: rgba(198,161,107,0.2); color: var(--champagne-gold); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; border: 1px solid rgba(198,161,107,0.4);">
         <i class="fa-solid fa-book-bookmark"></i>
@@ -187,68 +187,6 @@
     <a href="{{ route('admin.ebook_parts.hub') }}" class="btn btn-gold" style="font-size: 0.82rem; padding: 10px 20px; font-weight: 700;">
       <i class="fa-solid fa-gear"></i> Buka Serial E-Book
     </a>
-  </div>
-
-  <!-- Recent Orders Table -->
-  <div class="admin-card">
-    <div style="padding: 20px 24px; border-bottom: 1px solid var(--admin-border-subtle); display: flex; justify-content: space-between; align-items: center;">
-      <h3 style="font-family: var(--font-display); font-size: 1.25rem; color: #0F172A; margin: 0; font-weight: 700;">
-        Pesanan Terbaru & Siap Dikirim
-      </h3>
-      <a href="{{ route('admin.orders') }}" style="color: var(--admin-gold); font-size: 0.85rem; font-weight: 600; text-decoration: none;">
-        Lihat Semua Pesanan &rarr;
-      </a>
-    </div>
-
-    <table class="admin-table">
-      <thead>
-        <tr style="background: var(--ivory); color: var(--ocean-navy); border-bottom: 1px solid var(--soft-beige);">
-          <th style="padding: 14px 20px; text-align: left;">No. Pesanan</th>
-          <th style="padding: 14px 20px; text-align: left;">Pembeli</th>
-          <th style="padding: 14px 20px; text-align: left;">Kurir</th>
-          <th style="padding: 14px 20px; text-align: right;">Total</th>
-          <th style="padding: 14px 20px; text-align: center;">Status</th>
-          <th style="padding: 14px 20px; text-align: center;">Cetak Resi</th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach($recentOrders as $order)
-          <tr style="border-bottom: 1px solid #F0EAE1;">
-            <td style="padding: 16px 20px; font-weight: 700; color: var(--ocean-navy);">
-              #{{ $order->order_number }}
-              <div style="font-size: 0.75rem; color: #475569; font-weight: 500; margin-top: 3px;">
-                <i class="fa-regular fa-clock" style="color: #94A3B8;"></i> {{ $order->created_at->format('d M Y, H:i') }} WIB
-              </div>
-              <div style="font-size: 0.68rem; color: #059669; font-weight: 600; margin-top: 1px;">
-                {{ $order->created_at->diffForHumans() }}
-              </div>
-            </td>
-            <td style="padding: 16px 20px;">
-              <strong>{{ $order->customer_name }}</strong>
-              <div style="font-size: 0.75rem; color: var(--text-muted);">{{ $order->customer_email }}</div>
-            </td>
-            <td style="padding: 16px 20px;">
-              <span style="font-size: 0.82rem; background: var(--ivory); padding: 4px 8px; border-radius: 4px; border: 1px solid var(--soft-beige);">
-                {{ $order->courier }}
-              </span>
-            </td>
-            <td style="padding: 16px 20px; text-align: right; font-weight: 700; color: var(--ocean-navy);">
-              {{ $order->formatted_total }}
-            </td>
-            <td style="padding: 16px 20px; text-align: center;">
-              <span style="background: #DCFCE7; color: #15803D; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">
-                {{ $order->order_status }}
-              </span>
-            </td>
-            <td style="padding: 16px 20px; text-align: center;">
-              <a href="{{ route('admin.orders.resi', $order->order_number) }}" target="_blank" class="btn btn-gold" style="padding: 6px 14px; font-size: 0.75rem;">
-                <i class="fa-solid fa-print"></i> Cetak Resi
-              </a>
-            </td>
-          </tr>
-        @endforeach
-      </tbody>
-    </table>
   </div>
 </div>
 @endsection
