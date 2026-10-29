@@ -16,14 +16,6 @@
         Pantau performa penjualan novel cetak, e-book, merchandise, dan status pesanan hari ini.
       </p>
     </div>
-    <div style="display: flex; gap: 12px;">
-      <a href="{{ route('admin.orders') }}" class="btn btn-outline-gold" style="color: #0F172A; border-color: #CBD5E1; background: #FFF; font-size: 0.82rem; padding: 10px 18px;">
-        <i class="fa-solid fa-boxes-packing"></i> Kelola Pesanan
-      </a>
-      <a href="{{ route('admin.products') }}" class="btn btn-gold" style="font-size: 0.82rem; padding: 10px 18px; font-weight: 700;">
-        <i class="fa-solid fa-boxes-stacked"></i> Kontrol Stok & Harga
-      </a>
-    </div>
   </div>
 
   <!-- Stats Cards Grid -->
