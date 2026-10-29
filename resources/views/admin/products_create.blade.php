@@ -47,9 +47,9 @@
           <label style="display: block; font-size: 0.85rem; font-weight: 600; color: var(--ocean-navy); margin-bottom: 6px;">Pilih Kategori Produk *</label>
           <select name="category" id="product_category" required onchange="updateCategoryForm()" style="width: 100%; padding: 12px 16px; border: 1px solid var(--soft-beige); border-radius: 4px; font-size: 0.92rem; background: #FFF; font-weight: 600;">
             <option value="novel" {{ old('category') === 'novel' ? 'selected' : '' }}>📖 Novel Cetak (Physical Book)</option>
-            <option value="ebook" {{ old('category') === 'ebook' ? 'selected' : '' }}>📱 E-Book Digital (PDF / GDrive)</option>
             <option value="merchandise" {{ old('category') === 'merchandise' ? 'selected' : '' }}>👑 Merchandise Resmi</option>
           </select>
+          <span style="font-size: 0.72rem; color: #64748B; margin-top: 4px; display: block;">*Untuk menambahkan e-book atau bab digital, gunakan menu <strong>Serial E-Book</strong>.</span>
         </div>
 
         <div>
@@ -58,8 +58,6 @@
             <option value="notonegoro" {{ old('subcategory') === 'notonegoro' ? 'selected' : '' }}>The Seven Notonegoro Series</option>
             <option value="standalone" {{ old('subcategory') === 'standalone' ? 'selected' : '' }}>Standalone Novel</option>
             <option value="limited" {{ old('subcategory') === 'limited' ? 'selected' : '' }}>Royal Limited Edition</option>
-            <option value="ebook" {{ old('subcategory') === 'ebook' ? 'selected' : '' }}>E-Book Novel Lengkap</option>
-            <option value="chapter" {{ old('subcategory') === 'chapter' ? 'selected' : '' }}>Serial Bab Digital</option>
             <option value="merch" {{ old('subcategory') === 'merch' ? 'selected' : '' }}>Aksesoris & Merchandise Koleksi</option>
           </select>
         </div>

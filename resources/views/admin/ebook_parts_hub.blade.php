@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Pusat Kontrol Part E-Book — Admin BIANCA VEANA')
+@section('title', 'Serial E-Book — Admin BIANCA VEANA')
 
 @section('content')
 <div class="admin-container">
@@ -9,20 +9,20 @@
     <div>
       <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
         <span style="font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; color: var(--admin-gold);">
-          SERIALISASI & BAB DIGITAL
+          SERIAL E-BOOK & BAB DIGITAL
         </span>
       </div>
       <h2 style="font-family: var(--font-display); font-size: 1.85rem; color: #0F172A; margin: 0 0 6px; font-weight: 700;">
-        Pusat Kontrol Part E-Book Berkelompok
+        Manajemen Serial E-Book Berkelompok
       </h2>
       <p style="color: #64748B; font-size: 0.88rem; margin: 0;">
-        Kelola, upload, dan atur harga part e-book berbayar (Part 1, Part 2, Part 3, dst.) yang dikelompokkan secara terstruktur per judul buku.
+        Kelola, upload naskah Web Reader, serta atur harga part serial e-book berbayar yang dikelompokkan secara terstruktur per judul novel.
       </p>
     </div>
 
     <div style="display: flex; gap: 12px; align-items: center;">
       <div style="background: #FFFFFF; border: 1px solid #E2E8F0; padding: 10px 18px; border-radius: 8px; font-size: 0.82rem; color: #1E293B; display: flex; align-items: center; gap: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.03);">
-        <i class="fa-solid fa-layer-group" style="color: var(--admin-gold);"></i>
+        <i class="fa-solid fa-book-bookmark" style="color: var(--admin-gold);"></i>
         <span>Total: <strong>{{ $totalParts }} Part E-Book Aktif</strong></span>
       </div>
       

@@ -48,7 +48,9 @@
           <label style="display: block; font-size: 0.85rem; font-weight: 600; color: var(--ocean-navy); margin-bottom: 6px;">Kategori Produk *</label>
           <select name="category" id="product_category" required onchange="updateCategoryForm()" style="width: 100%; padding: 12px 16px; border: 1px solid var(--soft-beige); border-radius: 4px; font-size: 0.92rem; background: #FFF; font-weight: 600;">
             <option value="novel" {{ old('category', $product->category) === 'novel' ? 'selected' : '' }}>📖 Novel Cetak (Physical Book)</option>
-            <option value="ebook" {{ old('category', $product->category) === 'ebook' ? 'selected' : '' }}>📱 E-Book Digital (PDF / GDrive)</option>
+            @if($product->category === 'ebook')
+              <option value="ebook" selected>📱 Serial E-Book (Digital)</option>
+            @endif
             <option value="merchandise" {{ old('category', $product->category) === 'merchandise' ? 'selected' : '' }}>👑 Merchandise Resmi</option>
           </select>
         </div>

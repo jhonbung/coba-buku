@@ -335,7 +335,7 @@
           <i class="fa-solid fa-boxes-stacked"></i> Stok & Produk
         </a>
         <a href="{{ route('admin.ebook_parts.hub') }}" class="admin-nav-tab {{ request()->routeIs('admin.ebook_parts*') || request()->routeIs('admin.products.parts*') ? 'active' : '' }}">
-          <i class="fa-solid fa-layer-group"></i> Serial & Part
+          <i class="fa-solid fa-book-bookmark"></i> Serial E-Book
         </a>
         <a href="{{ route('admin.orders') }}" class="admin-nav-tab {{ request()->routeIs('admin.orders*') ? 'active' : '' }}">
           <i class="fa-solid fa-receipt"></i> Pesanan

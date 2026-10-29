@@ -16,13 +16,13 @@
         Kontrol Stok & Harga Produk
       </h2>
       <p style="color: #64748B; font-size: 0.88rem; margin: 0;">
-        Kelola persediaan novel cetak, e-book digital, serta merchandise resmi Bianca Veana secara langsung.
+        Kelola persediaan novel cetak serta merchandise resmi Bianca Veana secara langsung.
       </p>
     </div>
 
     <div style="display: flex; gap: 12px; align-items: center;">
       <a href="{{ route('admin.ebook_parts.hub') }}" class="btn btn-outline-gold" style="font-size: 0.82rem; padding: 10px 18px; font-weight: 700; background: #FFFFFF;">
-        <i class="fa-solid fa-layer-group"></i> Pusat Kontrol Part E-Book
+        <i class="fa-solid fa-book-bookmark"></i> Serial E-Book
       </a>
 
       <div style="background: #FFFFFF; border: 1px solid #E2E8F0; padding: 10px 18px; border-radius: 8px; font-size: 0.82rem; color: #1E293B; display: flex; align-items: center; gap: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.03);">
@@ -65,7 +65,6 @@
       </span>
       <button type="button" onclick="filterTable('all')" class="filter-tab active" data-filter="all">Semua Kategori ({{ $products->count() }})</button>
       <button type="button" onclick="filterTable('novel')" class="filter-tab" data-filter="novel">📖 Novel Cetak</button>
-      <button type="button" onclick="filterTable('ebook')" class="filter-tab" data-filter="ebook">📱 E-Book Digital</button>
       <button type="button" onclick="filterTable('merchandise')" class="filter-tab" data-filter="merchandise">🎁 Merchandise</button>
     </div>
   </div>
