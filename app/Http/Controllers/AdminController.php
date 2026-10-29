@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\TeaserVideo;
 use Illuminate\Http\Request;
@@ -17,6 +18,68 @@ class AdminController extends Controller
         $totalProducts = Product::count();
         $lowStockCount = Product::where('stock', '<', 20)->where('category', '!=', 'ebook')->count();
 
+        // Breakdown Penjualan per Kategori (Buku Fisik, E-Book Digital, Merchandise)
+        $paidOrderIds = Order::where('payment_status', 'paid')->pluck('id');
+
+        $paidItems = OrderItem::with('product')
+            ->whereIn('order_id', $paidOrderIds)
+            ->get();
+
+        $categorySales = [
+            'novel' => [
+                'name' => 'Buku Fisik (Novel)',
+                'badge' => 'Novel Cetak & Boxset',
+                'icon' => 'fa-book-open',
+                'color' => '#1D4ED8',
+                'bg' => '#EFF6FF',
+                'border' => '#BFDBFE',
+                'bar_color' => '#3B82F6',
+                'total' => 0,
+                'qty' => 0,
+                'items_count' => 0,
+            ],
+            'ebook' => [
+                'name' => 'E-Book & Bab Digital',
+                'badge' => 'Full E-Book & Serial Part',
+                'icon' => 'fa-book-bookmark',
+                'color' => '#15803D',
+                'bg' => '#F0FDF4',
+                'border' => '#BBF7D0',
+                'bar_color' => '#10B981',
+                'total' => 0,
+                'qty' => 0,
+                'items_count' => 0,
+            ],
+            'merchandise' => [
+                'name' => 'Merchandise Resmi',
+                'badge' => 'Aksesoris & Edisi Kolektor',
+                'icon' => 'fa-crown',
+                'color' => '#7E22CE',
+                'bg' => '#FAF5FF',
+                'border' => '#E9D5FF',
+                'bar_color' => '#A855F7',
+                'total' => 0,
+                'qty' => 0,
+                'items_count' => 0,
+            ],
+        ];
+
+        foreach ($paidItems as $item) {
+            $cat = $item->product ? $item->product->category : 'novel';
+            if (!isset($categorySales[$cat])) {
+                $cat = 'novel';
+            }
+            $categorySales[$cat]['total'] += (int) $item->subtotal;
+            $categorySales[$cat]['qty'] += (int) $item->quantity;
+            $categorySales[$cat]['items_count']++;
+        }
+
+        $totalItemsRevenue = array_sum(array_column($categorySales, 'total')) ?: 1;
+        foreach ($categorySales as $key => &$catData) {
+            $catData['percentage'] = round(($catData['total'] / $totalItemsRevenue) * 100);
+        }
+        unset($catData);
+
         $recentOrders = Order::with('items')->latest()->take(10)->get();
 
         return view('admin.index', compact(
@@ -24,6 +87,7 @@ class AdminController extends Controller
             'totalOrders',
             'totalProducts',
             'lowStockCount',
+            'categorySales',
             'recentOrders'
         ));
     }

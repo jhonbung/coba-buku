@@ -94,22 +94,98 @@
   </div>
 
   <!-- Quick Access Hub to Grouped E-Book Parts -->
+  <!-- CATEGORY SALES BREAKDOWN (BUKU FISIK, SERIAL E-BOOK, MERCHANDISE) -->
+  <div style="margin-bottom: 36px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+      <div>
+        <h3 style="font-family: var(--font-display); font-size: 1.35rem; color: #0F172A; margin: 0 0 4px; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+          <i class="fa-solid fa-chart-pie" style="color: var(--admin-gold);"></i> Rincian Penjualan Berdasarkan Kategori Produk
+        </h3>
+        <p style="font-size: 0.82rem; color: #64748B; margin: 0;">
+          Distribusi omzet dan kuantitas produk terverifikasi: Novel Fisik (Cetak), Serial E-Book Digital, dan Merchandise Resmi.
+        </p>
+      </div>
+      <span style="font-size: 0.78rem; font-weight: 600; color: #059669; background: #ECFDF5; border: 1px solid #A7F3D0; padding: 4px 12px; border-radius: 20px; display: inline-flex; align-items: center; gap: 6px;">
+        <i class="fa-solid fa-circle-check"></i> Status Terverifikasi Lunas
+      </span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+      @foreach(['novel', 'ebook', 'merchandise'] as $catKey)
+        @php $cat = $categorySales[$catKey]; @endphp
+        <div class="admin-card" style="padding: 24px; position: relative; border-top: 4px solid {{ $cat['bar_color'] }}; display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <!-- Top Badges & Icon -->
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+              <div>
+                <span style="font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; padding: 4px 10px; border-radius: 4px; background: {{ $cat['bg'] }}; color: {{ $cat['color'] }}; border: 1px solid {{ $cat['border'] }};">
+                  {{ $cat['badge'] }}
+                </span>
+                <h4 style="font-family: var(--font-display); font-size: 1.15rem; color: #0F172A; margin: 8px 0 0; font-weight: 700;">
+                  {{ $cat['name'] }}
+                </h4>
+              </div>
+              <div style="width: 44px; height: 44px; border-radius: 10px; background: {{ $cat['bg'] }}; color: {{ $cat['color'] }}; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; border: 1px solid {{ $cat['border'] }};">
+                <i class="fa-solid {{ $cat['icon'] }}"></i>
+              </div>
+            </div>
+
+            <!-- Revenue Figure -->
+            <div style="margin-bottom: 14px;">
+              <span style="font-size: 0.72rem; color: #64748B; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; display: block; margin-bottom: 2px;">
+                Total Omzet Penjualan:
+              </span>
+              <div style="font-size: 1.65rem; font-weight: 800; color: #0F172A; line-height: 1.1;">
+                Rp {{ number_format($cat['total'], 0, ',', '.') }}
+              </div>
+            </div>
+
+            <!-- Progress Contribution Bar -->
+            <div style="margin-bottom: 16px;">
+              <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #64748B; margin-bottom: 6px; font-weight: 600;">
+                <span>Kontribusi Penjualan</span>
+                <strong style="color: {{ $cat['color'] }};">{{ $cat['percentage'] }}%</strong>
+              </div>
+              <div style="width: 100%; height: 8px; background: #F1F5F9; border-radius: 10px; overflow: hidden;">
+                <div style="width: {{ $cat['percentage'] }}%; height: 100%; background: {{ $cat['bar_color'] }}; border-radius: 10px; transition: width 0.4s ease;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quantity & Order Count Breakdown -->
+          <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; margin-top: 10px;">
+            <div>
+              <span style="color: #64748B; display: block; font-size: 0.7rem;">Kuantitas Terjual:</span>
+              <strong style="color: #0F172A; font-size: 0.95rem;">{{ number_format($cat['qty'], 0, ',', '.') }} item</strong>
+            </div>
+            <div style="text-align: right;">
+              <span style="color: #64748B; display: block; font-size: 0.7rem;">Frekuensi Pembelian:</span>
+              <strong style="color: {{ $cat['color'] }}; font-size: 0.85rem;">{{ $cat['items_count'] }} transaksi</strong>
+            </div>
+          </div>
+
+        </div>
+      @endforeach
+    </div>
+  </div>
+
+  <!-- Quick Access Hub to Serial E-Book -->
   <div style="background: linear-gradient(135deg, #172B49 0%, #203A5E 100%); color: #F4EBDD; border-radius: 10px; border: 1.5px solid var(--champagne-gold); padding: 22px 28px; margin-bottom: 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; box-shadow: 0 4px 14px rgba(15,23,42,0.12);">
     <div style="display: flex; align-items: center; gap: 16px;">
       <div style="width: 48px; height: 48px; border-radius: 8px; background: rgba(198,161,107,0.2); color: var(--champagne-gold); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; border: 1px solid rgba(198,161,107,0.4);">
-        <i class="fa-solid fa-layer-group"></i>
+        <i class="fa-solid fa-book-bookmark"></i>
       </div>
       <div>
         <h4 style="font-family: var(--font-display); font-size: 1.2rem; margin: 0 0 3px; color: #FFFFFF;">
-          Pusat Kontrol Part E-Book Berkelompok
+          Pusat Kontrol Serial E-Book
         </h4>
         <p style="margin: 0; font-size: 0.82rem; color: #BAC7D7;">
-          Upload dan kelola serial bab berbayar (Part 1, Part 2, Part 3, dst.) untuk Mantra, Hierarchy, Fate, dan Serenity.
+          Upload naskah Web Reader dan kelola part serial e-book berbayar untuk Mantra, Hierarchy, Fate, dan Serenity.
         </p>
       </div>
     </div>
     <a href="{{ route('admin.ebook_parts.hub') }}" class="btn btn-gold" style="font-size: 0.82rem; padding: 10px 20px; font-weight: 700;">
-      <i class="fa-solid fa-gear"></i> Buka Pusat Kontrol Part
+      <i class="fa-solid fa-gear"></i> Buka Serial E-Book
     </a>
   </div>
 
