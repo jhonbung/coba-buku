@@ -92,10 +92,135 @@ class AdminController extends Controller
         ));
     }
 
-    public function orders()
+    public function orders(Request $request)
     {
-        $orders = Order::with('items')->latest()->paginate(15);
-        return view('admin.orders', compact('orders'));
+        $startDate = $request->query('start_date');
+        $endDate = $request->query('end_date');
+        $selectedCategory = $request->query('category', 'all');
+        $statusFilter = $request->query('status', 'all');
+        $search = $request->query('search');
+
+        // Query base untuk pesanan
+        $query = Order::with('items.product')->latest();
+
+        // 1. Filter Tanggal (WIB)
+        if ($startDate) {
+            $query->whereDate('created_at', '>=', $startDate);
+        }
+        if ($endDate) {
+            $query->whereDate('created_at', '<=', $endDate);
+        }
+
+        // 2. Filter Status Pembayaran / Pengiriman
+        if ($statusFilter && $statusFilter !== 'all') {
+            if (in_array($statusFilter, ['paid', 'pending', 'failed'])) {
+                $query->where('payment_status', $statusFilter);
+            } else {
+                $query->where('order_status', $statusFilter);
+            }
+        }
+
+        // 3. Filter Pencarian Teks
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('order_number', 'like', "%{$search}%")
+                  ->orWhere('customer_name', 'like', "%{$search}%")
+                  ->orWhere('customer_phone', 'like', "%{$search}%")
+                  ->orWhere('customer_email', 'like', "%{$search}%")
+                  ->orWhere('tracking_number', 'like', "%{$search}%");
+            });
+        }
+
+        // 4. Filter Kategori Produk (Novel Fisik, Serial E-Book, Merchandise)
+        if ($selectedCategory && $selectedCategory !== 'all') {
+            $query->whereHas('items.product', function ($q) use ($selectedCategory) {
+                $q->where('category', $selectedCategory);
+            });
+        }
+
+        // 5. Hitung Statistik & Monitoring Pendapatan Berdasarkan Tanggal yang Dipilih
+        $statsQuery = Order::with('items.product')->where('payment_status', 'paid');
+        if ($startDate) {
+            $statsQuery->whereDate('created_at', '>=', $startDate);
+        }
+        if ($endDate) {
+            $statsQuery->whereDate('created_at', '<=', $endDate);
+        }
+
+        $paidOrdersInPeriod = $statsQuery->get();
+        $totalPeriodRevenue = $paidOrdersInPeriod->sum('total_amount');
+        $totalPeriodOrdersCount = $paidOrdersInPeriod->count();
+
+        // Breakdown Pendapatan per Kategori (Novel, E-Book, Merchandise)
+        $categoryBreakdown = [
+            'novel' => [
+                'name' => 'Buku Fisik (Novel)',
+                'badge' => 'Novel & Boxset Cetak',
+                'icon' => 'fa-book-open',
+                'color' => '#1D4ED8',
+                'bg' => '#EFF6FF',
+                'border' => '#BFDBFE',
+                'bar_color' => '#3B82F6',
+                'revenue' => 0,
+                'items_sold' => 0,
+                'orders_count' => 0,
+            ],
+            'ebook' => [
+                'name' => 'Serial E-Book (Digital)',
+                'badge' => 'Full E-Book & Bab Digital',
+                'icon' => 'fa-book-bookmark',
+                'color' => '#15803D',
+                'bg' => '#F0FDF4',
+                'border' => '#BBF7D0',
+                'bar_color' => '#10B981',
+                'revenue' => 0,
+                'items_sold' => 0,
+                'orders_count' => 0,
+            ],
+            'merchandise' => [
+                'name' => 'Merchandise Resmi',
+                'badge' => 'Aksesoris & Edisi Kolektor',
+                'icon' => 'fa-crown',
+                'color' => '#7E22CE',
+                'bg' => '#FAF5FF',
+                'border' => '#E9D5FF',
+                'bar_color' => '#A855F7',
+                'revenue' => 0,
+                'items_sold' => 0,
+                'orders_count' => 0,
+            ],
+        ];
+
+        foreach ($paidOrdersInPeriod as $pOrder) {
+            $countedCatsInOrder = [];
+            foreach ($pOrder->items as $item) {
+                $cat = $item->product ? $item->product->category : 'novel';
+                if (!isset($categoryBreakdown[$cat])) {
+                    $cat = 'novel';
+                }
+                $categoryBreakdown[$cat]['revenue'] += (int) $item->subtotal;
+                $categoryBreakdown[$cat]['items_sold'] += (int) $item->quantity;
+                if (!isset($countedCatsInOrder[$cat])) {
+                    $categoryBreakdown[$cat]['orders_count']++;
+                    $countedCatsInOrder[$cat] = true;
+                }
+            }
+        }
+
+        // Pagination pesanan dengan query string
+        $orders = $query->paginate(15)->withQueryString();
+
+        return view('admin.orders', compact(
+            'orders',
+            'startDate',
+            'endDate',
+            'selectedCategory',
+            'statusFilter',
+            'search',
+            'totalPeriodRevenue',
+            'totalPeriodOrdersCount',
+            'categoryBreakdown'
+        ));
     }
 
     public function printResi(string $order_number)
