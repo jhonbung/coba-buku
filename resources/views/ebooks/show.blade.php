@@ -14,23 +14,7 @@
   </div>
 </div>
 
-<div class="container" style="padding: 50px 24px 80px;">
-  <!-- Alert Banner Digital -->
-  <div style="background: linear-gradient(135deg, #172B49 0%, #1c365d 100%); color: var(--ivory); border-radius: var(--radius-md); padding: 16px 24px; margin-bottom: 40px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; border: 1.5px solid var(--champagne-gold); box-shadow: var(--shadow-sm);">
-    <div style="display: flex; align-items: center; gap: 14px;">
-      <div style="width: 42px; height: 42px; border-radius: 50%; background: rgba(198, 161, 107, 0.2); color: var(--champagne-gold); display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
-        <i class="fa-solid fa-bolt-lightning"></i>
-      </div>
-      <div>
-        <strong style="color: var(--champagne-gold); font-size: 0.95rem; display: block; letter-spacing: 0.5px;">EDISI DIGITAL BIASANYA SIAP BACA INSTAN</strong>
-        <span style="font-size: 0.82rem; color: #BAC7D7;">Pembelian E-Book atau Bab Digital otomatis Bebas Ongkir (Rp 0). Tautan Google Drive & file PDF resolusi tinggi dikirim langsung ke email Anda.</span>
-      </div>
-    </div>
-    <span style="background: rgba(16, 185, 129, 0.2); border: 1px solid #10B981; color: #34D399; font-size: 0.75rem; font-weight: 700; padding: 6px 14px; border-radius: 20px; display: inline-flex; align-items: center; gap: 6px;">
-      <i class="fa-solid fa-check"></i> 100% BEBAS ONGKOS KIRIM
-    </span>
-  </div>
-
+<div class="container" style="padding: 40px 24px 80px;">
   <div style="display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 50px; align-items: start;">
     
     <!-- LEFT COLUMN: Book Cover & Digital Features -->
