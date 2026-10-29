@@ -168,25 +168,5 @@
       @endforeach
     </div>
   </div>
-
-  <!-- Quick Access Hub to Serial E-Book -->
-  <div style="background: linear-gradient(135deg, #172B49 0%, #203A5E 100%); color: #F4EBDD; border-radius: 10px; border: 1.5px solid var(--champagne-gold); padding: 22px 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; box-shadow: 0 4px 14px rgba(15,23,42,0.12);">
-    <div style="display: flex; align-items: center; gap: 16px;">
-      <div style="width: 48px; height: 48px; border-radius: 8px; background: rgba(198,161,107,0.2); color: var(--champagne-gold); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; border: 1px solid rgba(198,161,107,0.4);">
-        <i class="fa-solid fa-book-bookmark"></i>
-      </div>
-      <div>
-        <h4 style="font-family: var(--font-display); font-size: 1.2rem; margin: 0 0 3px; color: #FFFFFF;">
-          Pusat Kontrol Serial E-Book
-        </h4>
-        <p style="margin: 0; font-size: 0.82rem; color: #BAC7D7;">
-          Upload naskah Web Reader dan kelola part serial e-book berbayar untuk Mantra, Hierarchy, Fate, dan Serenity.
-        </p>
-      </div>
-    </div>
-    <a href="{{ route('admin.ebook_parts.hub') }}" class="btn btn-gold" style="font-size: 0.82rem; padding: 10px 20px; font-weight: 700;">
-      <i class="fa-solid fa-gear"></i> Buka Serial E-Book
-    </a>
-  </div>
 </div>
 @endsection
