@@ -101,7 +101,12 @@
                         </span>
                         <div>
                           <strong style="color: #0F172A; display: block; line-height: 1.2;">{{ $part->title }}</strong>
-                          <span style="font-size: 0.7rem; color: #64748B;">
+                          @if($part->synopsis)
+                            <div style="font-size: 0.73rem; color: #475569; margin-top: 3px; line-height: 1.4;">
+                              <span style="font-weight: 600; color: #0284C7;"><i class="fa-solid fa-feather-pointed"></i> Sinopsis:</span> {{ Str::limit($part->synopsis, 80) }}
+                            </div>
+                          @endif
+                          <span style="font-size: 0.7rem; color: #64748B; margin-top: 3px; display: block;">
                             @if($part->digital_file_url)
                               <i class="fa-brands fa-google-drive" style="color: #16A34A;"></i> Terhubung Drive/File
                             @else
@@ -111,8 +116,11 @@
                         </div>
                       </div>
 
-                      <div style="display: flex; align-items: center; gap: 12px;">
+                      <div style="display: flex; align-items: center; gap: 8px;">
                         <span style="font-weight: 700; color: #15803D;">{{ $part->formatted_price }}</span>
+                        <a href="{{ route('admin.products.edit', $part->id) }}" style="background: #EEF2FF; color: #4338CA; border: 1px solid #C7D2FE; padding: 4px 8px; border-radius: 4px; font-size: 0.72rem; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;" title="Edit Sinopsis & Detail Part">
+                          <i class="fa-solid fa-pen-to-square"></i> Edit
+                        </a>
                         <form action="{{ route('admin.products.parts.destroy', $part->id) }}" method="POST" onsubmit="return confirm('Hapus part {{ $part->title }}?');" style="margin: 0;">
                           @csrf
                           @method('DELETE')
@@ -208,6 +216,14 @@
         <input type="text" name="title" id="modal_part_title" required placeholder="Contoh: Mantra — Part 4 (Bab 16 s/d 20)" style="width: 100%; padding: 10px 14px; border: 1px solid #CBD5E1; border-radius: 6px; font-size: 0.88rem;">
       </div>
 
+      <div style="margin-bottom: 14px;">
+        <label style="display: block; font-size: 0.82rem; font-weight: 600; color: #1E293B; margin-bottom: 4px;">
+          Sinopsis Part / Ringkasan Cerita Bab
+        </label>
+        <textarea name="synopsis" id="modal_part_synopsis" rows="3" placeholder="Tuliskan sinopsis singkat cerita pada part bab ini agar terbaca oleh customer..." style="width: 100%; padding: 10px 14px; border: 1px solid #CBD5E1; border-radius: 6px; font-size: 0.88rem; box-sizing: border-box; line-height: 1.5; font-family: inherit; resize: vertical;"></textarea>
+        <span style="font-size: 0.72rem; color: #64748B;">*Sinopsis ini akan langsung ditampilkan kepada pembeli di halaman e-book customer.</span>
+      </div>
+
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
         <div>
           <label style="display: block; font-size: 0.82rem; font-weight: 600; color: #1E293B; margin-bottom: 4px;">Nomor Part</label>
@@ -257,6 +273,7 @@
     modal.style.display = 'flex';
     const firstId = document.getElementById('modal_parent_select').value;
     updateModalTarget(firstId);
+    document.getElementById('modal_part_synopsis').value = '';
   }
 
   function openQuickUploadForTitle(parentId, title) {
@@ -265,6 +282,7 @@
     document.getElementById('modal_parent_select').value = parentId;
     updateModalTarget(parentId);
     document.getElementById('modal_part_title').value = title + ' — Part ';
+    document.getElementById('modal_part_synopsis').value = '';
   }
 
   function closeQuickUploadModal() {

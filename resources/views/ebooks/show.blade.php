@@ -180,30 +180,42 @@
         @if($chapterParts->count() > 0)
           <div style="display: flex; flex-direction: column; gap: 16px;">
             @foreach($chapterParts as $part)
-              <div style="background: var(--white); border: 1.5px solid var(--soft-beige); border-radius: var(--radius-sm); padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--champagne-gold)'; this.style.boxShadow='var(--shadow-sm)';" onmouseout="this.style.borderColor='var(--soft-beige)'; this.style.boxShadow='none';">
+              <div style="background: var(--white); border: 1.5px solid var(--soft-beige); border-radius: var(--radius-sm); padding: 20px 24px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--champagne-gold)'; this.style.boxShadow='var(--shadow-sm)';" onmouseout="this.style.borderColor='var(--soft-beige)'; this.style.boxShadow='none';">
                 
-                <div style="display: flex; align-items: flex-start; gap: 14px; max-width: 65%;">
-                  <div style="width: 38px; height: 38px; border-radius: 8px; background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; margin-top: 2px;">
+                <div style="display: flex; align-items: flex-start; gap: 14px; flex: 1; min-width: 280px;">
+                  <div style="width: 40px; height: 40px; border-radius: 8px; background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; flex-shrink: 0; margin-top: 2px;">
                     <i class="fa-solid fa-file-lines"></i>
                   </div>
-                  <div>
-                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                  <div style="flex: 1;">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap;">
                       <span style="font-size: 0.72rem; font-weight: 700; background: var(--ivory); color: var(--ocean-navy); border: 1px solid var(--soft-beige); padding: 2px 8px; border-radius: 4px;">
                         Part {{ $part->part_number ?? $loop->iteration }}
                       </span>
-                      <h4 style="font-family: var(--font-serif); font-size: 1.1rem; color: var(--ocean-navy); margin: 0;">
+                      <h4 style="font-family: var(--font-serif); font-size: 1.15rem; color: var(--ocean-navy); margin: 0; font-weight: 700;">
                         {{ $part->title }}
                       </h4>
                     </div>
-                    <p style="font-size: 0.82rem; color: var(--text-muted); margin: 0; line-height: 1.5;">
-                      {{ $part->synopsis }}
-                    </p>
+
+                    @if($part->synopsis)
+                      <div style="background: #F8FAFC; border-left: 3px solid var(--champagne-gold); padding: 8px 12px; border-radius: 0 6px 6px 0; margin-top: 8px;">
+                        <span style="font-size: 0.7rem; font-weight: 700; color: var(--ocean-navy); text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 5px; margin-bottom: 3px;">
+                          <i class="fa-solid fa-feather-pointed" style="color: var(--champagne-gold);"></i> Sinopsis Part:
+                        </span>
+                        <p style="font-size: 0.84rem; color: #334155; margin: 0; line-height: 1.6;">
+                          {{ $part->synopsis }}
+                        </p>
+                      </div>
+                    @else
+                      <p style="font-size: 0.82rem; color: var(--text-muted); margin: 4px 0 0; line-height: 1.5;">
+                        Akses digital bab e-book resmi karya Bianca Veana Universe.
+                      </p>
+                    @endif
                   </div>
                 </div>
 
-                <div style="display: flex; align-items: center; gap: 16px;">
+                <div style="display: flex; align-items: center; gap: 16px; margin-left: auto;">
                   <div style="text-align: right;">
-                    <span style="font-size: 1.15rem; font-weight: 800; color: #15803D; display: block;">
+                    <span style="font-size: 1.25rem; font-weight: 800; color: #15803D; display: block; line-height: 1.2;">
                       {{ $part->formatted_price }}
                     </span>
                     <span style="font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase;">Akses Bab PDF</span>
@@ -213,7 +225,7 @@
                     @csrf
                     <input type="hidden" name="product_id" value="{{ $part->id }}">
                     <input type="hidden" name="quantity" value="1">
-                    <button type="submit" class="btn btn-outline" style="padding: 9px 18px; font-size: 0.82rem; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; border-radius: 6px; border-color: var(--champagne-gold); color: var(--ocean-navy);" onmouseover="this.style.background='var(--champagne-gold)'; this.style.color='var(--white)';" onmouseout="this.style.background='transparent'; this.style.color='var(--ocean-navy)';">
+                    <button type="submit" class="btn btn-outline" style="padding: 10px 20px; font-size: 0.85rem; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; border-radius: 6px; border-color: var(--champagne-gold); color: var(--ocean-navy); cursor: pointer;" onmouseover="this.style.background='var(--champagne-gold)'; this.style.color='var(--white)';" onmouseout="this.style.background='transparent'; this.style.color='var(--ocean-navy)';">
                       <i class="fa-solid fa-cart-plus"></i> Beli Part Ini
                     </button>
                   </form>

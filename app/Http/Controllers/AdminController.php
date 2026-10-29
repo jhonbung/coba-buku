@@ -556,7 +556,7 @@ class AdminController extends Controller
             'price' => (int) $request->input('price'),
             'stock' => 9999,
             'cover_image' => $parent->cover_image,
-            'synopsis' => $request->input('synopsis', "Part serial digital untuk judul {$parent->title}"),
+            'synopsis' => $request->filled('synopsis') ? trim($request->input('synopsis')) : "Part serial digital untuk judul {$parent->title}",
             'genre' => $parent->genre,
             'digital_file_type' => $fileType,
             'digital_file_url' => $fileUrl,

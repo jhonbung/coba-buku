@@ -60,6 +60,11 @@
                     <strong style="color: var(--ocean-navy); font-size: 0.95rem; display: block;">
                       {{ $part->title }}
                     </strong>
+                    @if($part->synopsis)
+                      <div style="font-size: 0.78rem; color: #475569; margin: 4px 0 6px; line-height: 1.4; background: #F8FAFC; border-left: 3px solid var(--champagne-gold); padding: 4px 8px; border-radius: 0 4px 4px 0;">
+                        <span style="font-weight: 600; color: #0284C7; font-size: 0.7rem; text-transform: uppercase;"><i class="fa-solid fa-feather-pointed"></i> Sinopsis:</span> {{ $part->synopsis }}
+                      </div>
+                    @endif
                     <span style="font-size: 0.78rem; color: #64748B;">
                       {{ $part->part_number ? "Nomor Part: {$part->part_number}" : 'Edisi Lengkap Full Novel' }}
                       • Akses: 
@@ -74,10 +79,13 @@
                   </div>
                 </div>
 
-                <div style="display: flex; align-items: center; gap: 16px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
                   <span style="font-size: 1.05rem; font-weight: 700; color: #15803D;">
                     {{ $part->formatted_price }}
                   </span>
+                  <a href="{{ route('admin.products.edit', $part->id) }}" style="background: #EEF2FF; color: #4338CA; border: 1px solid #C7D2FE; padding: 6px 10px; border-radius: 4px; font-size: 0.75rem; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;" title="Edit Sinopsis & Harga Part">
+                    <i class="fa-solid fa-pen-to-square"></i> Edit
+                  </a>
                   <form action="{{ route('admin.products.parts.destroy', $part->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus part {{ $part->title }} ini?');" style="margin: 0;">
                     @csrf
                     @method('DELETE')
@@ -114,6 +122,14 @@
             <input type="text" name="title" required placeholder="Contoh: {{ $product->title }} — Part 4 (Bab 16 s/d 20)" style="width: 100%; padding: 10px 14px; border: 1px solid var(--soft-beige); border-radius: 4px; font-size: 0.88rem;">
           </div>
 
+          <div style="margin-bottom: 14px;">
+            <label style="display: block; font-size: 0.82rem; font-weight: 600; color: #1E293B; margin-bottom: 4px;">
+              Sinopsis Part / Ringkasan Bab
+            </label>
+            <textarea name="synopsis" rows="3" placeholder="Tuliskan sinopsis singkat cerita pada part bab ini agar terbaca oleh customer..." style="width: 100%; padding: 10px 14px; border: 1px solid var(--soft-beige); border-radius: 4px; font-size: 0.88rem; box-sizing: border-box; font-family: inherit; resize: vertical; line-height: 1.5;"></textarea>
+            <span style="font-size: 0.72rem; color: #64748B;">*Sinopsis ini akan langsung ditampilkan kepada pembeli di halaman e-book customer.</span>
+          </div>
+
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
             <div>
               <label style="display: block; font-size: 0.82rem; font-weight: 600; color: #1E293B; margin-bottom: 4px;">
@@ -137,18 +153,11 @@
             <input type="file" name="ebook_file" accept=".pdf,.epub,.zip" style="width: 100%; padding: 8px; border: 1px dashed var(--soft-beige); border-radius: 4px; font-size: 0.82rem; background: #FAF8F5;">
           </div>
 
-          <div style="margin-bottom: 14px;">
+          <div style="margin-bottom: 18px;">
             <label style="display: block; font-size: 0.82rem; font-weight: 600; color: #1E293B; margin-bottom: 4px;">
               Atau Tautan Akses Google Drive
             </label>
             <input type="url" name="digital_file_url" placeholder="https://drive.google.com/file/d/..." style="width: 100%; padding: 10px 14px; border: 1px solid var(--soft-beige); border-radius: 4px; font-size: 0.88rem;">
-          </div>
-
-          <div style="margin-bottom: 18px;">
-            <label style="display: block; font-size: 0.82rem; font-weight: 600; color: #1E293B; margin-bottom: 4px;">
-              Keterangan Singkat / Bab
-            </label>
-            <textarea name="synopsis" rows="2" placeholder="Contoh: Bab 16 sampai 20 novel {{ $product->title }}" style="width: 100%; padding: 10px 14px; border: 1px solid var(--soft-beige); border-radius: 4px; font-size: 0.88rem;"></textarea>
           </div>
 
           <button type="submit" class="btn btn-gold" style="width: 100%; padding: 12px; font-size: 0.88rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px;">
