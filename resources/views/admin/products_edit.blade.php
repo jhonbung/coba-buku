@@ -324,6 +324,24 @@
             <input type="text" name="digital_file_url" value="{{ old('digital_file_url', $product->digital_file_url) }}" placeholder="https://drive.google.com/file/d/..." style="width: 100%; padding: 10px 14px; border: 1px solid var(--soft-beige); border-radius: 4px; font-size: 0.85rem;">
           </div>
         </div>
+
+        <!-- Isi Naskah Bab (Web Novel Reader) -->
+        <div style="margin-top: 18px; padding-top: 16px; border-top: 1px dashed var(--soft-beige);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <label style="font-size: 0.85rem; font-weight: 700; color: var(--ocean-navy); display: flex; align-items: center; gap: 6px;">
+              <i class="fa-solid fa-book-open-reader" style="color: var(--champagne-gold);"></i> Isi Naskah Cerita Bab (Web Novel Reader)
+            </label>
+            @if($product->slug)
+              <a href="{{ route('reader.show', $product->slug) }}" target="_blank" style="font-size: 0.75rem; color: #166534; background: #DCFCE7; padding: 3px 10px; border-radius: 4px; border: 1px solid #BBF7D0; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i> Preview Reader
+              </a>
+            @endif
+          </div>
+          <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px;">
+            Teks naskah yang dimasukkan di sini dapat langsung dibaca oleh pembeli di web setelah pesanan mereka lunas (lengkap dengan mode malam, ubah ukuran huruf, dan proteksi salin teks).
+          </p>
+          <textarea name="content" rows="12" placeholder="Tempel atau ketik naskah cerita bab ini di sini..." style="width: 100%; padding: 14px 16px; border: 1px solid var(--soft-beige); border-radius: 6px; font-size: 0.92rem; line-height: 1.7; font-family: inherit; resize: vertical;">{{ old('content', $product->content) }}</textarea>
+        </div>
       </div>
     </div>
 

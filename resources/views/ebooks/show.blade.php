@@ -193,20 +193,24 @@
                     </h4>
                   </div>
 
-                  <div style="display: flex; align-items: center; gap: 16px; flex-shrink: 0;">
+                  <div style="display: flex; align-items: center; gap: 14px; flex-shrink: 0; flex-wrap: wrap;">
                     <div style="text-align: right;">
                       <span style="font-size: 1.35rem; font-weight: 800; color: #15803D; display: block; line-height: 1;">
                         {{ $part->formatted_price }}
                       </span>
-                      <span style="font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Bebas Ongkir · PDF Instan</span>
+                      <span style="font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Bebas Ongkir · Baca Web & PDF</span>
                     </div>
+
+                    <a href="{{ route('reader.show', $part->slug) }}" class="btn" style="padding: 9px 14px; font-size: 0.8rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; border-radius: 6px; background: #F8FAFC; border: 1px solid #CBD5E1; color: #334155; text-decoration: none;" title="Pratinjau Bab di Web Reader">
+                      <i class="fa-solid fa-book-open"></i> Baca
+                    </a>
 
                     <form action="{{ route('cart.add') }}" method="POST" style="margin: 0;">
                       @csrf
                       <input type="hidden" name="product_id" value="{{ $part->id }}">
                       <input type="hidden" name="quantity" value="1">
-                      <button type="submit" class="btn btn-outline" style="padding: 10px 22px; font-size: 0.85rem; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; border-radius: 6px; border: 1.5px solid var(--champagne-gold); color: var(--ocean-navy); background: #FFFFFF; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='var(--champagne-gold)'; this.style.color='#FFFFFF';" onmouseout="this.style.background='#FFFFFF'; this.style.color='var(--ocean-navy)';">
-                        <i class="fa-solid fa-cart-plus"></i> Beli Part Ini
+                      <button type="submit" class="btn btn-outline" style="padding: 10px 20px; font-size: 0.85rem; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; border-radius: 6px; border: 1.5px solid var(--champagne-gold); color: var(--ocean-navy); background: #FFFFFF; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='var(--champagne-gold)'; this.style.color='#FFFFFF';" onmouseout="this.style.background='#FFFFFF'; this.style.color='var(--ocean-navy)';">
+                        <i class="fa-solid fa-cart-plus"></i> Beli Part
                       </button>
                     </form>
                   </div>
@@ -252,8 +256,8 @@
             Bayar dengan mudah via QRIS (Gopay/OVO/ShopeePay/Dana) atau Virtual Account BCA, Mandiri, BNI, BRI. Verifikasi berjalan real-time detik itu juga.
           </div>
           <div>
-            <strong style="color: var(--ocean-navy); display: block; margin-bottom: 4px;">2. Pengiriman Instan ke Email</strong>
-            Setelah bayar, Anda langsung mendapatkan email konfirmasi berisi link Google Drive pribadi dan tombol unduh PDF resmi siap simpan selamanya.
+            <strong style="color: var(--ocean-navy); display: block; margin-bottom: 4px;">2. Langsung Baca di Web & Akses PDF</strong>
+            Setelah bayar, Anda dapat langsung membaca bab cerita di Web Reader interaktif tanpa perlu aplikasi tambahan, serta mendapatkan berkas PDF resmi.
           </div>
         </div>
       </div>

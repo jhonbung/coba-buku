@@ -41,14 +41,25 @@
 
         <div style="display: flex; flex-direction: column; gap: 12px;">
           @foreach($digitalItems as $dItem)
-            <div style="background: rgba(255, 255, 255, 0.08); padding: 14px 18px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(198, 161, 107, 0.3);">
+            <div style="background: rgba(255, 255, 255, 0.08); padding: 16px 20px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(198, 161, 107, 0.35); flex-wrap: wrap; gap: 14px;">
               <div>
-                <strong style="color: var(--ivory);">{{ $dItem->product_title }}</strong>
-                <div style="font-size: 0.75rem; color: var(--champagne-gold);">Format: PDF High-Resolution & Google Drive Mirror</div>
+                <strong style="color: var(--ivory); font-size: 1.02rem; display: block; margin-bottom: 4px;">{{ $dItem->product_title }}</strong>
+                <div style="font-size: 0.78rem; color: var(--champagne-gold); display: flex; align-items: center; gap: 6px;">
+                  <i class="fa-solid fa-circle-check" style="color: #4ADE80;"></i> Akses Baca Web Novel & Unduhan PDF Aktif
+                </div>
               </div>
-              <a href="{{ $dItem->product->digital_file_url ?? 'https://drive.google.com' }}" target="_blank" class="btn btn-gold" style="padding: 8px 18px; font-size: 0.75rem;">
-                <i class="fa-solid fa-download"></i> Unduh File
-              </a>
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                @if($dItem->product)
+                  <a href="{{ route('reader.show', ['slug' => $dItem->product->slug, 'order' => $order->order_number]) }}" class="btn btn-gold" style="padding: 10px 20px; font-size: 0.82rem; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(198, 161, 107, 0.45);">
+                    <i class="fa-solid fa-book-open-reader"></i> BACA SEKARANG DI WEB
+                  </a>
+                @endif
+                @if($dItem->product && $dItem->product->digital_file_url)
+                  <a href="{{ $dItem->product->digital_file_url }}" target="_blank" class="btn" style="background: rgba(255, 255, 255, 0.12); color: #FFF; border: 1px solid rgba(255, 255, 255, 0.25); padding: 9px 16px; font-size: 0.78rem; text-decoration: none; border-radius: 4px; display: inline-flex; align-items: center; gap: 6px;">
+                    <i class="fa-solid fa-download"></i> Unduh PDF
+                  </a>
+                @endif
+              </div>
             </div>
           @endforeach
         </div>

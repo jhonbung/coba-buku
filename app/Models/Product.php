@@ -25,6 +25,7 @@ class Product extends Model
         'cover_image',
         'gallery_images',
         'synopsis',
+        'content',
         'genre',
         'pages',
         'weight_grams',

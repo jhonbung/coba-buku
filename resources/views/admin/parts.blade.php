@@ -79,10 +79,13 @@
                   </div>
                 </div>
 
-                <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
                   <span style="font-size: 1.05rem; font-weight: 700; color: #15803D;">
                     {{ $part->formatted_price }}
                   </span>
+                  <a href="{{ route('reader.show', $part->slug) }}" target="_blank" style="background: #F0FDF4; color: #166534; border: 1px solid #BBF7D0; padding: 6px 10px; border-radius: 4px; font-size: 0.75rem; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;" title="Preview Web Novel Reader">
+                    <i class="fa-solid fa-book-open"></i> Baca
+                  </a>
                   <a href="{{ route('admin.products.edit', $part->id) }}" style="background: #EEF2FF; color: #4338CA; border: 1px solid #C7D2FE; padding: 6px 10px; border-radius: 4px; font-size: 0.75rem; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;" title="Edit Sinopsis & Harga Part">
                     <i class="fa-solid fa-pen-to-square"></i> Edit
                   </a>
@@ -158,6 +161,15 @@
               Atau Tautan Akses Google Drive
             </label>
             <input type="url" name="digital_file_url" placeholder="https://drive.google.com/file/d/..." style="width: 100%; padding: 10px 14px; border: 1px solid var(--soft-beige); border-radius: 4px; font-size: 0.88rem;">
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <label style="display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem; font-weight: 700; color: #1E293B; margin-bottom: 4px;">
+              <span><i class="fa-solid fa-book-open-reader" style="color: var(--champagne-gold);"></i> Isi Naskah Bab (Web Reader)</span>
+              <span style="font-size: 0.72rem; color: #2563EB; font-weight: normal;">Bisa Dibaca Langsung di Web</span>
+            </label>
+            <textarea name="content" rows="6" placeholder="Ketik atau tempel teks cerita bab ini di sini. Pembeli yang sudah bayar akan dapat membacanya langsung di web..." style="width: 100%; padding: 10px 14px; border: 1px solid var(--soft-beige); border-radius: 4px; font-size: 0.88rem; box-sizing: border-box; font-family: inherit; resize: vertical; line-height: 1.6;"></textarea>
+            <span style="font-size: 0.72rem; color: #64748B;">*Mendukung pemisahan paragraf & dialog otomatis untuk pengalaman membaca yang nyaman.</span>
           </div>
 
           <button type="submit" class="btn btn-gold" style="width: 100%; padding: 12px; font-size: 0.88rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px;">

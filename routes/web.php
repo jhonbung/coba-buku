@@ -21,10 +21,11 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/novels', [NovelController::class, 'index'])->name('novels.index');
 Route::get('/novels/{slug}', [NovelController::class, 'show'])->name('novels.show');
 
-// 3. E-Books
+// 3. E-Books & Web Reader
 Route::get('/ebooks', [EbookController::class, 'index'])->name('ebooks.index');
 Route::get('/ebooks/{slug}', [EbookController::class, 'show'])->name('ebooks.show');
 Route::get('/ebooks/download/{id}', [EbookController::class, 'downloadDemo'])->name('ebooks.download');
+Route::get('/reader/{slug}', [EbookController::class, 'reader'])->name('reader.show');
 
 // 4. Merchandise
 Route::get('/merchandise', [MerchandiseController::class, 'index'])->name('merchandise.index');

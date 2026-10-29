@@ -522,6 +522,7 @@ class AdminController extends Controller
             'digital_file_url' => 'nullable|string',
             'ebook_file' => 'nullable|file|mimes:pdf,epub,zip|max:51200',
             'synopsis' => 'nullable|string',
+            'content' => 'nullable|string',
         ]);
 
         $fileUrl = $request->input('digital_file_url');
@@ -557,6 +558,7 @@ class AdminController extends Controller
             'stock' => 9999,
             'cover_image' => $parent->cover_image,
             'synopsis' => $request->filled('synopsis') ? trim($request->input('synopsis')) : "Part serial digital untuk judul {$parent->title}",
+            'content' => $request->input('content'),
             'genre' => $parent->genre,
             'digital_file_type' => $fileType,
             'digital_file_url' => $fileUrl,

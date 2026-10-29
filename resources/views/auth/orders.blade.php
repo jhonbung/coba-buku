@@ -72,11 +72,18 @@
                     </div>
                   </div>
 
-                  <div style="display: flex; align-items: center; gap: 14px;">
-                    @if($item->digital_access_url && $order->payment_status === 'paid')
-                      <a href="{{ $item->digital_access_url }}" target="_blank" class="btn btn-outline" style="padding: 4px 12px; font-size: 0.75rem; border-radius: 4px; color: #16A34A; border-color: #86EFAC;">
-                        <i class="fa-solid fa-download"></i> Unduh E-Book
-                      </a>
+                  <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    @if($order->payment_status === 'paid' && ($item->product?->category === 'ebook' || $item->digital_access_url))
+                      @if($item->product)
+                        <a href="{{ route('reader.show', ['slug' => $item->product->slug, 'order' => $order->order_number]) }}" class="btn btn-gold" style="padding: 5px 12px; font-size: 0.76rem; border-radius: 4px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px;">
+                          <i class="fa-solid fa-book-open-reader"></i> Baca Online
+                        </a>
+                      @endif
+                      @if($item->digital_access_url)
+                        <a href="{{ $item->digital_access_url }}" target="_blank" class="btn btn-outline" style="padding: 4px 10px; font-size: 0.74rem; border-radius: 4px; color: #16A34A; border-color: #86EFAC; display: inline-flex; align-items: center; gap: 4px;">
+                          <i class="fa-solid fa-download"></i> Unduh PDF
+                        </a>
+                      @endif
                     @endif
                     <span style="font-weight: 700; color: var(--ocean-navy); font-size: 0.9rem;">
                       Rp {{ number_format($item->subtotal, 0, ',', '.') }}

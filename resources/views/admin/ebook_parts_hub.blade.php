@@ -123,7 +123,10 @@
                       <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0;">
                         <span style="font-weight: 800; color: #15803D; font-size: 0.88rem;">{{ $part->formatted_price }}</span>
                         <div style="display: flex; align-items: center; gap: 5px;">
-                          <a href="{{ route('admin.products.edit', $part->id) }}" style="background: #EEF2FF; color: #4338CA; border: 1px solid #C7D2FE; padding: 3px 8px; border-radius: 4px; font-size: 0.72rem; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 3px;" title="Edit Sinopsis & Detail Part">
+                          <a href="{{ route('reader.show', $part->slug) }}" target="_blank" style="background: #F0FDF4; color: #166534; border: 1px solid #BBF7D0; padding: 3px 8px; border-radius: 4px; font-size: 0.72rem; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 3px;" title="Preview Web Novel Reader">
+                            <i class="fa-solid fa-book-open"></i> Baca
+                          </a>
+                          <a href="{{ route('admin.products.edit', $part->id) }}" style="background: #EEF2FF; color: #4338CA; border: 1px solid #C7D2FE; padding: 3px 8px; border-radius: 4px; font-size: 0.72rem; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 3px;" title="Edit Sinopsis, Teks Cerita & Detail Part">
                             <i class="fa-solid fa-pen-to-square"></i> Edit
                           </a>
                           <form action="{{ route('admin.products.parts.destroy', $part->id) }}" method="POST" onsubmit="return confirm('Hapus part {{ $part->title }}?');" style="margin: 0;">
@@ -260,9 +263,9 @@
       </div>
 
       <!-- Field 5: File Access Section (Clean Box) -->
-      <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 16px; margin-bottom: 22px;">
+      <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 16px; margin-bottom: 16px;">
         <span style="font-size: 0.75rem; font-weight: 700; color: #334155; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px; margin-bottom: 12px;">
-          <i class="fa-solid fa-file-arrow-up" style="color: var(--champagne-gold);"></i> Berkas Digital Part:
+          <i class="fa-solid fa-file-arrow-up" style="color: var(--champagne-gold);"></i> Berkas Digital Part (Opsional):
         </span>
         
         <div style="margin-bottom: 12px;">
@@ -278,6 +281,22 @@
           </label>
           <input type="url" name="digital_file_url" placeholder="https://drive.google.com/file/d/..." style="width: 100%; padding: 9px 12px; border: 1.5px solid #CBD5E1; border-radius: 6px; font-size: 0.85rem; box-sizing: border-box; background: #FFFFFF; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--champagne-gold)'" onblur="this.style.borderColor='#CBD5E1'">
         </div>
+      </div>
+
+      <!-- Field 6: Isi Naskah Cerita Bab (Untuk Pembaca Web Novel / Online Reader) -->
+      <div style="margin-bottom: 22px;">
+        <label style="display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; font-weight: 700; color: #1E293B; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">
+          <span style="display: flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-book-open-reader" style="color: var(--champagne-gold);"></i> Isi Naskah Cerita Bab (Web Reader)
+          </span>
+          <span style="font-size: 0.72rem; color: #2563EB; font-weight: 600; text-transform: none;">
+            ✨ Pembeli Dapat Membaca Langsung di Web
+          </span>
+        </label>
+        <textarea name="content" id="modal_part_content" rows="6" placeholder="Ketik atau tempel teks naskah cerita bab ini di sini... Pembeli yang telah terkonfirmasi pembayarannya akan dapat langsung membaca bab ini di halaman Web Reader yang nyaman layaknya membaca novel sungguhan." style="width: 100%; padding: 12px 14px; border: 1.5px solid #CBD5E1; border-radius: 8px; font-size: 0.88rem; box-sizing: border-box; font-family: inherit; resize: vertical; line-height: 1.6; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--champagne-gold)'" onblur="this.style.borderColor='#CBD5E1'"></textarea>
+        <span style="font-size: 0.72rem; color: #64748B; margin-top: 4px; display: block;">
+          *Mendukung paragraf dan dialog. Format teks akan ditata rapi secara otomatis di Web Novel Reader dengan proteksi anti copy-paste.
+        </span>
       </div>
 
       <!-- Modal Action Buttons -->
@@ -310,6 +329,8 @@
     const firstId = document.getElementById('modal_parent_select').value;
     updateModalTarget(firstId);
     document.getElementById('modal_part_synopsis').value = '';
+    const contentEl = document.getElementById('modal_part_content');
+    if (contentEl) contentEl.value = '';
   }
 
   function openQuickUploadForTitle(parentId, title) {
