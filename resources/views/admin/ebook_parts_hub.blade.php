@@ -92,42 +92,48 @@
               </span>
 
               @if($parts->count() > 0)
-                <div style="display: flex; flex-direction: column; gap: 8px;">
+                <div style="display: flex; flex-direction: column; gap: 10px;">
                   @foreach($parts as $part)
-                    <div style="background: #FAF8F5; border: 1px solid var(--soft-beige); border-radius: 6px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem;">
-                      <div style="display: flex; align-items: center; gap: 10px;">
-                        <span style="width: 24px; height: 24px; border-radius: 50%; background: {{ $part->part_number ? '#DBEAFE' : '#FEF3C7' }}; color: {{ $part->part_number ? '#1D4ED8' : '#B45309' }}; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; flex-shrink: 0;">
-                          {{ $part->part_number ?: 'F' }}
+                    <div style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 8px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; transition: border-color 0.2s;" onmouseover="this.style.borderColor='var(--champagne-gold)'" onmouseout="this.style.borderColor='#E2E8F0'">
+                      <div style="display: flex; align-items: flex-start; gap: 12px; flex: 1; min-width: 0;">
+                        <span style="width: 28px; height: 28px; border-radius: 6px; background: {{ $part->part_number ? '#EFF6FF' : '#FEF3C7' }}; color: {{ $part->part_number ? '#1D4ED8' : '#B45309' }}; border: 1px solid {{ $part->part_number ? '#BFDBFE' : '#FDE68A' }}; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 800; flex-shrink: 0; margin-top: 1px;">
+                          {{ $part->part_number ? 'P' . $part->part_number : 'FULL' }}
                         </span>
-                        <div>
-                          <strong style="color: #0F172A; display: block; line-height: 1.2;">{{ $part->title }}</strong>
+                        <div style="flex: 1; min-width: 0;">
+                          <div style="display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap;">
+                            <strong style="color: #0F172A; font-size: 0.88rem; font-weight: 700; line-height: 1.2;">{{ $part->title }}</strong>
+                            <span style="font-size: 0.7rem;">
+                              @if($part->digital_file_url)
+                                <span style="color: #16A34A; font-weight: 600;"><i class="fa-brands fa-google-drive"></i> File Siap</span>
+                              @else
+                                <span style="color: #DC2626; font-weight: 600;"><i class="fa-solid fa-triangle-exclamation"></i> Tanpa File</span>
+                              @endif
+                            </span>
+                          </div>
+
                           @if($part->synopsis)
-                            <div style="font-size: 0.73rem; color: #475569; margin-top: 3px; line-height: 1.4;">
-                              <span style="font-weight: 600; color: #0284C7;"><i class="fa-solid fa-feather-pointed"></i> Sinopsis:</span> {{ Str::limit($part->synopsis, 80) }}
+                            <div style="font-size: 0.75rem; color: #475569; margin-top: 5px; line-height: 1.45; background: #F8FAFC; border-left: 2.5px solid var(--champagne-gold); padding: 5px 9px; border-radius: 0 4px 4px 0;">
+                              <span style="color: #0369A1; font-weight: 700; font-size: 0.68rem; text-transform: uppercase;"><i class="fa-solid fa-feather-pointed"></i> Sinopsis:</span>
+                              {{ Str::limit($part->synopsis, 95) }}
                             </div>
                           @endif
-                          <span style="font-size: 0.7rem; color: #64748B; margin-top: 3px; display: block;">
-                            @if($part->digital_file_url)
-                              <i class="fa-brands fa-google-drive" style="color: #16A34A;"></i> Terhubung Drive/File
-                            @else
-                              <i class="fa-solid fa-triangle-exclamation" style="color: #EF4444;"></i> Belum ada link file
-                            @endif
-                          </span>
                         </div>
                       </div>
 
-                      <div style="display: flex; align-items: center; gap: 8px;">
-                        <span style="font-weight: 700; color: #15803D;">{{ $part->formatted_price }}</span>
-                        <a href="{{ route('admin.products.edit', $part->id) }}" style="background: #EEF2FF; color: #4338CA; border: 1px solid #C7D2FE; padding: 4px 8px; border-radius: 4px; font-size: 0.72rem; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;" title="Edit Sinopsis & Detail Part">
-                          <i class="fa-solid fa-pen-to-square"></i> Edit
-                        </a>
-                        <form action="{{ route('admin.products.parts.destroy', $part->id) }}" method="POST" onsubmit="return confirm('Hapus part {{ $part->title }}?');" style="margin: 0;">
-                          @csrf
-                          @method('DELETE')
-                          <button type="submit" style="background: none; border: none; color: #DC2626; cursor: pointer; padding: 4px; font-size: 0.75rem;" title="Hapus Part">
-                            <i class="fa-regular fa-trash-can"></i>
-                          </button>
-                        </form>
+                      <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0;">
+                        <span style="font-weight: 800; color: #15803D; font-size: 0.88rem;">{{ $part->formatted_price }}</span>
+                        <div style="display: flex; align-items: center; gap: 5px;">
+                          <a href="{{ route('admin.products.edit', $part->id) }}" style="background: #EEF2FF; color: #4338CA; border: 1px solid #C7D2FE; padding: 3px 8px; border-radius: 4px; font-size: 0.72rem; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 3px;" title="Edit Sinopsis & Detail Part">
+                            <i class="fa-solid fa-pen-to-square"></i> Edit
+                          </a>
+                          <form action="{{ route('admin.products.parts.destroy', $part->id) }}" method="POST" onsubmit="return confirm('Hapus part {{ $part->title }}?');" style="margin: 0;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" style="background: #FEE2E2; border: 1px solid #FECACA; color: #DC2626; cursor: pointer; padding: 3px 6px; border-radius: 4px; font-size: 0.7rem;" title="Hapus Part">
+                              <i class="fa-regular fa-trash-can"></i>
+                            </button>
+                          </form>
+                        </div>
                       </div>
                     </div>
                   @endforeach
@@ -191,65 +197,95 @@
 </div>
 
 <!-- QUICK UPLOAD MODAL -->
-<div id="quickUploadModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 9999; align-items: center; justify-content: center; padding: 20px;">
-  <div style="background: #FFFFFF; border-radius: 10px; max-width: 520px; width: 100%; padding: 28px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); border: 1px solid var(--champagne-gold);">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid #E2E8F0;">
-      <h3 style="font-family: var(--font-display); font-size: 1.3rem; color: #0F172A; margin: 0; display: flex; align-items: center; gap: 8px;">
+<div id="quickUploadModal" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(5px); z-index: 99999; align-items: center; justify-content: center; padding: 20px;">
+  <div style="background: #FFFFFF; border-radius: 14px; max-width: 560px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 28px 32px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35); border: 1px solid #E2E8F0; position: relative;">
+    
+    <!-- Modal Header -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid #F1F5F9;">
+      <h3 style="font-family: var(--font-display); font-size: 1.35rem; color: #0F172A; margin: 0; display: flex; align-items: center; gap: 10px;">
         <i class="fa-solid fa-cloud-arrow-up" style="color: var(--champagne-gold);"></i> Upload Part E-Book Baru
       </h3>
-      <button type="button" onclick="closeQuickUploadModal()" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #64748B;">&times;</button>
+      <button type="button" onclick="closeQuickUploadModal()" style="background: none; border: none; font-size: 1.5rem; line-height: 1; cursor: pointer; color: #94A3B8; padding: 0 4px;" title="Tutup">&times;</button>
     </div>
 
     <form id="quickUploadForm" action="" method="POST" enctype="multipart/form-data">
       @csrf
-      <div style="margin-bottom: 14px;">
-        <label style="display: block; font-size: 0.82rem; font-weight: 600; color: #1E293B; margin-bottom: 4px;">Pilih Judul Buku Induk *</label>
-        <select id="modal_parent_select" onchange="updateModalTarget(this.value)" style="width: 100%; padding: 10px 14px; border: 1px solid #CBD5E1; border-radius: 6px; font-size: 0.88rem; background: #FFF;">
+
+      <!-- Field 1: Pilih Judul Buku Induk -->
+      <div style="margin-bottom: 16px;">
+        <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">
+          Pilih Judul Buku Induk *
+        </label>
+        <select id="modal_parent_select" onchange="updateModalTarget(this.value)" style="width: 100%; padding: 10px 14px; border: 1.5px solid #CBD5E1; border-radius: 8px; font-size: 0.88rem; background: #FFF; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--champagne-gold)'" onblur="this.style.borderColor='#CBD5E1'">
           @foreach($allParentTitles as $pt)
             <option value="{{ $pt->id }}" data-title="{{ $pt->title }}">{{ $pt->title }} ({{ $pt->series_name }})</option>
           @endforeach
         </select>
       </div>
 
-      <div style="margin-bottom: 14px;">
-        <label style="display: block; font-size: 0.82rem; font-weight: 600; color: #1E293B; margin-bottom: 4px;">Judul Part *</label>
-        <input type="text" name="title" id="modal_part_title" required placeholder="Contoh: Mantra — Part 4 (Bab 16 s/d 20)" style="width: 100%; padding: 10px 14px; border: 1px solid #CBD5E1; border-radius: 6px; font-size: 0.88rem;">
-      </div>
-
-      <div style="margin-bottom: 14px;">
-        <label style="display: block; font-size: 0.82rem; font-weight: 600; color: #1E293B; margin-bottom: 4px;">
-          Sinopsis Part / Ringkasan Cerita Bab
+      <!-- Field 2: Judul Part -->
+      <div style="margin-bottom: 16px;">
+        <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">
+          Judul Part *
         </label>
-        <textarea name="synopsis" id="modal_part_synopsis" rows="3" placeholder="Tuliskan sinopsis singkat cerita pada part bab ini agar terbaca oleh customer..." style="width: 100%; padding: 10px 14px; border: 1px solid #CBD5E1; border-radius: 6px; font-size: 0.88rem; box-sizing: border-box; line-height: 1.5; font-family: inherit; resize: vertical;"></textarea>
-        <span style="font-size: 0.72rem; color: #64748B;">*Sinopsis ini akan langsung ditampilkan kepada pembeli di halaman e-book customer.</span>
+        <input type="text" name="title" id="modal_part_title" required placeholder="Contoh: Mantra — Part 4 (Bab 16 s/d 20)" style="width: 100%; padding: 10px 14px; border: 1.5px solid #CBD5E1; border-radius: 8px; font-size: 0.88rem; box-sizing: border-box; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--champagne-gold)'" onblur="this.style.borderColor='#CBD5E1'">
       </div>
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+      <!-- Field 3: Sinopsis Part (Tepat di bawah Judul) -->
+      <div style="margin-bottom: 16px;">
+        <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">
+          <i class="fa-solid fa-feather-pointed" style="color: var(--champagne-gold);"></i> Sinopsis Part / Ringkasan Bab
+        </label>
+        <textarea name="synopsis" id="modal_part_synopsis" rows="3" placeholder="Tuliskan sinopsis singkat atau ringkasan cerita pada part bab ini agar terbaca oleh customer..." style="width: 100%; padding: 10px 14px; border: 1.5px solid #CBD5E1; border-radius: 8px; font-size: 0.88rem; box-sizing: border-box; line-height: 1.55; font-family: inherit; resize: vertical; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--champagne-gold)'" onblur="this.style.borderColor='#CBD5E1'"></textarea>
+        <span style="font-size: 0.72rem; color: #64748B; margin-top: 4px; display: block;">
+          *Sinopsis ini akan langsung ditampilkan kepada pembeli di halaman e-book customer.
+        </span>
+      </div>
+
+      <!-- Field 4: Nomor Part & Harga Part (2 Kolom) -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px;">
         <div>
-          <label style="display: block; font-size: 0.82rem; font-weight: 600; color: #1E293B; margin-bottom: 4px;">Nomor Part</label>
-          <input type="number" name="part_number" id="modal_part_number" placeholder="4" style="width: 100%; padding: 10px 14px; border: 1px solid #CBD5E1; border-radius: 6px; font-size: 0.88rem;">
+          <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">
+            Nomor Part (Angka)
+          </label>
+          <input type="number" name="part_number" id="modal_part_number" placeholder="4" style="width: 100%; padding: 10px 14px; border: 1.5px solid #CBD5E1; border-radius: 8px; font-size: 0.88rem; box-sizing: border-box; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--champagne-gold)'" onblur="this.style.borderColor='#CBD5E1'">
+          <span style="font-size: 0.7rem; color: #94A3B8; margin-top: 2px; display: block;">Kosongkan jika edisi Full Novel.</span>
         </div>
         <div>
-          <label style="display: block; font-size: 0.82rem; font-weight: 600; color: #1E293B; margin-bottom: 4px;">Harga Part (Rp) *</label>
-          <input type="number" name="price" value="15000" required placeholder="15000" style="width: 100%; padding: 10px 14px; border: 1px solid #CBD5E1; border-radius: 6px; font-size: 0.88rem;">
+          <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">
+            Harga Part (Rp) *
+          </label>
+          <input type="number" name="price" value="15000" required placeholder="15000" style="width: 100%; padding: 10px 14px; border: 1.5px solid #CBD5E1; border-radius: 8px; font-size: 0.88rem; box-sizing: border-box; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--champagne-gold)'" onblur="this.style.borderColor='#CBD5E1'">
         </div>
       </div>
 
-      <div style="margin-bottom: 14px;">
-        <label style="display: block; font-size: 0.82rem; font-weight: 600; color: #1E293B; margin-bottom: 4px;">Upload File PDF Part</label>
-        <input type="file" name="ebook_file" accept=".pdf,.epub,.zip" style="width: 100%; padding: 8px; border: 1px dashed #CBD5E1; border-radius: 6px; font-size: 0.82rem; background: #FAF8F5;">
+      <!-- Field 5: File Access Section (Clean Box) -->
+      <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 16px; margin-bottom: 22px;">
+        <span style="font-size: 0.75rem; font-weight: 700; color: #334155; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px; margin-bottom: 12px;">
+          <i class="fa-solid fa-file-arrow-up" style="color: var(--champagne-gold);"></i> Berkas Digital Part:
+        </span>
+        
+        <div style="margin-bottom: 12px;">
+          <label style="display: block; font-size: 0.78rem; font-weight: 600; color: #475569; margin-bottom: 4px;">
+            Upload File PDF Part (Disimpan di Server)
+          </label>
+          <input type="file" name="ebook_file" accept=".pdf,.epub,.zip" style="width: 100%; padding: 8px 12px; border: 1.5px dashed #CBD5E1; border-radius: 6px; font-size: 0.82rem; background: #FFFFFF; box-sizing: border-box;">
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 0.78rem; font-weight: 600; color: #475569; margin-bottom: 4px;">
+            Atau Tautan Google Drive Resmi
+          </label>
+          <input type="url" name="digital_file_url" placeholder="https://drive.google.com/file/d/..." style="width: 100%; padding: 9px 12px; border: 1.5px solid #CBD5E1; border-radius: 6px; font-size: 0.85rem; box-sizing: border-box; background: #FFFFFF; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--champagne-gold)'" onblur="this.style.borderColor='#CBD5E1'">
+        </div>
       </div>
 
-      <div style="margin-bottom: 18px;">
-        <label style="display: block; font-size: 0.82rem; font-weight: 600; color: #1E293B; margin-bottom: 4px;">Atau Tautan Google Drive</label>
-        <input type="url" name="digital_file_url" placeholder="https://drive.google.com/file/d/..." style="width: 100%; padding: 10px 14px; border: 1px solid #CBD5E1; border-radius: 6px; font-size: 0.88rem;">
-      </div>
-
-      <div style="display: flex; gap: 10px;">
-        <button type="button" onclick="closeQuickUploadModal()" style="flex: 1; padding: 12px; border: 1px solid #CBD5E1; background: #FFF; border-radius: 6px; font-size: 0.88rem; font-weight: 600; cursor: pointer; color: #475569;">
+      <!-- Modal Action Buttons -->
+      <div style="display: flex; gap: 10px; justify-content: flex-end;">
+        <button type="button" onclick="closeQuickUploadModal()" style="padding: 10px 18px; border: 1px solid #CBD5E1; background: #F1F5F9; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; color: #475569;">
           Batal
         </button>
-        <button type="submit" class="btn btn-gold" style="flex: 2; padding: 12px; font-size: 0.88rem; font-weight: 700; border-radius: 6px;">
+        <button type="submit" class="btn btn-gold" style="padding: 10px 24px; font-size: 0.85rem; font-weight: 700; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 12px rgba(198, 161, 107, 0.35);">
           <i class="fa-solid fa-check"></i> Simpan & Publikasikan Part
         </button>
       </div>

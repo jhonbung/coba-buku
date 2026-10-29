@@ -178,58 +178,61 @@
         </div>
 
         @if($chapterParts->count() > 0)
-          <div style="display: flex; flex-direction: column; gap: 16px;">
+          <div style="display: flex; flex-direction: column; gap: 18px;">
             @foreach($chapterParts as $part)
-              <div style="background: var(--white); border: 1.5px solid var(--soft-beige); border-radius: var(--radius-sm); padding: 20px 24px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; transition: all 0.2s;" onmouseover="this.style.borderColor='var(--champagne-gold)'; this.style.boxShadow='var(--shadow-sm)';" onmouseout="this.style.borderColor='var(--soft-beige)'; this.style.boxShadow='none';">
+              <div style="background: var(--white); border: 1.5px solid var(--soft-beige); border-radius: var(--radius-md); padding: 22px 26px; transition: all 0.25s ease; box-shadow: 0 2px 6px rgba(0,0,0,0.02);" onmouseover="this.style.borderColor='var(--champagne-gold)'; this.style.boxShadow='0 8px 24px rgba(198, 161, 107, 0.15)';" onmouseout="this.style.borderColor='var(--soft-beige)'; this.style.boxShadow='0 2px 6px rgba(0,0,0,0.02)';">
                 
-                <div style="display: flex; align-items: flex-start; gap: 14px; flex: 1; min-width: 280px;">
-                  <div style="width: 40px; height: 40px; border-radius: 8px; background: #EFF6FF; color: #2563EB; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; flex-shrink: 0; margin-top: 2px;">
-                    <i class="fa-solid fa-file-lines"></i>
+                <!-- Row 1: Header (Badge, Title, Price, Buy Button) -->
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 12px;">
+                  <div style="display: flex; align-items: center; gap: 12px; flex: 1; min-width: 260px;">
+                    <span style="font-size: 0.75rem; font-weight: 800; background: linear-gradient(135deg, #172B49 0%, #1c365d 100%); color: var(--champagne-gold); border: 1px solid var(--champagne-gold); padding: 4px 10px; border-radius: 6px; letter-spacing: 0.5px; flex-shrink: 0;">
+                      PART {{ $part->part_number ?? $loop->iteration }}
+                    </span>
+                    <h4 style="font-family: var(--font-serif); font-size: 1.25rem; color: var(--ocean-navy); margin: 0; font-weight: 700; line-height: 1.3;">
+                      {{ $part->title }}
+                    </h4>
                   </div>
-                  <div style="flex: 1;">
-                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap;">
-                      <span style="font-size: 0.72rem; font-weight: 700; background: var(--ivory); color: var(--ocean-navy); border: 1px solid var(--soft-beige); padding: 2px 8px; border-radius: 4px;">
-                        Part {{ $part->part_number ?? $loop->iteration }}
+
+                  <div style="display: flex; align-items: center; gap: 16px; flex-shrink: 0;">
+                    <div style="text-align: right;">
+                      <span style="font-size: 1.35rem; font-weight: 800; color: #15803D; display: block; line-height: 1;">
+                        {{ $part->formatted_price }}
                       </span>
-                      <h4 style="font-family: var(--font-serif); font-size: 1.15rem; color: var(--ocean-navy); margin: 0; font-weight: 700;">
-                        {{ $part->title }}
-                      </h4>
+                      <span style="font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Bebas Ongkir · PDF Instan</span>
                     </div>
 
-                    @if($part->synopsis)
-                      <div style="background: #F8FAFC; border-left: 3px solid var(--champagne-gold); padding: 8px 12px; border-radius: 0 6px 6px 0; margin-top: 8px;">
-                        <span style="font-size: 0.7rem; font-weight: 700; color: var(--ocean-navy); text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 5px; margin-bottom: 3px;">
-                          <i class="fa-solid fa-feather-pointed" style="color: var(--champagne-gold);"></i> Sinopsis Part:
-                        </span>
-                        <p style="font-size: 0.84rem; color: #334155; margin: 0; line-height: 1.6;">
-                          {{ $part->synopsis }}
-                        </p>
-                      </div>
-                    @else
-                      <p style="font-size: 0.82rem; color: var(--text-muted); margin: 4px 0 0; line-height: 1.5;">
-                        Akses digital bab e-book resmi karya Bianca Veana Universe.
-                      </p>
-                    @endif
+                    <form action="{{ route('cart.add') }}" method="POST" style="margin: 0;">
+                      @csrf
+                      <input type="hidden" name="product_id" value="{{ $part->id }}">
+                      <input type="hidden" name="quantity" value="1">
+                      <button type="submit" class="btn btn-outline" style="padding: 10px 22px; font-size: 0.85rem; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; border-radius: 6px; border: 1.5px solid var(--champagne-gold); color: var(--ocean-navy); background: #FFFFFF; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='var(--champagne-gold)'; this.style.color='#FFFFFF';" onmouseout="this.style.background='#FFFFFF'; this.style.color='var(--ocean-navy)';">
+                        <i class="fa-solid fa-cart-plus"></i> Beli Part Ini
+                      </button>
+                    </form>
                   </div>
                 </div>
 
-                <div style="display: flex; align-items: center; gap: 16px; margin-left: auto;">
-                  <div style="text-align: right;">
-                    <span style="font-size: 1.25rem; font-weight: 800; color: #15803D; display: block; line-height: 1.2;">
-                      {{ $part->formatted_price }}
-                    </span>
-                    <span style="font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase;">Akses Bab PDF</span>
+                <!-- Row 2: Synopsis Box -->
+                @if($part->synopsis)
+                  <div style="background: #FAF8F5; border: 1px solid #F0EAE1; border-left: 3.5px solid var(--champagne-gold); border-radius: 0 8px 8px 0; padding: 12px 18px; margin-top: 10px;">
+                    <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                      <i class="fa-solid fa-feather-pointed" style="color: var(--champagne-gold); font-size: 0.8rem;"></i>
+                      <span style="font-size: 0.72rem; font-weight: 800; color: var(--ocean-navy); text-transform: uppercase; letter-spacing: 1px;">
+                        Sinopsis Cerita Part:
+                      </span>
+                    </div>
+                    <p style="font-size: 0.88rem; color: #334155; margin: 0; line-height: 1.65;">
+                      {{ $part->synopsis }}
+                    </p>
                   </div>
+                @else
+                  <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 6px; font-style: italic;">
+                    <i class="fa-solid fa-circle-info" style="color: var(--champagne-gold); margin-right: 4px;"></i> Akses digital bab e-book resmi karya Bianca Veana Universe. Berkas siap baca dikirim instan via email.
+                  </div>
+                @endif
 
-                  <form action="{{ route('cart.add') }}" method="POST" style="margin: 0;">
-                    @csrf
-                    <input type="hidden" name="product_id" value="{{ $part->id }}">
-                    <input type="hidden" name="quantity" value="1">
-                    <button type="submit" class="btn btn-outline" style="padding: 10px 20px; font-size: 0.85rem; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; border-radius: 6px; border-color: var(--champagne-gold); color: var(--ocean-navy); cursor: pointer;" onmouseover="this.style.background='var(--champagne-gold)'; this.style.color='var(--white)';" onmouseout="this.style.background='transparent'; this.style.color='var(--ocean-navy)';">
-                      <i class="fa-solid fa-cart-plus"></i> Beli Part Ini
-                    </button>
-                  </form>
-                </div>
+              </div>
+            @endforeach
 
               </div>
             @endforeach
