@@ -236,12 +236,21 @@
             <img src="{{ asset($book->cover_image) }}" alt="Cover {{ $book->title }}">
             <span class="badge-series">{{ $book->subtitle }}</span>
             @if($book->is_preorder)
-              <span class="badge-preorder">PRE-ORDER</span>
+              <span class="badge-preorder" style="background: #F59E0B; color: #0F172A; font-weight: 800; font-size: 0.65rem; padding: 4px 8px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.15);" title="Estimasi Pengiriman 45 - 60 Hari">
+                <i class="fa-solid fa-clock"></i> PO 45-60 HARI
+              </span>
             @endif
           </div>
           <div class="card-details">
             <span class="product-series">{{ $book->series_name }}</span>
             <h3 class="product-title">{{ $book->title }}</h3>
+            @if($book->is_preorder)
+              <div style="margin-top: 3px; margin-bottom: 4px;">
+                <span style="background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; padding: 2px 7px; border-radius: 4px; font-size: 0.68rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+                  <i class="fa-solid fa-clock-rotate-left"></i> PO: 45 - 60 Hari
+                </span>
+              </div>
+            @endif
             <span class="product-author">Oleh {{ $book->author }}</span>
             <div class="product-price-row">
               <span class="price-current">{{ $book->formatted_price }}</span>
@@ -485,12 +494,21 @@
             <img src="{{ asset($item->cover_image) }}" alt="Cover {{ $item->title }}">
             <span class="badge-series">{{ $item->subtitle ?? $item->series_name }}</span>
             @if($item->is_preorder)
-              <span class="badge-preorder">PRE-ORDER</span>
+              <span class="badge-preorder" style="background: #F59E0B; color: #0F172A; font-weight: 800; font-size: 0.65rem; padding: 4px 8px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.15);" title="Estimasi Pengiriman 45 - 60 Hari">
+                <i class="fa-solid fa-clock"></i> PO 45-60 HARI
+              </span>
             @endif
           </div>
           <div class="card-details">
             <span class="product-series">{{ $item->series_name }}</span>
             <h3 class="product-title">{{ $item->title }}</h3>
+            @if($item->is_preorder)
+              <div style="margin-top: 3px; margin-bottom: 4px;">
+                <span style="background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; padding: 2px 7px; border-radius: 4px; font-size: 0.68rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+                  <i class="fa-solid fa-clock-rotate-left"></i> PO: 45 - 60 Hari
+                </span>
+              </div>
+            @endif
             <span class="product-author">Oleh {{ $item->author }}</span>
             <div class="product-price-row">
               <span class="price-current">{{ $item->formatted_price }}</span>

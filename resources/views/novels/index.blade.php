@@ -110,7 +110,9 @@
                   {{ $book->series_number ?? $book->subtitle }}
                 </span>
                 @if($book->is_preorder)
-                  <span class="badge-preorder">PRE-ORDER</span>
+                  <span class="badge-preorder" style="background: #F59E0B; color: #0F172A; font-weight: 800; font-size: 0.65rem; padding: 4px 8px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.15);" title="Estimasi Pengiriman 45 - 60 Hari">
+                    <i class="fa-solid fa-clock"></i> PO 45-60 HARI
+                  </span>
                 @endif
               </div>
               <div class="card-details" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
@@ -125,6 +127,13 @@
                   </div>
                   <h3 class="product-title" style="font-size: 1.05rem; line-height: 1.3;">{{ $book->title }}</h3>
                   <span class="product-author" style="font-size: 0.75rem;">Oleh {{ $book->author }}</span>
+                  @if($book->is_preorder)
+                    <div style="margin-top: 5px;">
+                      <span style="background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; padding: 2px 7px; border-radius: 4px; font-size: 0.68rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+                        <i class="fa-solid fa-clock-rotate-left"></i> Pre-Order: 45 - 60 Hari
+                      </span>
+                    </div>
+                  @endif
                 </div>
 
                 <div style="margin-top: 14px;">
@@ -304,7 +313,9 @@
               <img src="{{ asset($novel->cover_image) }}" alt="Cover {{ $novel->title }}">
               <span class="badge-series">{{ $novel->series_number ?? $novel->subtitle }}</span>
               @if($novel->is_preorder)
-                <span class="badge-preorder">PRE-ORDER</span>
+                <span class="badge-preorder" style="background: #F59E0B; color: #0F172A; font-weight: 800; font-size: 0.65rem; padding: 4px 8px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.15);" title="Estimasi Pengiriman 45 - 60 Hari">
+                  <i class="fa-solid fa-clock"></i> PO 45-60 HARI
+                </span>
               @endif
             </div>
             <div class="card-details" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
@@ -319,6 +330,13 @@
                 </div>
                 <h3 class="product-title" style="font-size: 1.05rem;">{{ $novel->title }}</h3>
                 <span class="product-author" style="font-size: 0.75rem;">Oleh {{ $novel->author }}</span>
+                @if($novel->is_preorder)
+                  <div style="margin-top: 5px;">
+                    <span style="background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; padding: 2px 7px; border-radius: 4px; font-size: 0.68rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+                      <i class="fa-solid fa-clock-rotate-left"></i> Pre-Order: 45 - 60 Hari
+                    </span>
+                  </div>
+                @endif
               </div>
 
               <div style="margin-top: 14px;">

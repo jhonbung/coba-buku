@@ -296,6 +296,11 @@
             <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.88rem;">
               <div>
                 <strong>{{ $item['title'] }}</strong>
+                @if(!empty($item['is_preorder']))
+                  <span style="display: block; font-size: 0.72rem; color: #92400E; font-weight: 700; margin: 2px 0;">
+                    <i class="fa-solid fa-clock-rotate-left"></i> Pre-Order: Estimasi 45 - 60 Hari
+                  </span>
+                @endif
                 <div style="font-size: 0.75rem; color: var(--text-muted);">Qty: {{ $item['quantity'] }} × Rp {{ number_format($item['price'], 0, ',', '.') }}</div>
               </div>
               <div style="font-weight: 600; color: var(--ocean-navy);">

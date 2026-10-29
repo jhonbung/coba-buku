@@ -85,8 +85,8 @@
       <!-- Stock & Delivery Status -->
       <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 24px; flex-wrap: wrap;">
         @if($novel->is_preorder)
-          <span style="color: #B45309; background: #FEF3C7; padding: 8px 16px; border-radius: 6px; font-weight: 600; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 8px; border: 1px solid #FDE68A;">
-            <i class="fa-solid fa-clock"></i> SISTEM PRE-ORDER (Estimasi Pengiriman Batch Pertama)
+          <span style="color: #92400E; background: #FEF3C7; padding: 8px 16px; border-radius: 6px; font-weight: 700; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 8px; border: 1.5px solid #FDE68A; box-shadow: 0 1px 3px rgba(217, 119, 6, 0.1);">
+            <i class="fa-solid fa-clock-rotate-left" style="color: #D97706;"></i> SISTEM PRE-ORDER (Estimasi Pengiriman 45 - 60 Hari)
           </span>
         @elseif($novel->stock > 0)
           <span style="color: #15803D; background: #DCFCE7; padding: 8px 16px; border-radius: 6px; font-weight: 600; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 8px; border: 1px solid #86EFAC;">
@@ -112,6 +112,16 @@
           <i class="fa-solid fa-box"></i> Pesan Buku Cetak Fisik "{{ $novel->title }}":
         </label>
 
+        @if($novel->is_preorder)
+          <div style="background: #FFFBEB; border: 1.5px solid #FDE68A; border-radius: 8px; padding: 14px 18px; margin-bottom: 16px; display: flex; align-items: flex-start; gap: 12px;">
+            <i class="fa-solid fa-calendar-days" style="color: #D97706; font-size: 1.25rem; margin-top: 2px;"></i>
+            <div style="font-size: 0.84rem; color: #92400E; line-height: 1.5;">
+              <strong style="color: #78350F; font-size: 0.9rem; display: block; margin-bottom: 2px;">Keterangan Status Pre-Order (PO)</strong>
+              Buku ini sedang dalam tahap proses produksi percetakan eksklusif. Estimasi waktu proses produksi dan pengiriman pesanan Anda adalah sekitar <strong>45 - 60 hari kerja</strong> setelah pembayaran terkonfirmasi.
+            </div>
+          </div>
+        @endif
+
         <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
           <div style="display: flex; align-items: center; border: 1.5px solid var(--soft-beige); border-radius: 6px; overflow: hidden; background: #FFFFFF;">
             <button type="button" onclick="decrementQty()" style="background: var(--ivory); border: none; padding: 12px 18px; cursor: pointer; font-size: 1.1rem; color: var(--ocean-navy); font-weight: 700; transition: background 0.2s;">-</button>
@@ -120,7 +130,7 @@
           </div>
 
           <button type="submit" class="btn btn-gold" style="flex: 1; padding: 16px 28px; font-size: 0.95rem; font-weight: 700; letter-spacing: 0.5px; box-shadow: 0 4px 15px rgba(198, 161, 107, 0.4);">
-            <i class="fa-solid fa-cart-shopping"></i> TAMBAH NOVEL FISIK KE KERANJANG
+            <i class="fa-solid fa-cart-shopping"></i> {{ $novel->is_preorder ? 'PRE-ORDER SEKARANG (ESTIMASI 45 - 60 HARI)' : 'TAMBAH NOVEL FISIK KE KERANJANG' }}
           </button>
         </div>
         <div style="font-size: 0.74rem; color: var(--text-muted); margin-top: 10px;">

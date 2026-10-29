@@ -99,8 +99,8 @@
                   <strong style="color: #0F172A; font-size: 0.95rem; display: block; line-height: 1.3; margin-bottom: 2px;">{{ $prod->title }}</strong>
                   <div style="font-size: 0.75rem; color: #64748B;">{{ $prod->author }}</div>
                   @if($prod->is_preorder)
-                    <span style="font-size: 0.65rem; background: #FEF3C7; color: #92400E; padding: 2px 6px; border-radius: 4px; font-weight: 700; display: inline-block; margin-top: 4px; border: 1px solid #FCD34D;">
-                      <i class="fa-solid fa-clock"></i> PRE-ORDER
+                    <span style="font-size: 0.65rem; background: #FEF3C7; color: #92400E; padding: 2px 6px; border-radius: 4px; font-weight: 700; display: inline-block; margin-top: 4px; border: 1px solid #FCD34D;" title="Estimasi Pengiriman 45 - 60 Hari di Tampilan Customer">
+                      <i class="fa-solid fa-clock-rotate-left"></i> PRE-ORDER (45-60 Hari)
                     </span>
                   @endif
                 </div>

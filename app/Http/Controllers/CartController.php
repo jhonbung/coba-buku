@@ -159,6 +159,7 @@ class CartController extends Controller
                 'cover_image' => $p->cover_image,
                 'quantity' => $item->quantity,
                 'weight_grams' => $weight,
+                'is_preorder' => (bool) $p->is_preorder,
             ];
         }
 

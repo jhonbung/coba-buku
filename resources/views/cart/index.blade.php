@@ -44,6 +44,13 @@
                             <i class="fa-solid fa-box"></i> NOVEL CETAK FISIK
                           </span>
                         @endif
+                        @if(!empty($item['is_preorder']))
+                          <div style="margin-top: 4px;">
+                            <span style="background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px;">
+                              <i class="fa-solid fa-clock-rotate-left"></i> PRE-ORDER (Estimasi 45 - 60 Hari)
+                            </span>
+                          </div>
+                        @endif
                       </div>
                     </div>
                   </div>

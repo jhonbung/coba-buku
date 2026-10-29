@@ -292,9 +292,9 @@
         <span>Tampilkan di Halaman Utama (Featured)</span>
       </label>
 
-      <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 0.88rem; font-weight: 600; color: #B45309;">
+      <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 0.88rem; font-weight: 600; color: #B45309;" title="Menampilkan keterangan estimasi 45 - 60 hari pada katalog dan halaman produk customer">
         <input type="checkbox" name="is_preorder" value="1" {{ old('is_preorder') ? 'checked' : '' }} style="width: 18px; height: 18px; accent-color: #B45309;">
-        <span>Status Pre-Order (PO)</span>
+        <span>Status Pre-Order (PO) &mdash; <strong style="color: #78350F;">Keterangan 45 - 60 Hari di Customer</strong></span>
       </label>
     </div>
 
