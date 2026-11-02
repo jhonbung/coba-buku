@@ -6,7 +6,9 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\TeaserVideo;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 class AdminController extends Controller
@@ -351,6 +353,21 @@ class AdminController extends Controller
 
         $data['gallery_images'] = !empty($gallery) ? $gallery : null;
 
+        // Auto-check and create 'content' column if missing on server
+        if (array_key_exists('content', $data) && !Schema::hasColumn('products', 'content')) {
+            try {
+                Schema::table('products', function (Blueprint $table) {
+                    $table->longText('content')->nullable()->after('synopsis');
+                });
+            } catch (\Throwable $e) {
+                unset($data['content']);
+            }
+        }
+
+        // Safety filter: strip any fields that don't exist in the database table to prevent 42S22 SQL error
+        $existingCols = Schema::getColumnListing('products');
+        $data = array_intersect_key($data, array_flip($existingCols));
+
         Product::create($data);
 
         return redirect()->route('admin.products')->with('success', 'Produk baru "' . $request->title . '" berhasil ditambahkan ke katalog!');
@@ -460,6 +477,21 @@ class AdminController extends Controller
 
         $newGallery = array_values(array_filter([$img2, $img3]));
         $data['gallery_images'] = !empty($newGallery) ? $newGallery : null;
+
+        // Auto-check and create 'content' column if missing on server
+        if (array_key_exists('content', $data) && !Schema::hasColumn('products', 'content')) {
+            try {
+                Schema::table('products', function (Blueprint $table) {
+                    $table->longText('content')->nullable()->after('synopsis');
+                });
+            } catch (\Throwable $e) {
+                unset($data['content']);
+            }
+        }
+
+        // Safety filter: strip any fields that don't exist in the database table to prevent 42S22 SQL error
+        $existingCols = Schema::getColumnListing('products');
+        $data = array_intersect_key($data, array_flip($existingCols));
 
         $product->update($data);
 
@@ -730,7 +762,7 @@ class AdminController extends Controller
             $slug .= '-' . time();
         }
 
-        Product::create([
+        $partData = [
             'parent_id' => $parent->id,
             'part_number' => $partNum,
             'title' => $request->input('title'),
@@ -749,7 +781,23 @@ class AdminController extends Controller
             'digital_file_type' => $fileType,
             'digital_file_url' => $fileUrl,
             'order_index' => $orderIndex,
-        ]);
+        ];
+
+        // Auto-check and create 'content' column if missing on server
+        if (array_key_exists('content', $partData) && !Schema::hasColumn('products', 'content')) {
+            try {
+                Schema::table('products', function (Blueprint $table) {
+                    $table->longText('content')->nullable()->after('synopsis');
+                });
+            } catch (\Throwable $e) {
+                unset($partData['content']);
+            }
+        }
+
+        $existingCols = Schema::getColumnListing('products');
+        $partData = array_intersect_key($partData, array_flip($existingCols));
+
+        Product::create($partData);
 
         return back()->with('success', "Part e-book \"{$request->title}\" berhasil ditambahkan untuk {$parent->title}!");
     }
