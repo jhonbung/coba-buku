@@ -129,6 +129,11 @@ class ShippingService
      */
     public function calculateCost(int $destinationId, int $weightGrams, string $couriers = 'jne:sicepat:jnt'): array
     {
+        // Destination ID aliases (fix legacy or mismatched IDs to verified Komerce destination IDs)
+        if ($destinationId === 2100) {
+            $destinationId = 73914; // Kota Bandar Lampung (Kedaton/Pusat)
+        }
+
         // Minimum weight 1000g (1 kg)
         $weight = max(1000, $weightGrams);
 
@@ -221,6 +226,28 @@ class ShippingService
 
                     // Sort by cost ascending so the cheapest & most economical options appear first!
                     usort($formattedRates, fn($a, $b) => $a['cost'] <=> $b['cost']);
+
+                    // Anomaly protection: for Java, Bali, Lampung, and Sumatra, regular shipping (1 kg)
+                    // should never exceed Rp 45.000. If an anomalous remote-island rate is returned,
+                    // fall back to verified regional rates.
+                    $province = $this->getProvinceByDestinationId($destinationId);
+                    $nearProvinces = [
+                        'DKI Jakarta', 'Jawa Barat', 'Banten', 'Jawa Tengah',
+                        'DI Yogyakarta', 'Jawa Timur', 'Bali', 'Lampung',
+                        'Sumatera Selatan', 'Sumatera Barat', 'Sumatera Utara',
+                        'Riau & Kep. Riau'
+                    ];
+
+                    $kgCount = (int) ceil($weight / 1000);
+                    $maxReasonableReg = 45000 * $kgCount;
+                    $cheapestReg = collect($formattedRates)
+                        ->whereIn('service', ['REG', 'EZ', 'HALU', 'CTC'])
+                        ->min('cost');
+
+                    if (in_array($province, $nearProvinces) && $cheapestReg && $cheapestReg > $maxReasonableReg) {
+                        Log::warning("Anomalous shipping rate (Rp " . number_format($cheapestReg, 0, ',', '.') . ") for {$province} (ID: {$destinationId}). Using verified regional rates instead.");
+                        return $this->calculateFallbackRates($destinationId, $weight);
+                    }
 
                     if (!empty($formattedRates)) {
                         return $formattedRates;
@@ -570,11 +597,11 @@ class ShippingService
                 ['id' => 28000, 'name' => 'Kabupaten Muara Enim', 'postal' => '31311'],
             ],
             'Lampung' => [
-                ['id' => 2100,  'name' => 'Kota Bandar Lampung', 'postal' => '35112'],
-                ['id' => 26800, 'name' => 'Kota Metro', 'postal' => '34111'],
-                ['id' => 23600, 'name' => 'Kabupaten Lampung Selatan (Kalianda)', 'postal' => '35511'],
-                ['id' => 23650, 'name' => 'Kabupaten Lampung Tengah (Gunung Sugih)', 'postal' => '34111'],
-                ['id' => 23700, 'name' => 'Kabupaten Lampung Timur (Sukadana)', 'postal' => '34194'],
+                ['id' => 73914, 'name' => 'Kota Bandar Lampung', 'postal' => '35112'],
+                ['id' => 74554, 'name' => 'Kota Metro', 'postal' => '34111'],
+                ['id' => 74048, 'name' => 'Kabupaten Lampung Selatan (Kalianda)', 'postal' => '35551'],
+                ['id' => 74945, 'name' => 'Kabupaten Lampung Tengah (Gunung Sugih)', 'postal' => '34159'],
+                ['id' => 75267, 'name' => 'Kabupaten Lampung Timur (Sukadana)', 'postal' => '34389'],
             ],
             'Riau & Kep. Riau' => [
                 ['id' => 35000, 'name' => 'Kota Pekanbaru', 'postal' => '28112'],

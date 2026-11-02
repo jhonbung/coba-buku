@@ -100,12 +100,22 @@ class CheckoutController extends Controller
             return response()->json(['error' => 'Destination ID required'], 422);
         }
 
-        $cart = session()->get('cart', []);
         $totalWeight = 0;
+        if (Auth::guard('web')->check()) {
+            $dbItems = CartItem::with('product')->where('user_id', Auth::guard('web')->id())->get();
+            foreach ($dbItems as $item) {
+                if ($item->product && ($item->product->category === 'novel' || $item->product->category === 'merchandise')) {
+                    $totalWeight += ($item->product->weight_grams ?? 350) * $item->quantity;
+                }
+            }
+        }
 
-        foreach ($cart as $item) {
-            if ($item['category'] === 'novel' || $item['category'] === 'merchandise') {
-                $totalWeight += ($item['weight_grams'] ?? 350) * $item['quantity'];
+        if ($totalWeight === 0) {
+            $cart = session()->get('cart', []);
+            foreach ($cart as $item) {
+                if (($item['category'] ?? '') === 'novel' || ($item['category'] ?? '') === 'merchandise') {
+                    $totalWeight += ($item['weight_grams'] ?? 350) * ($item['quantity'] ?? 1);
+                }
             }
         }
 
