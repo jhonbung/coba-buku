@@ -430,6 +430,25 @@
       align-items: start;
     }
 
+    .admin-video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 24px;
+    }
+
+    .form-row-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .form-row-3col {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+    }
+
     @media (max-width: 1024px) {
       .btn-sidebar-toggle {
         display: inline-flex;
@@ -560,6 +579,15 @@
       .admin-card [style*="grid-template-columns: 1.3fr 0.7fr"] {
         grid-template-columns: 1fr !important;
         gap: 14px !important;
+      }
+      .admin-video-grid {
+        grid-template-columns: 1fr !important;
+        gap: 18px !important;
+      }
+      .form-row-2col,
+      .form-row-3col {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
       }
     }
 

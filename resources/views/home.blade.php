@@ -322,7 +322,7 @@
 
     <div class="teaser-video-card" id="teaser-player-container">
       @if(isset($teaserVideo) && $teaserVideo->video_type === 'youtube' && $teaserVideo->youtube_embed_url)
-        <iframe id="teaserIframe" src="{{ $teaserVideo->youtube_embed_url }}" title="{{ $teaserVideo->title }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="width: 100%; height: 100%; min-height: 480px; border: none; display: block;"></iframe>
+        <iframe id="teaserIframe" src="{{ $teaserVideo->youtube_embed_url }}" title="{{ $teaserVideo->title }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="width: 100%; height: 100%; aspect-ratio: 16 / 9; border: none; display: block;"></iframe>
       @elseif(isset($teaserVideo) && in_array($teaserVideo->video_type, ['file', 'url']) && $teaserVideo->video_path)
         <video id="teaserVideo" controls playsinline preload="metadata" poster="{{ asset($teaserVideo->thumbnail_path ?: 'images/hero-slide-1.jpg') }}" style="width: 100%; height: 100%; object-fit: contain; background: #000;">
           <source src="{{ asset($teaserVideo->video_path) }}" type="video/mp4">
@@ -334,7 +334,7 @@
           Browser Anda tidak mendukung pemutaran video langsung.
         </video>
       @else
-        <div style="width: 100%; height: 100%; min-height: 400px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(circle, #1a2f4d 0%, #0A192F 100%); text-align: center; padding: 30px;">
+        <div style="width: 100%; height: 100%; min-height: 320px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(circle, #1a2f4d 0%, #0A192F 100%); text-align: center; padding: 30px;">
           <div style="width: 72px; height: 72px; border-radius: 50%; background: rgba(198, 161, 107, 0.2); border: 2px solid var(--champagne-gold); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--champagne-gold); margin-bottom: 16px; box-shadow: 0 0 24px rgba(198, 161, 107, 0.35);">
             <i class="fa-solid fa-play" style="margin-left: 4px;"></i>
           </div>
@@ -354,8 +354,8 @@
         <span id="teaser-badge-2"><i class="fa-solid fa-music"></i> {{ $teaserVideo->badge_2 ?? 'Original Soundtrack' }}</span>
         <span id="teaser-badge-3"><i class="fa-solid fa-crown"></i> {{ $teaserVideo->badge_3 ?? 'Official Universe' }}</span>
       </div>
-      <div>
-        <a id="teaser-cta-btn" href="{{ $teaserVideo->cta_link ?? '#notonegoro-series' }}" class="btn btn-gold" style="padding: 10px 22px; font-size: 0.82rem;">
+      <div class="teaser-cta-wrap">
+        <a id="teaser-cta-btn" href="{{ $teaserVideo->cta_link ?? '#notonegoro-series' }}" class="btn btn-gold">
           <i class="fa-solid fa-book"></i> <span id="teaser-cta-text">{{ $teaserVideo->cta_text ?? 'Beli Seri Novel' }}</span>
         </a>
       </div>
@@ -758,7 +758,7 @@
       // Update player container
       const container = document.getElementById('teaser-player-container');
       if (vid.type === 'youtube' && vid.youtube_url) {
-        container.innerHTML = '<iframe src="' + vid.youtube_url + '" title="' + vid.title + '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="width: 100%; height: 100%; min-height: 480px; border: none; display: block;"></iframe>';
+        container.innerHTML = '<iframe src="' + vid.youtube_url + '" title="' + vid.title + '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="width: 100%; height: 100%; aspect-ratio: 16 / 9; border: none; display: block;"></iframe>';
       } else if (vid.video_path) {
         container.innerHTML = '<video controls autoplay playsinline preload="auto" poster="' + vid.poster + '" style="width: 100%; height: 100%; object-fit: contain; background: #000;"><source src="' + vid.video_path + '" type="video/mp4"></video>';
       }

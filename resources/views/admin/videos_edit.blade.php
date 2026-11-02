@@ -65,7 +65,7 @@
         <input type="text" name="title" value="{{ old('title', $video->title) }}" required style="width: 100%; padding: 10px 14px; border: 1px solid #CBD5E1; border-radius: 6px; font-size: 0.92rem;">
       </div>
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+      <div class="form-row-2col">
         <div>
           <label style="display: block; font-size: 0.85rem; font-weight: 600; color: #1E293B; margin-bottom: 6px;">Tagline / Label Atas</label>
           <input type="text" name="tagline" value="{{ old('tagline', $video->tagline) }}" style="width: 100%; padding: 10px 14px; border: 1px solid #CBD5E1; border-radius: 6px; font-size: 0.92rem;">
@@ -158,7 +158,7 @@
         @endif
       </div>
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px;">
+      <div class="form-row-3col">
         <div>
           <label style="display: block; font-size: 0.82rem; font-weight: 600; color: #1E293B; margin-bottom: 4px;">Badge 1</label>
           <input type="text" name="badge_1" value="{{ old('badge_1', $video->badge_1) }}" style="width: 100%; padding: 8px 12px; border: 1px solid #CBD5E1; border-radius: 6px; font-size: 0.85rem;">

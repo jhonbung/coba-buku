@@ -21,13 +21,13 @@
       </p>
     </div>
 
-    <div style="display: flex; gap: 12px; align-items: center;">
+    <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
       <div style="background: #FFFFFF; border: 1px solid #E2E8F0; padding: 10px 18px; border-radius: 8px; font-size: 0.82rem; color: #1E293B; display: flex; align-items: center; gap: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.03);">
         <i class="fa-solid fa-film" style="color: var(--admin-gold);"></i>
         <span>Total: <strong>{{ $videos->count() }} Video</strong></span>
       </div>
 
-      <a href="{{ route('admin.videos.create') }}" class="btn btn-gold" style="font-size: 0.82rem; padding: 11px 22px; font-weight: 700; box-shadow: 0 4px 12px rgba(198, 161, 107, 0.35);">
+      <a href="{{ route('admin.videos.create') }}" class="btn btn-gold" style="font-size: 0.82rem; padding: 11px 22px; font-weight: 700; box-shadow: 0 4px 12px rgba(198, 161, 107, 0.35); white-space: nowrap;">
         <i class="fa-solid fa-plus-circle"></i> Tambah Video Baru
       </a>
     </div>
@@ -51,7 +51,7 @@
     </div>
   @else
     <!-- Video Grid Cards -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 24px;">
+    <div class="admin-video-grid">
       @foreach($videos as $v)
         <div class="admin-card" style="padding: 0; overflow: hidden; border: {{ $v->is_active ? '2px solid var(--admin-gold)' : '1px solid #E2E8F0' }}; position: relative; display: flex; flex-direction: column;">
           
