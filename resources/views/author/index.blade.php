@@ -6,7 +6,7 @@
 <div style="background: radial-gradient(circle at 60% 40%, #1c365d 0%, #172B49 100%); color: var(--ivory); padding: 70px 0; border-bottom: 2px solid var(--champagne-gold);">
   <div class="container text-center" style="text-align: center;">
     <span class="hero-subtitle" style="justify-content: center;"><i class="fa-solid fa-feather"></i> LITERARY CREATOR</span>
-    <h1 style="font-size: 3.2rem; margin: 12px 0;">BIANCA VEANA</h1>
+    <h1 class="page-banner-title">BIANCA VEANA</h1>
     <p style="color: #BAC7D7; max-width: 680px; margin: 0 auto; font-size: 1.1rem; font-style: italic;">
       "Where every story finds its reader, and every heart has a story of its own."
     </p>
@@ -15,7 +15,7 @@
 
 <div class="container" style="padding: 70px 24px;">
   <!-- Bio Grid -->
-  <div style="display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 60px; align-items: center; margin-bottom: 70px;">
+  <div class="product-detail-layout" style="align-items: center; margin-bottom: 70px;">
     <div>
       <div style="background: var(--ocean-navy-deep); padding: 24px; border-radius: var(--radius-md); border: 2px solid var(--champagne-gold); box-shadow: var(--shadow-lg); text-align: center;">
         <img src="{{ asset('images/mantra_boxset.svg') }}" alt="Bianca Veana Universe" style="max-height: 480px; margin: 0 auto; border-radius: var(--radius-sm);">
@@ -56,7 +56,7 @@
     <div class="section-divider"></div>
   </div>
 
-  <div class="series-grid" style="grid-template-columns: repeat(4, 1fr);">
+  <div class="series-grid">
     @foreach($books as $book)
       <div class="product-card" style="background: var(--white);">
         <div class="card-image-wrap">

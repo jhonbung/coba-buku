@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>@yield('title', 'Admin Portal — BIANCA VEANA')</title>
   <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -365,26 +365,207 @@
       align-items: center;
     }
 
-    /* Responsive */
+    /* Responsive Styles for Tablet & Mobile */
+    .admin-sidebar-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 20, 36, 0.65);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 998;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .btn-sidebar-close {
+      display: none;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #FFFFFF;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-sidebar-close:active {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Responsive Grids */
+    .admin-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+
+    .admin-category-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .orders-revenue-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .ebook-hub-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .admin-split-layout {
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 32px;
+      align-items: start;
+    }
+
     @media (max-width: 1024px) {
       .btn-sidebar-toggle {
         display: inline-flex;
         align-items: center;
+        justify-content: center;
       }
       .admin-sidebar {
         position: fixed;
-        left: -260px;
+        left: -280px;
         top: 0;
         bottom: 0;
+        z-index: 999;
+        box-shadow: 0 0 35px rgba(0, 0, 0, 0.45);
+        transition: left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        width: 270px;
       }
       .admin-sidebar.show {
         left: 0;
       }
+      .admin-sidebar-backdrop.show {
+        display: block;
+        opacity: 1;
+      }
+      .btn-sidebar-close {
+        display: flex;
+      }
       .admin-container {
-        padding: 0 20px;
+        padding: 0 20px 40px;
       }
       .admin-topbar {
         padding: 0 20px;
+      }
+      .admin-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+      .admin-category-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .ebook-hub-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+      }
+      .admin-split-layout {
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .admin-topbar {
+        padding: 0 12px;
+        height: 56px;
+      }
+      .admin-breadcrumb-wrap {
+        max-width: 140px;
+        overflow: hidden;
+      }
+      .admin-breadcrumb-prefix {
+        display: none !important;
+      }
+      .admin-breadcrumb-title {
+        font-size: 0.8rem !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+      }
+      .admin-live-clock {
+        display: none !important;
+      }
+      .btn-view-store {
+        padding: 6px 10px !important;
+        font-size: 0.72rem !important;
+      }
+      .btn-view-store-text {
+        display: none;
+      }
+      .admin-container {
+        padding: 0 12px 36px;
+      }
+      .admin-card {
+        padding: 16px !important;
+      }
+      .admin-footer-bar {
+        padding: 16px 12px;
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .admin-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 24px;
+      }
+      .admin-stats-grid .admin-card {
+        padding: 12px 14px !important;
+        border-radius: 10px;
+      }
+      .admin-stats-grid .stat-value {
+        font-size: 1.25rem !important;
+        line-height: 1.2 !important;
+      }
+      .admin-stats-grid .stat-label {
+        font-size: 0.68rem !important;
+        letter-spacing: 0 !important;
+      }
+      .admin-stats-grid .stat-icon {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 0.85rem !important;
+      }
+      .admin-stats-grid .stat-subtitle {
+        font-size: 0.68rem !important;
+        margin-top: 4px !important;
+      }
+      .orders-revenue-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .admin-card [style*="grid-template-columns: 1fr 1fr"],
+      .admin-card [style*="grid-template-columns: repeat(2, 1fr)"],
+      .admin-card [style*="grid-template-columns: repeat(3, 1fr)"],
+      .admin-card [style*="grid-template-columns: 1.3fr 0.7fr"] {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .admin-stats-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -392,23 +573,31 @@
 </head>
 <body>
 
+  <!-- ADMIN SIDEBAR BACKDROP ON MOBILE -->
+  <div class="admin-sidebar-backdrop" id="adminSidebarBackdrop" onclick="toggleAdminSidebar()"></div>
+
   <div class="admin-layout">
 
     <!-- LEFT SIDEBAR -->
     <aside class="admin-sidebar" id="adminSidebar">
       
       <!-- Brand Header -->
-      <a href="{{ route('admin.index') }}" class="admin-sidebar-brand">
-        <div class="admin-logo-mark">
-          <img src="{{ asset('images/logo.png') }}" alt="Bianca Veana Logo">
-        </div>
-        <div class="admin-title-wrap">
-          <h1 class="admin-brand-name">BIANCA VEANA</h1>
-          <span class="admin-scope-badge">
-            <i class="fa-solid fa-shield-halved"></i> CONTROL CENTER
-          </span>
-        </div>
-      </a>
+      <div style="display: flex; align-items: center; justify-content: space-between; padding-right: 14px;">
+        <a href="{{ route('admin.index') }}" class="admin-sidebar-brand" style="flex: 1;">
+          <div class="admin-logo-mark">
+            <img src="{{ asset('images/logo.png') }}" alt="Bianca Veana Logo">
+          </div>
+          <div class="admin-title-wrap">
+            <h1 class="admin-brand-name">BIANCA VEANA</h1>
+            <span class="admin-scope-badge">
+              <i class="fa-solid fa-shield-halved"></i> CONTROL CENTER
+            </span>
+          </div>
+        </a>
+        <button type="button" class="btn-sidebar-close" onclick="toggleAdminSidebar()" title="Tutup Menu">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
 
       <!-- Vertical Sidebar Nav Menu -->
       <nav class="admin-sidebar-nav">
@@ -486,19 +675,19 @@
 
       <!-- TOPBAR -->
       <header class="admin-topbar">
-        <div style="display: flex; align-items: center; gap: 14px;">
+        <div style="display: flex; align-items: center; gap: 12px; min-width: 0;">
           <button type="button" class="btn-sidebar-toggle" onclick="toggleAdminSidebar()" title="Toggle Menu">
             <i class="fa-solid fa-bars"></i>
           </button>
-          <div style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #475569;">
-            <i class="fa-solid fa-house" style="color: var(--admin-gold); font-size: 0.8rem;"></i>
-            <span>Control Center</span>
-            <span style="color: #CBD5E1;">/</span>
-            <strong style="color: #0F172A;">@yield('title', 'Dashboard')</strong>
+          <div class="admin-breadcrumb-wrap" style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: #475569; min-width: 0;">
+            <i class="fa-solid fa-house admin-breadcrumb-prefix" style="color: var(--admin-gold); font-size: 0.8rem;"></i>
+            <span class="admin-breadcrumb-prefix">Control Center</span>
+            <span class="admin-breadcrumb-prefix" style="color: #CBD5E1;">/</span>
+            <strong class="admin-breadcrumb-title" style="color: #0F172A;">@yield('title', 'Dashboard')</strong>
           </div>
         </div>
 
-        <div style="display: flex; align-items: center; gap: 14px;">
+        <div style="display: flex; align-items: center; gap: 12px; flex-shrink: 0;">
           <!-- Live Real-Time Clock WIB -->
           <div class="admin-live-clock" style="display: flex; align-items: center; gap: 8px; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 6px 14px; border-radius: 20px; font-size: 0.78rem; color: #1E293B;" title="Waktu Sinkron Server Indonesia (WIB)">
             <span style="width: 7px; height: 7px; border-radius: 50%; background: #10B981; box-shadow: 0 0 8px #10B981; display: inline-block;"></span>
@@ -507,7 +696,8 @@
           </div>
 
           <a href="{{ route('home') }}" target="_blank" class="btn-view-store" title="Buka Toko Customer">
-            <i class="fa-solid fa-arrow-up-right-from-square"></i> Toko Customer
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            <span class="btn-view-store-text">Toko Customer</span>
           </a>
         </div>
       </header>
@@ -557,7 +747,14 @@
 
     function toggleAdminSidebar() {
       const s = document.getElementById('adminSidebar');
-      if (s) s.classList.toggle('show');
+      const b = document.getElementById('adminSidebarBackdrop');
+      if (s) {
+        const isOpen = s.classList.toggle('show');
+        if (b) {
+          if (isOpen) b.classList.add('show');
+          else b.classList.remove('show');
+        }
+      }
     }
   </script>
   @stack('scripts')

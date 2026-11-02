@@ -15,9 +15,9 @@
 </div>
 
 <div class="container" style="padding: 60px 24px;">
-  <div style="display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 60px; align-items: start;">
+  <div class="product-detail-layout">
     <!-- Left: Book Cover & Badges -->
-    <div style="position: sticky; top: 100px;">
+    <div class="product-detail-sticky">
       <div style="background: var(--ocean-navy-deep); padding: 24px; border-radius: var(--radius-md); border: 2px solid var(--champagne-gold); box-shadow: var(--shadow-lg); text-align: center; position: relative;">
         <img id="mainBookImage" src="{{ asset($novel->cover_image) }}" alt="Cover {{ $novel->title }}" style="max-height: 520px; max-width: 100%; margin: 0 auto; border-radius: var(--radius-sm); box-shadow: 0 10px 25px rgba(0,0,0,0.5); display: block; transition: opacity 0.25s ease;">
       </div>
@@ -55,7 +55,7 @@
       <span style="font-size: 0.8rem; letter-spacing: 3px; color: var(--champagne-gold); text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 8px;">
         {{ $novel->series_name }}
       </span>
-      <h1 style="font-family: var(--font-serif); font-size: 2.8rem; color: var(--ocean-navy); margin-bottom: 10px; line-height: 1.2;">
+      <h1 class="product-detail-title">
         {{ $novel->title }}
       </h1>
       <div style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 24px;">
@@ -65,7 +65,7 @@
       <!-- Price Box -->
       <div style="background: var(--white); padding: 22px 28px; border-radius: var(--radius-md); border: 1.5px solid var(--champagne-gold); margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
         <div style="display: flex; align-items: baseline; gap: 14px;">
-          <span style="font-size: 2.3rem; font-weight: 700; color: var(--ocean-navy);">
+          <span class="product-price-amount">
             {{ $novel->formatted_price }}
           </span>
           @if($novel->original_price)

@@ -15,10 +15,10 @@
 </div>
 
 <div class="container" style="padding: 40px 24px 80px;">
-  <div style="display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 50px; align-items: start;">
+  <div class="product-detail-layout">
     
     <!-- LEFT COLUMN: Book Cover & Digital Features -->
-    <div style="position: sticky; top: 100px;">
+    <div class="product-detail-sticky">
       <div style="background: var(--ocean-navy-deep); padding: 24px; border-radius: var(--radius-md); border: 2px solid var(--champagne-gold); box-shadow: var(--shadow-lg); text-align: center; position: relative;">
         <img src="{{ asset($book->cover_image) }}" alt="Cover E-Book {{ $book->title }}" style="max-height: 480px; max-width: 100%; margin: 0 auto; border-radius: var(--radius-sm); box-shadow: 0 10px 25px rgba(0,0,0,0.5); display: block;">
         
@@ -72,7 +72,7 @@
         {{ $book->series_name ?? 'THE SEVEN NOTONEGORO SERIES' }}
       </span>
 
-      <h1 style="font-family: var(--font-serif); font-size: 2.8rem; color: var(--ocean-navy); margin-bottom: 8px; line-height: 1.15;">
+      <h1 class="product-detail-title">
         {{ $book->title }}
       </h1>
 

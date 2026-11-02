@@ -6,7 +6,7 @@
 <div style="background: linear-gradient(135deg, #172B49 0%, #203A5E 100%); color: var(--ivory); padding: 50px 0; border-bottom: 2px solid var(--champagne-gold);">
   <div class="container text-center" style="text-align: center;">
     <span class="hero-subtitle" style="justify-content: center;"><i class="fa-solid fa-gem"></i> EXCLUSIVE MERCHANDISE</span>
-    <h1 style="font-size: 2.8rem; margin: 10px 0;">MERCHANDISE BIANCA VEANA</h1>
+    <h1 class="page-banner-title">MERCHANDISE BIANCA VEANA</h1>
     <p style="color: #BAC7D7; max-width: 650px; margin: 0 auto;">
       Aksesoris dan cinderamata eksklusif terinspirasi dari dunia The Seven Notonegoro Series: Mantra, Hierarchy, dan Fate.
     </p>
@@ -14,7 +14,7 @@
 </div>
 
 <div class="container" style="padding: 60px 24px;">
-  <div class="series-grid" style="grid-template-columns: repeat(3, 1fr);">
+  <div class="merchandise-grid">
     @foreach($merchandise as $item)
       <div class="product-card" style="background: var(--white);">
         <div class="card-image-wrap" style="aspect-ratio: 1/1;">

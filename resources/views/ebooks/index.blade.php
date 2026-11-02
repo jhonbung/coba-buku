@@ -6,7 +6,7 @@
 <div style="background: radial-gradient(circle at 50% 50%, #1c365d 0%, #172B49 100%); color: var(--ivory); padding: 60px 0; border-bottom: 2px solid var(--champagne-gold);">
   <div class="container" style="text-align: center;">
     <span class="hero-subtitle" style="justify-content: center;"><i class="fa-solid fa-tablet-screen-button"></i> DIGITAL BOOKSTORE</span>
-    <h1 style="font-size: 2.8rem; margin: 10px 0;">E-BOOKS BIANCA VEANA UNIVERSE</h1>
+    <h1 class="page-banner-title">E-BOOKS BIANCA VEANA UNIVERSE</h1>
     <p style="color: #BAC7D7; max-width: 680px; margin: 0 auto; line-height: 1.8;">
       Nikmati kemudahan membaca kisah-kisah Notonegoro kapan saja dan di mana saja. Pembeli akan menerima link Google Drive dan file PDF resmi secara instan ke email setelah pembayaran terkonfirmasi.
     </p>

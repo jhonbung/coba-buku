@@ -5,16 +5,17 @@
 @section('content')
 <div style="background: var(--ocean-navy); color: var(--ivory); padding: 40px 0; border-bottom: 2px solid var(--champagne-gold);">
   <div class="container text-center" style="text-align: center;">
-    <h1 style="font-size: 2.4rem; margin: 0;">KERANJANG BELANJA ANDA</h1>
+    <h1 class="page-banner-title" style="margin: 0;">KERANJANG BELANJA ANDA</h1>
     <p style="color: #BAC7D7; margin-top: 8px;">Periksa kembali koleksi buku dan merchandise sebelum melanjutkan ke pembayaran.</p>
   </div>
 </div>
 
 <div class="container" style="padding: 60px 24px;">
   @if(!empty($cart) && count($cart) > 0)
-    <div style="display: grid; grid-template-columns: 1.4fr 0.6fr; gap: 40px; align-items: start;">
+    <div class="cart-grid-layout">
       <!-- Left: Items Table -->
       <div style="background: var(--white); border-radius: var(--radius-md); border: 1px solid var(--soft-beige); box-shadow: var(--shadow-sm); overflow: hidden;">
+        <div class="cart-table-wrapper">
         <table style="width: 100%; border-collapse: collapse; font-size: 0.92rem;">
           <thead>
             <tr style="background: var(--ivory); border-bottom: 1px solid var(--soft-beige); color: var(--ocean-navy);">
@@ -83,7 +84,8 @@
             @endforeach
           </tbody>
         </table>
-        <div style="padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; background: #FAF7F2;">
+        </div>
+        <div style="padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; background: #FAF7F2; flex-wrap: wrap; gap: 10px;">
           <a href="{{ route('novels.index') }}" style="color: var(--ocean-navy); font-size: 0.85rem; font-weight: 600;">
             <i class="fa-solid fa-arrow-left"></i> Lanjut Belanja Koleksi Lain
           </a>
@@ -97,7 +99,7 @@
       </div>
 
       <!-- Right: Summary Box -->
-      <div style="background: var(--white); border-radius: var(--radius-md); border: 1px solid var(--champagne-gold); padding: 30px; box-shadow: var(--shadow-sm); position: sticky; top: 100px;">
+      <div class="cart-summary-box" style="background: var(--white); border-radius: var(--radius-md); border: 1px solid var(--champagne-gold); padding: 30px; box-shadow: var(--shadow-sm);">
         <h3 style="font-family: var(--font-serif); font-size: 1.4rem; color: var(--ocean-navy); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--soft-beige);">
           Ringkasan Belanja
         </h3>

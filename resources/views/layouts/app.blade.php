@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>@yield('title', 'BIANCA VEANA — Official Author & Luxury Bookstore')</title>
   <meta name="description" content="Website resmi Bianca Veana Bookstore. Pusat penjualan novel cetak, e-book eksklusif, dan merchandise resmi The Seven Notonegoro Series.">
   <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
@@ -19,7 +19,13 @@
   <!-- SITE HEADER & NAVIGATION -->
   <header class="site-header">
     <div class="container header-inner">
-      <nav>
+      <!-- Mobile Menu Toggle Button (Visible on mobile/tablet <= 992px) -->
+      <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileNav()" aria-label="Buka Menu Navigasi" title="Menu Navigasi">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <!-- Desktop Nav Menu (Hidden on mobile <= 992px) -->
+      <nav class="nav-desktop">
         <ul class="nav-menu">
           <li><a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a></li>
           <li><a href="{{ route('novels.index') }}" class="nav-link {{ request()->routeIs('novels.*') ? 'active' : '' }}">Novels</a></li>
@@ -29,6 +35,7 @@
         </ul>
       </nav>
 
+      <!-- Brand Logo -->
       <div class="brand-logo">
         <a href="{{ route('home') }}" class="brand-link">
           <img src="{{ asset('images/logo.png') }}" alt="Bianca Veana Logo" class="brand-crest-img">
@@ -39,6 +46,7 @@
         </a>
       </div>
 
+      <!-- Header Actions -->
       <div class="header-actions">
         <a href="{{ route('cart.index') }}" class="icon-btn" title="Keranjang Belanja" id="nav-cart-btn">
           <i class="fa-solid fa-bag-shopping"></i>
@@ -109,13 +117,114 @@
             });
           </script>
         @else
-          <a href="{{ route('login') }}" style="display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px; border-radius: 6px; background: var(--ivory); border: 1.5px solid var(--champagne-gold); color: var(--ocean-navy); font-size: 0.82rem; font-weight: 700; text-decoration: none; transition: all 0.2s; box-shadow: var(--shadow-sm);" onmouseover="this.style.background='var(--champagne-gold)'; this.style.color='#FFF';" onmouseout="this.style.background='var(--ivory)'; this.style.color='var(--ocean-navy)';">
-            <i class="fa-solid fa-user"></i> Masuk / Daftar
+          <a href="{{ route('login') }}" class="btn-user-auth" style="display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 6px; background: var(--ivory); border: 1.5px solid var(--champagne-gold); color: var(--ocean-navy); font-size: 0.82rem; font-weight: 700; text-decoration: none; transition: all 0.2s; box-shadow: var(--shadow-sm);" onmouseover="this.style.background='var(--champagne-gold)'; this.style.color='#FFF';" onmouseout="this.style.background='var(--ivory)'; this.style.color='var(--ocean-navy)';">
+            <i class="fa-solid fa-user"></i> <span class="btn-user-text">Masuk / Daftar</span>
           </a>
         @endif
       </div>
     </div>
   </header>
+
+  <!-- MOBILE NAVIGATION DRAWER & BACKDROP -->
+  <div class="mobile-nav-backdrop" id="mobileNavBackdrop" onclick="closeMobileNav()"></div>
+  <aside class="mobile-nav-drawer" id="mobileNavDrawer" aria-label="Navigasi Seluler">
+    <div class="mobile-drawer-header">
+      <div class="mobile-drawer-brand">
+        <img src="{{ asset('images/logo.png') }}" alt="Logo" class="mobile-drawer-logo">
+        <div>
+          <span class="mobile-drawer-title">BIANCA VEANA</span>
+          <span class="mobile-drawer-subtitle">OFFICIAL BOOKSTORE</span>
+        </div>
+      </div>
+      <button type="button" class="mobile-drawer-close" onclick="closeMobileNav()" aria-label="Tutup Menu">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <nav class="mobile-drawer-nav">
+      <a href="{{ route('home') }}" class="mobile-drawer-link {{ request()->routeIs('home') ? 'active' : '' }}" onclick="closeMobileNav()">
+        <i class="fa-solid fa-house"></i>
+        <span>Home</span>
+      </a>
+      <a href="{{ route('novels.index') }}" class="mobile-drawer-link {{ request()->routeIs('novels.*') ? 'active' : '' }}" onclick="closeMobileNav()">
+        <i class="fa-solid fa-book-open"></i>
+        <span>Novels (Buku Fisik)</span>
+      </a>
+      <a href="{{ route('ebooks.index') }}" class="mobile-drawer-link {{ request()->routeIs('ebooks.*') ? 'active' : '' }}" onclick="closeMobileNav()">
+        <i class="fa-solid fa-tablet-screen-button"></i>
+        <span>E-Books (Serial Digital)</span>
+      </a>
+      <a href="{{ route('merchandise.index') }}" class="mobile-drawer-link {{ request()->routeIs('merchandise.*') ? 'active' : '' }}" onclick="closeMobileNav()">
+        <i class="fa-solid fa-crown"></i>
+        <span>Merchandise Resmi</span>
+      </a>
+      <a href="{{ route('author.index') }}" class="mobile-drawer-link {{ request()->routeIs('author.*') ? 'active' : '' }}" onclick="closeMobileNav()">
+        <i class="fa-solid fa-feather-pointed"></i>
+        <span>About the Author</span>
+      </a>
+    </nav>
+
+    <div class="mobile-drawer-footer">
+      @if(Auth::guard('web')->check())
+        @php $currentUser = Auth::guard('web')->user(); @endphp
+        <div class="mobile-user-card">
+          <div class="mobile-user-avatar">
+            {{ strtoupper(substr($currentUser->name, 0, 1)) }}
+          </div>
+          <div style="overflow: hidden;">
+            <strong class="mobile-user-name">{{ $currentUser->name }}</strong>
+            <span class="mobile-user-email">{{ $currentUser->email }}</span>
+          </div>
+        </div>
+        <div class="mobile-user-actions">
+          <a href="{{ route('account.profile') }}" class="mobile-user-btn" onclick="closeMobileNav()">
+            <i class="fa-solid fa-user-circle"></i> Profil Saya
+          </a>
+          <a href="{{ route('account.orders') }}" class="mobile-user-btn" onclick="closeMobileNav()">
+            <i class="fa-solid fa-boxes-packing"></i> Riwayat Pesanan
+          </a>
+          <form action="{{ route('logout') }}" method="POST" style="margin: 0;">
+            @csrf
+            <button type="submit" class="mobile-user-btn logout" style="width: 100%; border: none; cursor: pointer; text-align: left;">
+              <i class="fa-solid fa-right-from-bracket"></i> Keluar (Logout)
+            </button>
+          </form>
+        </div>
+      @else
+        <a href="{{ route('login') }}" class="btn btn-gold mobile-login-btn" style="width: 100%; text-align: center; justify-content: center; padding: 12px; font-weight: 700; font-size: 0.88rem; display: flex; align-items: center; gap: 8px;" onclick="closeMobileNav()">
+          <i class="fa-solid fa-user"></i> Masuk / Daftar Akun
+        </a>
+      @endif
+    </div>
+  </aside>
+
+  <script>
+    function toggleMobileNav() {
+      const drawer = document.getElementById('mobileNavDrawer');
+      const backdrop = document.getElementById('mobileNavBackdrop');
+      if (!drawer || !backdrop) return;
+      const isOpen = drawer.classList.contains('show');
+      if (isOpen) {
+        closeMobileNav();
+      } else {
+        drawer.classList.add('show');
+        backdrop.classList.add('show');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeMobileNav() {
+      const drawer = document.getElementById('mobileNavDrawer');
+      const backdrop = document.getElementById('mobileNavBackdrop');
+      if (drawer) drawer.classList.remove('show');
+      if (backdrop) backdrop.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeMobileNav();
+    });
+  </script>
 
   <!-- ALERTS / FLASH MESSAGES -->
   @if(session('success'))

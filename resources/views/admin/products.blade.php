@@ -71,7 +71,8 @@
 
   <!-- Main Table Card -->
   <div class="admin-card">
-    <table class="admin-table" id="products-table">
+    <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+      <table class="admin-table" id="products-table">
       <thead>
         <tr>
           <th style="width: 320px;">Cover & Judul Produk</th>
@@ -157,6 +158,7 @@
         @endforeach
       </tbody>
     </table>
+    </div>
   </div>
 </div>
 @endsection

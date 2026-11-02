@@ -6,7 +6,7 @@
 <div style="background: radial-gradient(circle at 50% 50%, #1c365d 0%, #172B49 100%); color: var(--ivory); padding: 40px 0; border-bottom: 2px solid var(--champagne-gold);">
   <div class="container" style="text-align: center;">
     <span class="hero-subtitle" style="justify-content: center;"><i class="fa-solid fa-boxes-packing"></i> DAFTAR TRANSAKSI RESMI</span>
-    <h1 style="font-size: 2.2rem; margin: 6px 0;">RIWAYAT PESANAN SAYA</h1>
+    <h1 class="page-banner-title" style="margin: 6px 0;">RIWAYAT PESANAN SAYA</h1>
     <p style="color: #BAC7D7; font-size: 0.88rem; margin: 0;">Pantau nomor resi pengiriman novel fisik dan unduh kembali berkas e-book digital Anda.</p>
   </div>
 </div>

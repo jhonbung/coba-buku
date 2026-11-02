@@ -40,7 +40,7 @@
     </div>
   @endif
 
-  <div style="display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 32px; align-items: start;">
+  <div class="admin-split-layout">
     <!-- LEFT: List of Existing Parts -->
     <div>
       <div class="admin-card" style="padding: 24px;">

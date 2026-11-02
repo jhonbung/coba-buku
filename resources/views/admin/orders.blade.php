@@ -131,7 +131,7 @@
   </div>
 
   <!-- 4 KARTU MONITORING PENDAPATAN & KATEGORI -->
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 24px;">
+  <div class="orders-revenue-grid">
 
     <!-- KARTU 1: TOTAL PENDAPATAN TERVERIFIKASI -->
     <div style="background: linear-gradient(135deg, #0B1424 0%, #15233C 100%); border: 1px solid rgba(198, 161, 107, 0.4); border-radius: 12px; padding: 20px 22px; color: #FFF; position: relative; overflow: hidden; box-shadow: 0 4px 12px rgba(11, 20, 36, 0.15);">

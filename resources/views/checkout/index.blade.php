@@ -32,7 +32,7 @@
 
   <form action="{{ route('checkout.store') }}" method="POST">
     @csrf
-    <div style="display: grid; grid-template-columns: 1.6fr 1fr; gap: 40px; align-items: start;">
+    <div class="checkout-grid-layout">
       
       <!-- Left Column: Checkout Forms -->
       <div>
@@ -41,7 +41,7 @@
           <!-- ==========================================
                DIGITAL ONLY CHECKOUT (NO SHIPPING ADDRESS)
                ========================================== -->
-          <div style="background: linear-gradient(135deg, #172B49 0%, #203A5E 100%); color: #F4EBDD; border-radius: var(--radius-md); padding: 22px 26px; margin-bottom: 24px; border: 1.5px solid var(--champagne-gold); display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+          <div style="background: linear-gradient(135deg, #172B49 0%, #203A5E 100%); color: #F4EBDD; border-radius: var(--radius-md); padding: 22px 26px; margin-bottom: 24px; border: 1.5px solid var(--champagne-gold); display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
             <div style="display: flex; align-items: center; gap: 14px;">
               <div style="width: 44px; height: 44px; border-radius: 50%; background: rgba(198, 161, 107, 0.2); color: var(--champagne-gold); display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">
                 <i class="fa-solid fa-bolt"></i>
@@ -57,11 +57,11 @@
           </div>
 
           <!-- 1. Customer Information for Digital Delivery -->
-          <div style="background: var(--white); border-radius: var(--radius-md); border: 1px solid var(--soft-beige); padding: 32px; margin-bottom: 28px; box-shadow: var(--shadow-sm);">
+          <div class="checkout-form-card">
             <h3 style="font-family: var(--font-serif); font-size: 1.3rem; color: var(--ocean-navy); margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
               <i class="fa-solid fa-envelope-open-text" style="color: var(--champagne-gold);"></i> 1. Informasi Kontak & Tujuan File Digital
             </h3>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px;">
+            <div class="checkout-row-2col">
               <div>
                 <label style="display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">Nama Lengkap Pembeli *</label>
                 <input type="text" name="customer_name" value="{{ old('customer_name') }}" required placeholder="Contoh: Clara Maharani" style="width: 100%; padding: 12px 16px; border: 1px solid var(--soft-beige); border-radius: 4px; font-size: 0.9rem;">
@@ -88,7 +88,7 @@
           </div>
 
           <!-- 2. Digital Delivery Method Info -->
-          <div style="background: var(--white); border-radius: var(--radius-md); border: 1px solid var(--soft-beige); padding: 28px 32px; margin-bottom: 28px; box-shadow: var(--shadow-sm);">
+          <div class="checkout-form-card" style="padding: 28px 32px;">
             <h3 style="font-family: var(--font-serif); font-size: 1.3rem; color: var(--ocean-navy); margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
               <i class="fa-solid fa-paper-plane" style="color: var(--champagne-gold);"></i> 2. Metode Pengiriman Digital
             </h3>
@@ -135,11 +135,11 @@
           </div>
 
           <!-- 1. Customer Information -->
-          <div style="background: var(--white); border-radius: var(--radius-md); border: 1px solid var(--soft-beige); padding: 32px; margin-bottom: 28px; box-shadow: var(--shadow-sm);">
+          <div class="checkout-form-card">
             <h3 style="font-family: var(--font-serif); font-size: 1.3rem; color: var(--ocean-navy); margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
               <i class="fa-solid fa-user-circle" style="color: var(--champagne-gold);"></i> 1. Informasi Kontak Pembeli
             </h3>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px;">
+            <div class="checkout-row-2col">
               <div>
                 <label style="display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">Nama Lengkap *</label>
                 <input type="text" name="customer_name" value="{{ old('customer_name') }}" required placeholder="Contoh: Clara Maharani" style="width: 100%; padding: 12px 16px; border: 1px solid var(--soft-beige); border-radius: 4px; font-size: 0.9rem;">
@@ -157,13 +157,13 @@
           </div>
 
           <!-- 2. Shipping Destination Address (Step-by-Step Selection) -->
-          <div style="background: var(--white); border-radius: var(--radius-md); border: 1px solid var(--soft-beige); padding: 32px; margin-bottom: 28px; box-shadow: var(--shadow-sm);">
+          <div class="checkout-form-card">
             <h3 style="font-family: var(--font-serif); font-size: 1.3rem; color: var(--ocean-navy); margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
               <i class="fa-solid fa-location-dot" style="color: var(--champagne-gold);"></i> 2. Alamat Tujuan Pengiriman Buku
             </h3>
 
             <!-- 2.1 Dropdown Provinsi & Kota/Kabupaten -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px;">
+            <div class="checkout-row-2col">
               <div>
                 <label style="display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">
                   Provinsi Tujuan *
@@ -189,7 +189,7 @@
             </div>
 
             <!-- 2.2 Kecamatan & Kode Pos -->
-            <div style="display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 18px; margin-bottom: 18px;">
+            <div class="checkout-row-custom">
               <div>
                 <label style="display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-dark); margin-bottom: 6px;">
                   Kecamatan (Opsional / Pelengkap)
@@ -225,7 +225,7 @@
           </div>
 
           <!-- 3. Dynamic Courier Selection & Real-Time Rates from RajaOngkir -->
-          <div style="background: var(--white); border-radius: var(--radius-md); border: 1px solid var(--soft-beige); padding: 32px; margin-bottom: 28px; box-shadow: var(--shadow-sm);">
+          <div class="checkout-form-card">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
               <h3 style="font-family: var(--font-serif); font-size: 1.3rem; color: var(--ocean-navy); margin: 0; display: flex; align-items: center; gap: 10px;">
                 <i class="fa-solid fa-truck" style="color: var(--champagne-gold);"></i> 3. Pilihan Ekspedisi Terpercaya (J&T, SiCepat, JNE)
@@ -261,7 +261,7 @@
         @endif
 
         <!-- Payment Method Section -->
-        <div style="background: var(--white); border-radius: var(--radius-md); border: 1px solid var(--soft-beige); padding: 32px; box-shadow: var(--shadow-sm);">
+        <div class="checkout-form-card">
           <h3 style="font-family: var(--font-serif); font-size: 1.3rem; color: var(--ocean-navy); margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
             <i class="fa-solid fa-credit-card" style="color: var(--champagne-gold);"></i> 
             {{ $hasPhysicalItems ? '4. Metode Pembayaran Resmi Indonesia' : '3. Metode Pembayaran Resmi Indonesia' }}
@@ -286,7 +286,7 @@
       </div>
 
       <!-- Right Column: Sticky Order Summary -->
-      <div style="background: var(--white); border-radius: var(--radius-md); border: 1px solid var(--champagne-gold); padding: 30px; box-shadow: var(--shadow-md); position: sticky; top: 100px;">
+      <div class="checkout-summary-box" style="background: var(--white); border-radius: var(--radius-md); border: 1px solid var(--champagne-gold); padding: 26px; box-shadow: var(--shadow-md);">
         <h3 style="font-family: var(--font-serif); font-size: 1.4rem; color: var(--ocean-navy); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--soft-beige);">
           Rincian Pesanan
         </h3>

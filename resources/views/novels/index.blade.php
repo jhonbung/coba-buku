@@ -6,7 +6,7 @@
 <div style="background: radial-gradient(circle at 50% 50%, #1c365d 0%, #172B49 100%); color: var(--ivory); padding: 54px 0; border-bottom: 2px solid var(--champagne-gold);">
   <div class="container text-center" style="text-align: center;">
     <span class="hero-subtitle" style="justify-content: center;"><i class="fa-solid fa-book"></i> OFFICIAL PHYSICAL NOVELS CATALOG</span>
-    <h1 style="font-size: 2.8rem; margin: 10px 0;">KATALOG NOVEL CETAK FISIK</h1>
+    <h1 class="page-banner-title">KATALOG NOVEL CETAK FISIK</h1>
     <p style="color: #BAC7D7; max-width: 650px; margin: 0 auto; line-height: 1.8;">
       Jelajahi seluruh karya novel cetak fisik eksklusif Bianca Veana berdasarkan <strong>Seri & Semesta Cerita</strong>. Dikemas premium dengan kualitas cetak resmi dan bertandatangan asli penulis.
     </p>

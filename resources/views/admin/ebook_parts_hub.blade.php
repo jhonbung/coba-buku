@@ -57,7 +57,7 @@
     </div>
 
     <!-- 4 Structured Title Cards -->
-    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;">
+    <div class="ebook-hub-grid">
       @foreach($notonegoroTitles as $title)
         @php
           $parts = $title->ebookParts;
@@ -175,7 +175,7 @@
         </div>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;">
+      <div class="ebook-hub-grid">
         @foreach($standaloneTitles as $title)
           <div class="admin-card" style="padding: 24px;">
             <div style="display: flex; gap: 16px; align-items: center; justify-content: space-between;">

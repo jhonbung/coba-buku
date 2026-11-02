@@ -6,7 +6,7 @@
 <div style="background: radial-gradient(circle at 50% 50%, #1c365d 0%, #172B49 100%); color: var(--ivory); padding: 40px 0; border-bottom: 2px solid var(--champagne-gold);">
   <div class="container" style="text-align: center;">
     <span class="hero-subtitle" style="justify-content: center;"><i class="fa-solid fa-user-circle"></i> AREA PENGGUNA RESMI</span>
-    <h1 style="font-size: 2.2rem; margin: 6px 0;">PROFIL AKUN SAYA</h1>
+    <h1 class="page-banner-title" style="margin: 6px 0;">PROFIL AKUN SAYA</h1>
     <p style="color: #BAC7D7; font-size: 0.88rem; margin: 0;">Kelola data pribadi, nomor kontak WhatsApp, dan alamat pengiriman buku Anda.</p>
   </div>
 </div>
@@ -19,7 +19,7 @@
     </div>
   @endif
 
-  <div style="display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 36px; align-items: start;">
+  <div class="product-detail-layout" style="gap: 36px; align-items: start;">
     
     <!-- User Card -->
     <div style="background: var(--white); border: 1.5px solid var(--soft-beige); border-radius: var(--radius-md); padding: 28px; text-align: center; box-shadow: var(--shadow-sm);">

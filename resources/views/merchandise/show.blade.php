@@ -15,10 +15,10 @@
 </div>
 
 <div class="container" style="padding: 60px 24px;">
-  <div style="display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 60px; align-items: start;">
+  <div class="product-detail-layout">
     
     <!-- LEFT: MULTI-IMAGE MERCHANDISE GALLERY -->
-    <div style="position: sticky; top: 100px;">
+    <div class="product-detail-sticky">
       <div style="background: var(--ocean-navy-deep); padding: 24px; border-radius: var(--radius-md); border: 2px solid var(--champagne-gold); box-shadow: var(--shadow-lg); text-align: center; position: relative;">
         <img id="mainMerchImage" src="{{ asset($product->cover_image) }}" alt="{{ $product->title }}" style="max-height: 480px; max-width: 100%; margin: 0 auto; border-radius: var(--radius-sm); box-shadow: 0 10px 25px rgba(0,0,0,0.4); display: block; transition: opacity 0.25s ease;">
       </div>
@@ -60,7 +60,7 @@
         {{ $product->series_name ?: 'BIANCA VEANA OFFICIAL MERCHANDISE' }}
       </span>
 
-      <h1 style="font-family: var(--font-serif); font-size: 2.6rem; color: var(--ocean-navy); margin-bottom: 12px; line-height: 1.2;">
+      <h1 class="product-detail-title">
         {{ $product->title }}
       </h1>
 
@@ -72,7 +72,7 @@
 
       <!-- Price Box -->
       <div style="background: var(--white); padding: 20px 28px; border-radius: var(--radius-md); border: 1px solid var(--soft-beige); margin-bottom: 24px; display: flex; align-items: baseline; gap: 16px;">
-        <span style="font-size: 2.2rem; font-weight: 700; color: var(--ocean-navy);">
+        <span class="product-price-amount">
           {{ $product->formatted_price }}
         </span>
         @if($product->original_price)

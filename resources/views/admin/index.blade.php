@@ -19,19 +19,19 @@
   </div>
 
   <!-- Stats Cards Grid -->
-  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 36px;">
+  <div class="admin-stats-grid">
     <!-- Stat 1 -->
     <div class="admin-card" style="padding: 24px;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-        <span style="font-size: 0.78rem; color: #64748B; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Total Penjualan</span>
-        <div style="width: 38px; height: 38px; border-radius: 8px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center;">
+        <span class="stat-label" style="font-size: 0.78rem; color: #64748B; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Total Penjualan</span>
+        <div class="stat-icon" style="width: 38px; height: 38px; border-radius: 8px; background: #ECFDF5; color: #059669; display: flex; align-items: center; justify-content: center;">
           <i class="fa-solid fa-rupiah-sign"></i>
         </div>
       </div>
-      <div style="font-size: 1.7rem; font-weight: 700; color: #0F172A;">
+      <div class="stat-value" style="font-size: 1.65rem; font-weight: 700; color: #0F172A;">
         Rp {{ number_format($totalSales, 0, ',', '.') }}
       </div>
-      <div style="font-size: 0.75rem; color: #059669; margin-top: 6px; font-weight: 600;">
+      <div class="stat-subtitle" style="font-size: 0.75rem; color: #059669; margin-top: 6px; font-weight: 600;">
         <i class="fa-solid fa-arrow-trend-up"></i> Terverifikasi Masuk
       </div>
     </div>
@@ -39,15 +39,15 @@
     <!-- Stat 2 -->
     <div class="admin-card" style="padding: 24px;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-        <span style="font-size: 0.78rem; color: #64748B; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Total Pesanan</span>
-        <div style="width: 38px; height: 38px; border-radius: 8px; background: #EEF2FF; color: #4F46E5; display: flex; align-items: center; justify-content: center;">
+        <span class="stat-label" style="font-size: 0.78rem; color: #64748B; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Total Pesanan</span>
+        <div class="stat-icon" style="width: 38px; height: 38px; border-radius: 8px; background: #EEF2FF; color: #4F46E5; display: flex; align-items: center; justify-content: center;">
           <i class="fa-solid fa-cart-shopping"></i>
         </div>
       </div>
-      <div style="font-size: 1.7rem; font-weight: 700; color: #0F172A;">
+      <div class="stat-value" style="font-size: 1.65rem; font-weight: 700; color: #0F172A;">
         {{ $totalOrders }} Pesanan
       </div>
-      <div style="font-size: 0.75rem; color: #64748B; margin-top: 6px;">
+      <div class="stat-subtitle" style="font-size: 0.75rem; color: #64748B; margin-top: 6px;">
         Novel & E-Book Masuk
       </div>
     </div>
@@ -55,15 +55,15 @@
     <!-- Stat 3 -->
     <div class="admin-card" style="padding: 24px;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-        <span style="font-size: 0.78rem; color: #64748B; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Koleksi Buku & Item</span>
-        <div style="width: 38px; height: 38px; border-radius: 8px; background: #FFFBEB; color: #D97706; display: flex; align-items: center; justify-content: center;">
+        <span class="stat-label" style="font-size: 0.78rem; color: #64748B; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Koleksi Buku & Item</span>
+        <div class="stat-icon" style="width: 38px; height: 38px; border-radius: 8px; background: #FFFBEB; color: #D97706; display: flex; align-items: center; justify-content: center;">
           <i class="fa-solid fa-book"></i>
         </div>
       </div>
-      <div style="font-size: 1.7rem; font-weight: 700; color: #0F172A;">
+      <div class="stat-value" style="font-size: 1.65rem; font-weight: 700; color: #0F172A;">
         {{ $totalProducts }} Judul
       </div>
-      <div style="font-size: 0.75rem; color: #64748B; margin-top: 6px;">
+      <div class="stat-subtitle" style="font-size: 0.75rem; color: #64748B; margin-top: 6px;">
         Aktif di Katalog Publik
       </div>
     </div>
@@ -71,15 +71,15 @@
     <!-- Stat 4 -->
     <div class="admin-card" style="padding: 24px;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-        <span style="font-size: 0.78rem; color: #64748B; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Peringatan Stok</span>
-        <div style="width: 38px; height: 38px; border-radius: 8px; background: #FEF2F2; color: #DC2626; display: flex; align-items: center; justify-content: center;">
+        <span class="stat-label" style="font-size: 0.78rem; color: #64748B; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Peringatan Stok</span>
+        <div class="stat-icon" style="width: 38px; height: 38px; border-radius: 8px; background: #FEF2F2; color: #DC2626; display: flex; align-items: center; justify-content: center;">
           <i class="fa-solid fa-triangle-exclamation"></i>
         </div>
       </div>
-      <div style="font-size: 1.7rem; font-weight: 700; color: #0F172A;">
+      <div class="stat-value" style="font-size: 1.65rem; font-weight: 700; color: #0F172A;">
         {{ $lowStockCount }} Item Menipis
       </div>
-      <div style="font-size: 0.75rem; color: #DC2626; margin-top: 6px; font-weight: 600;">
+      <div class="stat-subtitle" style="font-size: 0.75rem; color: #DC2626; margin-top: 6px; font-weight: 600;">
         Perlu restock cetak ulang
       </div>
     </div>
@@ -102,7 +102,7 @@
       </span>
     </div>
 
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+    <div class="admin-category-grid">
       @foreach(['novel', 'ebook', 'merchandise'] as $catKey)
         @php $cat = $categorySales[$catKey]; @endphp
         <div class="admin-card" style="padding: 24px; position: relative; border-top: 4px solid {{ $cat['bar_color'] }}; display: flex; flex-direction: column; justify-content: space-between;">
