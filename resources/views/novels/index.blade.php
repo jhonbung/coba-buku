@@ -131,7 +131,7 @@
                       </span>
                     </div>
                     <h3 class="product-title" style="font-size: 1.05rem; line-height: 1.3;">{{ $book->title }}</h3>
-                    <span class="product-author" style="font-size: 0.75rem;">Oleh {{ $book->author }}</span>
+                    <span class="product-author" style="font-size: 0.75rem;">Author {{ $book->author }}</span>
                     @if($book->is_preorder)
                       <div style="margin-top: 5px;">
                         <span style="background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; padding: 2px 7px; border-radius: 4px; font-size: 0.68rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
@@ -209,7 +209,7 @@
                 <div class="card-details" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
                   <div>
                     <h3 class="product-title" style="font-size: 1.1rem; line-height: 1.3;">{{ $book->title }}</h3>
-                    <span class="product-author" style="font-size: 0.75rem;">Oleh {{ $book->author }}</span>
+                    <span class="product-author" style="font-size: 0.75rem;">Author {{ $book->author }}</span>
                     <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 6px; line-height: 1.5;">
                       {{ Str::limit($book->synopsis, 95) }}
                     </p>
@@ -283,7 +283,7 @@
                 <div class="card-details" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
                   <div>
                     <h3 class="product-title" style="font-size: 1.1rem; line-height: 1.3;">{{ $book->title }}</h3>
-                    <span class="product-author" style="font-size: 0.75rem;">Oleh {{ $book->author }}</span>
+                    <span class="product-author" style="font-size: 0.75rem;">Author {{ $book->author }}</span>
                     <div style="background: #FEF3C7; color: #92400E; padding: 6px 10px; border-radius: 4px; font-size: 0.75rem; margin-top: 8px; font-weight: 600;">
                       <i class="fa-solid fa-certificate"></i> Termasuk Box Beludru & Gilded Edges
                     </div>
@@ -359,7 +359,7 @@
                   </span>
                 </div>
                 <h3 class="product-title" style="font-size: 1.05rem;">{{ $novel->title }}</h3>
-                <span class="product-author" style="font-size: 0.75rem;">Oleh {{ $novel->author }}</span>
+                <span class="product-author" style="font-size: 0.75rem;">Author {{ $novel->author }}</span>
                 @if($novel->is_preorder)
                   <div style="margin-top: 5px;">
                     <span style="background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; padding: 2px 7px; border-radius: 4px; font-size: 0.68rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">

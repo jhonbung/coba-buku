@@ -78,7 +78,7 @@
 
       <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 20px; flex-wrap: wrap;">
         <span style="font-size: 0.9rem; color: var(--text-muted);">
-          Penulis: <strong style="color: var(--ocean-navy);">{{ $book->author ?? 'Bianca Veana' }}</strong>
+          Author: <strong style="color: var(--ocean-navy);">{{ $book->author ?? 'Bianca Veana' }}</strong>
         </span>
         <span style="color: var(--soft-beige);">•</span>
         <span style="font-size: 0.9rem; color: var(--text-muted);">

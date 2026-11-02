@@ -59,7 +59,7 @@
         {{ $novel->title }}
       </h1>
       <div style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 24px;">
-        Penulis: <strong style="color: var(--ocean-navy);">{{ $novel->author }}</strong> · Genre: <strong style="color: var(--ocean-navy);">{{ $novel->genre }}</strong>
+        Author: <strong style="color: var(--ocean-navy);">{{ $novel->author }}</strong> · Genre: <strong style="color: var(--ocean-navy);">{{ $novel->genre }}</strong>
       </div>
 
       <!-- Price Box -->

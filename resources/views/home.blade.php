@@ -256,7 +256,7 @@
                   </span>
                 </div>
               @endif
-              <span class="product-author">Oleh {{ $book->author }}</span>
+              <span class="product-author">Author {{ $book->author }}</span>
               <div class="product-price-row">
                 <span class="price-current">{{ $book->formatted_price }}</span>
                 @if($book->original_price)
@@ -519,7 +519,7 @@
                 </span>
               </div>
             @endif
-            <span class="product-author">Oleh {{ $item->author }}</span>
+            <span class="product-author">Author {{ $item->author }}</span>
             <div class="product-price-row">
               <span class="price-current">{{ $item->formatted_price }}</span>
               @if($item->original_price)

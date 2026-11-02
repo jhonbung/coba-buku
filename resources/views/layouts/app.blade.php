@@ -1056,7 +1056,7 @@
         <div>
           <h4 class="footer-title">Bantuan & Info</h4>
           <ul class="footer-links">
-            <li><a href="{{ route('author.index') }}"><i class="fa-solid fa-angle-right" style="color: var(--champagne-gold); font-size: 0.75rem;"></i> Profil Penulis</a></li>
+            <li><a href="{{ route('author.index') }}"><i class="fa-solid fa-angle-right" style="color: var(--champagne-gold); font-size: 0.75rem;"></i> About the Author</a></li>
             <li><a href="javascript:void(0)" onclick="openModal('modal-shipping')"><i class="fa-solid fa-angle-right" style="color: var(--champagne-gold); font-size: 0.75rem;"></i> Shipping & Returns</a></li>
             <li><a href="javascript:void(0)" onclick="openModal('modal-terms')"><i class="fa-solid fa-angle-right" style="color: var(--champagne-gold); font-size: 0.75rem;"></i> Syarat & Ketentuan</a></li>
             <li><a href="javascript:void(0)" onclick="openModal('modal-privacy')"><i class="fa-solid fa-angle-right" style="color: var(--champagne-gold); font-size: 0.75rem;"></i> Kebijakan Privasi</a></li>
