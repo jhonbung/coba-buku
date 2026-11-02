@@ -96,8 +96,11 @@ class CheckoutController extends Controller
     public function calculateShipping(Request $request, ShippingService $shippingService)
     {
         $destinationId = (int) $request->input('destination_id');
-        if (!$destinationId) {
-            return response()->json(['error' => 'Destination ID required'], 422);
+        $province = $request->input('province');
+        $city = $request->input('city');
+
+        if (!$destinationId && empty($province)) {
+            return response()->json(['error' => 'Destination required'], 422);
         }
 
         $totalWeight = 0;
@@ -120,7 +123,7 @@ class CheckoutController extends Controller
         }
 
         $weight = max(1000, $totalWeight);
-        $rates = $shippingService->calculateCost($destinationId, $weight);
+        $rates = $shippingService->calculateCost($destinationId, $weight, $province, $city);
 
         return response()->json([
             'weight_grams' => $weight,

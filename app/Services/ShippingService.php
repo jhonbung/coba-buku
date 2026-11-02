@@ -127,7 +127,7 @@ class ShippingService
      * Calculate domestic shipping cost using RajaOngkir Komerce API v1
      * Filtered to only the 3 MOST TRUSTED & POPULAR couriers: JNE, SiCepat, J&T
      */
-    public function calculateCost(int $destinationId, int $weightGrams, string $couriers = 'jne:sicepat:jnt'): array
+    public function calculateCost(int $destinationId, int $weightGrams, ?string $province = null, ?string $city = null): array
     {
         // Destination ID aliases (fix legacy or mismatched IDs to verified Komerce destination IDs)
         if ($destinationId === 2100) {
@@ -137,9 +137,15 @@ class ShippingService
         // Minimum weight 1000g (1 kg)
         $weight = max(1000, $weightGrams);
 
+        // Resolve province if not explicitly provided
+        if (empty($province)) {
+            $province = $this->getProvinceByDestinationId($destinationId);
+        }
+
+        $couriers = 'jne:sicepat:jnt';
         $cacheKey = "shipping_cost_{$this->originId}_{$destinationId}_{$weight}_{$couriers}";
 
-        return Cache::remember($cacheKey, 3600, function () use ($destinationId, $weight, $couriers) {
+        return Cache::remember($cacheKey, 3600, function () use ($destinationId, $weight, $couriers, $province) {
             try {
                 $response = Http::asForm()
                     ->withHeaders(['key' => $this->apiKey])
@@ -227,26 +233,42 @@ class ShippingService
                     // Sort by cost ascending so the cheapest & most economical options appear first!
                     usort($formattedRates, fn($a, $b) => $a['cost'] <=> $b['cost']);
 
-                    // Anomaly protection: for Java, Bali, Lampung, and Sumatra, regular shipping (1 kg)
-                    // should never exceed Rp 45.000. If an anomalous remote-island rate is returned,
-                    // fall back to verified regional rates.
-                    $province = $this->getProvinceByDestinationId($destinationId);
-                    $nearProvinces = [
-                        'DKI Jakarta', 'Jawa Barat', 'Banten', 'Jawa Tengah',
-                        'DI Yogyakarta', 'Jawa Timur', 'Bali', 'Lampung',
-                        'Sumatera Selatan', 'Sumatera Barat', 'Sumatera Utara',
-                        'Riau & Kep. Riau'
+                    // Per-province realistic threshold validation:
+                    // If regular courier cost exceeds standard provincial logistics rates,
+                    // it indicates a destination ID mismatch or remote island routing.
+                    $maxThresholds = [
+                        'DKI Jakarta' => 14000,
+                        'Banten' => 16000,
+                        'Jawa Barat' => 18000,
+                        'Jawa Tengah' => 22000,
+                        'DI Yogyakarta' => 22000,
+                        'Jawa Timur' => 24000,
+                        'Lampung' => 25000,
+                        'Bali' => 28000,
+                        'Sumatera Selatan' => 28000,
+                        'Sumatera Barat' => 30000,
+                        'Sumatera Utara' => 35000,
+                        'Riau & Kep. Riau' => 34000,
+                        'Nusa Tenggara' => 34000,
+                        'Kalimantan Timur' => 40000,
+                        'Kalimantan Selatan' => 40000,
+                        'Kalimantan Barat' => 40000,
+                        'Sulawesi Selatan' => 45000,
+                        'Sulawesi Utara' => 50000,
+                        'Papua & Maluku' => 85000,
                     ];
 
                     $kgCount = (int) ceil($weight / 1000);
-                    $maxReasonableReg = 45000 * $kgCount;
+                    $maxAllowed = ($maxThresholds[$province] ?? 45000) * $kgCount;
+
                     $cheapestReg = collect($formattedRates)
                         ->whereIn('service', ['REG', 'EZ', 'HALU', 'CTC'])
                         ->min('cost');
 
-                    if (in_array($province, $nearProvinces) && $cheapestReg && $cheapestReg > $maxReasonableReg) {
-                        Log::warning("Anomalous shipping rate (Rp " . number_format($cheapestReg, 0, ',', '.') . ") for {$province} (ID: {$destinationId}). Using verified regional rates instead.");
-                        return $this->calculateFallbackRates($destinationId, $weight);
+                    // If price is excessive OR fewer than 2 courier options were returned
+                    if (($cheapestReg && $cheapestReg > $maxAllowed) || count($formattedRates) < 2) {
+                        Log::warning("Anomalous shipping rate (cheapest REG: Rp " . number_format($cheapestReg ?? 0, 0, ',', '.') . " vs max: Rp " . number_format($maxAllowed, 0, ',', '.') . ") for {$province} (ID: {$destinationId}). Using verified regional rates instead.");
+                        return $this->calculateFallbackRates($destinationId, $weight, $province);
                     }
 
                     if (!empty($formattedRates)) {
@@ -257,18 +279,20 @@ class ShippingService
                 Log::warning('RajaOngkir calculateCost failed: ' . $e->getMessage());
             }
 
-            return $this->calculateFallbackRates($destinationId, $weight);
+            return $this->calculateFallbackRates($destinationId, $weight, $province);
         });
     }
 
     /**
      * Accurate Regional Rates for Top Trusted Couriers (SiCepat, J&T, JNE)
-     * Automatically engaged when API quota limit is reached or offline
+     * Automatically engaged when API quota limit is reached, offline, or anomalous
      */
-    protected function calculateFallbackRates(int $destinationId, int $weightGrams): array
+    public function calculateFallbackRates(int $destinationId, int $weightGrams, ?string $province = null): array
     {
         $kg = (int) ceil($weightGrams / 1000);
-        $province = $this->getProvinceByDestinationId($destinationId);
+        if (empty($province)) {
+            $province = $this->getProvinceByDestinationId($destinationId);
+        }
 
         // Realistic official shipping rates from Tebet, Jakarta Selatan (per 1 kg)
         // Filtered specifically for the 3 most trusted couriers: SiCepat, J&T, JNE

@@ -425,7 +425,11 @@
           'Content-Type': 'application/json',
           'X-CSRF-TOKEN': '{{ csrf_token() }}'
         },
-        body: JSON.stringify({ destination_id: destinationId })
+        body: JSON.stringify({ 
+          destination_id: destinationId,
+          province: document.getElementById('shipping_province').value,
+          city: cityName
+        })
       });
 
       const data = await res.json();
