@@ -40,12 +40,6 @@
       </div>
 
       <div class="header-actions">
-        <a href="{{ route('novels.index') }}" class="icon-btn" title="Cari Buku" id="nav-search-btn">
-          <i class="fa-solid fa-magnifying-glass"></i>
-        </a>
-        <a href="{{ route('novels.index') }}" class="icon-btn" title="Wishlist" id="nav-wishlist-btn">
-          <i class="fa-regular fa-heart"></i>
-        </a>
         <a href="{{ route('cart.index') }}" class="icon-btn" title="Keranjang Belanja" id="nav-cart-btn">
           <i class="fa-solid fa-bag-shopping"></i>
           @php
