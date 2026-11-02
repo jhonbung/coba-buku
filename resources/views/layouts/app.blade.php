@@ -10,7 +10,219 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}?v={{ file_exists(public_path('css/style.css')) ? filemtime(public_path('css/style.css')) : time() }}">
+  <style>
+    /* Critical Mobile Header & Drawer CSS (Guaranteed cache-proof on all phones) */
+    .mobile-menu-btn {
+      display: none;
+      background: var(--ivory, #FAF7F2);
+      border: 1px solid var(--soft-beige, #EBD4B2);
+      color: var(--ocean-navy, #172B49);
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+    .mobile-menu-btn:active {
+      background: var(--champagne-gold, #C6A16B);
+      color: #FFFFFF;
+    }
+
+    .mobile-nav-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 20, 36, 0.68);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 9998;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .mobile-nav-backdrop.show {
+      display: block !important;
+      opacity: 1 !important;
+    }
+
+    .mobile-nav-drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 84%;
+      max-width: 320px;
+      background: #FFFFFF;
+      z-index: 9999;
+      transform: translateX(-100%);
+      transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      box-shadow: 4px 0 30px rgba(0, 0, 0, 0.28);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .mobile-nav-drawer.show {
+      transform: translateX(0) !important;
+    }
+
+    .mobile-drawer-header {
+      padding: 18px 20px;
+      background: radial-gradient(circle at 30% 30%, #1c365d 0%, #172B49 100%);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--champagne-gold, #C6A16B);
+      flex-shrink: 0;
+    }
+    .mobile-drawer-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .mobile-drawer-logo {
+      width: 38px !important;
+      height: 38px !important;
+      object-fit: contain !important;
+      filter: drop-shadow(0 2px 6px rgba(198, 161, 107, 0.4));
+    }
+    .mobile-drawer-title {
+      font-family: var(--font-serif, 'Playfair Display', serif);
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #FFFFFF;
+      display: block;
+    }
+    .mobile-drawer-subtitle {
+      font-size: 0.6rem;
+      letter-spacing: 2px;
+      color: var(--champagne-gold, #C6A16B);
+      text-transform: uppercase;
+      font-weight: 600;
+      display: block;
+    }
+    .mobile-drawer-close {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #FFFFFF;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
+    .mobile-drawer-close:active {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .mobile-drawer-nav {
+      flex: 1;
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .mobile-drawer-link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--ocean-navy, #172B49);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .mobile-drawer-link i {
+      width: 20px;
+      text-align: center;
+      font-size: 1rem;
+      color: var(--champagne-gold, #C6A16B);
+    }
+    .mobile-drawer-link:active,
+    .mobile-drawer-link.active {
+      background: var(--ivory, #FAF7F2);
+      color: var(--champagne-gold, #C6A16B);
+      border-left: 3px solid var(--champagne-gold, #C6A16B);
+      padding-left: 13px;
+    }
+
+    .mobile-drawer-footer {
+      padding: 18px 16px;
+      border-top: 1px solid var(--soft-beige, #EBD4B2);
+      background: var(--ivory, #FAF7F2);
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 992px) {
+      .mobile-menu-btn {
+        display: inline-flex !important;
+      }
+      .nav-desktop {
+        display: none !important;
+      }
+      .header-inner {
+        padding: 10px 16px !important;
+        gap: 10px !important;
+        flex-wrap: nowrap !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+      }
+      .brand-logo {
+        flex: 1 !important;
+        text-align: center !important;
+      }
+      .brand-crest-img {
+        height: 38px !important;
+      }
+      .brand-name {
+        font-size: 1.25rem !important;
+        letter-spacing: 2px !important;
+        margin-bottom: 0 !important;
+      }
+      .brand-tagline {
+        font-size: 0.52rem !important;
+        letter-spacing: 1.5px !important;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .header-inner {
+        padding: 8px 12px !important;
+        gap: 8px !important;
+      }
+      .brand-crest-img {
+        height: 32px !important;
+      }
+      .brand-name {
+        font-size: 1.05rem !important;
+        letter-spacing: 1.5px !important;
+      }
+      .brand-tagline {
+        font-size: 0.44rem !important;
+        letter-spacing: 1px !important;
+      }
+      .header-actions {
+        gap: 8px !important;
+      }
+      .header-actions .btn-user-text {
+        display: none !important;
+      }
+      .header-actions .btn-user-auth {
+        padding: 6px 10px !important;
+      }
+    }
+  </style>
   @stack('styles')
 </head>
 <body>
@@ -126,11 +338,11 @@
   </header>
 
   <!-- MOBILE NAVIGATION DRAWER & BACKDROP -->
-  <div class="mobile-nav-backdrop" id="mobileNavBackdrop" onclick="closeMobileNav()"></div>
-  <aside class="mobile-nav-drawer" id="mobileNavDrawer" aria-label="Navigasi Seluler">
+  <div class="mobile-nav-backdrop" id="mobileNavBackdrop" style="display: none; position: fixed; inset: 0; z-index: 9998;" onclick="closeMobileNav()"></div>
+  <aside class="mobile-nav-drawer" id="mobileNavDrawer" style="position: fixed; top: 0; left: 0; bottom: 0; width: 84%; max-width: 320px; z-index: 9999; transform: translateX(-100%);" aria-label="Navigasi Seluler">
     <div class="mobile-drawer-header">
       <div class="mobile-drawer-brand">
-        <img src="{{ asset('images/logo.png') }}" alt="Logo" class="mobile-drawer-logo">
+        <img src="{{ asset('images/logo.png') }}" alt="Logo" class="mobile-drawer-logo" style="width: 38px; height: 38px; object-fit: contain;">
         <div>
           <span class="mobile-drawer-title">BIANCA VEANA</span>
           <span class="mobile-drawer-subtitle">OFFICIAL BOOKSTORE</span>
