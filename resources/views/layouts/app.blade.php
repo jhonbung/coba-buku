@@ -466,6 +466,90 @@
         text-align: center !important;
         justify-content: center !important;
       }
+
+      /* E-Book Chapter Parts Mobile */
+      .ebook-part-card {
+        padding: 16px 14px !important;
+        gap: 12px !important;
+      }
+      .part-header-row {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 8px !important;
+      }
+      .part-title-wrap {
+        width: 100% !important;
+        min-width: 0 !important;
+        gap: 8px !important;
+      }
+      .part-title {
+        font-size: 1.1rem !important;
+      }
+      .part-price-wrap {
+        width: 100% !important;
+        justify-content: space-between !important;
+        border-bottom: 1px dashed #E2E8F0 !important;
+        padding-bottom: 8px !important;
+      }
+      .part-price {
+        font-size: 1.25rem !important;
+      }
+      .part-synopsis-box {
+        padding: 10px 12px !important;
+      }
+      .part-synopsis-text {
+        font-size: 0.82rem !important;
+        line-height: 1.55 !important;
+      }
+      .part-actions-row {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+        padding-top: 10px !important;
+      }
+      .part-access-info {
+        justify-content: center !important;
+        font-size: 0.72rem !important;
+        text-align: center !important;
+      }
+      .part-buttons-group {
+        width: 100% !important;
+        display: flex !important;
+        gap: 8px !important;
+      }
+      .btn-part-read {
+        flex: 0 0 85px !important;
+        justify-content: center !important;
+        padding: 10px 8px !important;
+        font-size: 0.8rem !important;
+      }
+      .part-buy-form {
+        flex: 1 !important;
+      }
+      .btn-part-buy {
+        width: 100% !important;
+        justify-content: center !important;
+        text-align: center !important;
+        padding: 10px 12px !important;
+        font-size: 0.82rem !important;
+        background: var(--champagne-gold) !important;
+        color: #FFFFFF !important;
+      }
+      .chapter-parts-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 8px !important;
+      }
+      .chapter-parts-title {
+        font-size: 1.25rem !important;
+      }
+      .chapter-parts-badge {
+        align-self: flex-start !important;
+      }
+      .faq-2col-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+      }
     }
 
     .ebook-steps-grid {
@@ -480,6 +564,219 @@
       align-items: center;
       flex-wrap: wrap;
       gap: 16px;
+    }
+
+    /* E-Book Chapter Parts Base */
+    .ebook-part-card {
+      background: var(--white);
+      border: 1.5px solid var(--soft-beige);
+      border-radius: var(--radius-md);
+      padding: 22px 26px;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .ebook-part-card:hover {
+      border-color: var(--champagne-gold);
+      box-shadow: 0 8px 24px rgba(198, 161, 107, 0.16);
+      transform: translateY(-2px);
+    }
+    .part-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .part-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 200px;
+    }
+    .part-badge {
+      font-size: 0.74rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #172B49 0%, #1c365d 100%);
+      color: var(--champagne-gold);
+      border: 1px solid var(--champagne-gold);
+      padding: 4px 10px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+    .part-title {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      color: var(--ocean-navy);
+      margin: 0;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    .part-price-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .part-price {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #15803D;
+      line-height: 1;
+    }
+    .part-delivery-tag {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #15803D;
+      background: #DCFCE7;
+      padding: 3px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .part-synopsis-box {
+      background: #FAF8F5;
+      border: 1px solid #F0EAE1;
+      border-left: 3.5px solid var(--champagne-gold);
+      border-radius: 0 8px 8px 0;
+      padding: 12px 18px;
+    }
+    .part-synopsis-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--ocean-navy);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .part-synopsis-label i {
+      color: var(--champagne-gold);
+    }
+    .part-synopsis-text {
+      font-size: 0.88rem;
+      color: #334155;
+      margin: 0;
+      line-height: 1.65;
+    }
+    .part-info-text {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-style: italic;
+      padding: 6px 0;
+    }
+    .part-actions-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid #F1F5F9;
+      padding-top: 14px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .part-access-info {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .part-access-info i {
+      color: var(--champagne-gold);
+    }
+    .part-buttons-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-part-read {
+      padding: 9px 16px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 6px;
+      background: #F8FAFC;
+      border: 1px solid #CBD5E1;
+      color: #334155;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn-part-read:hover {
+      background: #E2E8F0;
+      color: #0F172A;
+    }
+    .part-buy-form {
+      margin: 0;
+    }
+    .btn-part-buy {
+      padding: 9px 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 6px;
+      border: 1.5px solid var(--champagne-gold);
+      color: var(--ocean-navy);
+      background: #FFFFFF;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn-part-buy:hover {
+      background: var(--champagne-gold);
+      color: #FFFFFF;
+    }
+    .chapter-parts-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      border-bottom: 2px solid var(--soft-beige);
+      padding-bottom: 12px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .chapter-parts-title {
+      font-family: var(--font-serif);
+      font-size: 1.45rem;
+      color: var(--ocean-navy);
+      margin: 0 0 4px;
+    }
+    .chapter-parts-subtitle {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+    .chapter-parts-badge {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #15803D;
+      background: #DCFCE7;
+      padding: 4px 12px;
+      border-radius: 20px;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .faq-2col-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.6;
     }
   </style>
   @stack('styles')

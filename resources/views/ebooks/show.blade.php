@@ -147,77 +147,83 @@
 
       <!-- SECTION 2: CHAPTER PARTS (BACA BERTAHAP PER BAB) -->
       <div style="margin-top: 36px;">
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; border-bottom: 2px solid var(--soft-beige); padding-bottom: 12px;">
+        <div class="chapter-parts-header">
           <div>
-            <h3 style="font-family: var(--font-serif); font-size: 1.45rem; color: var(--ocean-navy); margin: 0;">
+            <h3 class="chapter-parts-title">
               Serial Part Digital (Baca Bertahap Per Bab)
             </h3>
-            <span style="font-size: 0.8rem; color: var(--text-muted);">
+            <span class="chapter-parts-subtitle">
               Mulai membaca dari bab awal atau bab tertentu yang ingin Anda nikmati lebih dulu:
             </span>
           </div>
-          <span style="font-size: 0.78rem; font-weight: 700; color: #15803D; background: #DCFCE7; padding: 4px 12px; border-radius: 20px;">
-            Rp 15.000 / part
+          <span class="chapter-parts-badge">
+            <i class="fa-solid fa-tag"></i> Rp 15.000 / part
           </span>
         </div>
 
         @if($chapterParts->count() > 0)
           <div style="display: flex; flex-direction: column; gap: 18px;">
             @foreach($chapterParts as $part)
-              <div style="background: var(--white); border: 1.5px solid var(--soft-beige); border-radius: var(--radius-md); padding: 22px 26px; transition: all 0.25s ease; box-shadow: 0 2px 6px rgba(0,0,0,0.02);" onmouseover="this.style.borderColor='var(--champagne-gold)'; this.style.boxShadow='0 8px 24px rgba(198, 161, 107, 0.15)';" onmouseout="this.style.borderColor='var(--soft-beige)'; this.style.boxShadow='0 2px 6px rgba(0,0,0,0.02)';">
+              <div class="ebook-part-card">
                 
-                <!-- Row 1: Header (Badge, Title, Price, Buy Button) -->
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 12px;">
-                  <div style="display: flex; align-items: center; gap: 12px; flex: 1; min-width: 260px;">
-                    <span style="font-size: 0.75rem; font-weight: 800; background: linear-gradient(135deg, #172B49 0%, #1c365d 100%); color: var(--champagne-gold); border: 1px solid var(--champagne-gold); padding: 4px 10px; border-radius: 6px; letter-spacing: 0.5px; flex-shrink: 0;">
+                <!-- Row 1: Header (Badge, Title, Price) -->
+                <div class="part-header-row">
+                  <div class="part-title-wrap">
+                    <span class="part-badge">
                       PART {{ $part->part_number ?? $loop->iteration }}
                     </span>
-                    <h4 style="font-family: var(--font-serif); font-size: 1.25rem; color: var(--ocean-navy); margin: 0; font-weight: 700; line-height: 1.3;">
+                    <h4 class="part-title">
                       {{ $part->title }}
                     </h4>
                   </div>
 
-                  <div style="display: flex; align-items: center; gap: 14px; flex-shrink: 0; flex-wrap: wrap;">
-                    <div style="text-align: right;">
-                      <span style="font-size: 1.35rem; font-weight: 800; color: #15803D; display: block; line-height: 1;">
-                        {{ $part->formatted_price }}
-                      </span>
-                      <span style="font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Bebas Ongkir · Baca Web & GDrive</span>
-                    </div>
-
-                    <a href="{{ route('reader.show', $part->slug) }}" class="btn" style="padding: 9px 14px; font-size: 0.8rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; border-radius: 6px; background: #F8FAFC; border: 1px solid #CBD5E1; color: #334155; text-decoration: none;" title="Pratinjau Bab di Web Reader">
-                      <i class="fa-solid fa-book-open"></i> Baca
-                    </a>
-
-                    <form action="{{ route('cart.add') }}" method="POST" style="margin: 0;">
-                      @csrf
-                      <input type="hidden" name="product_id" value="{{ $part->id }}">
-                      <input type="hidden" name="quantity" value="1">
-                      <button type="submit" class="btn btn-outline" style="padding: 10px 20px; font-size: 0.85rem; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; border-radius: 6px; border: 1.5px solid var(--champagne-gold); color: var(--ocean-navy); background: #FFFFFF; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='var(--champagne-gold)'; this.style.color='#FFFFFF';" onmouseout="this.style.background='#FFFFFF'; this.style.color='var(--ocean-navy)';">
-                        <i class="fa-solid fa-cart-plus"></i> Beli Part
-                      </button>
-                    </form>
+                  <div class="part-price-wrap">
+                    <span class="part-price">
+                      {{ $part->formatted_price }}
+                    </span>
+                    <span class="part-delivery-tag">
+                      <i class="fa-solid fa-check"></i> Bebas Ongkir
+                    </span>
                   </div>
                 </div>
 
                 <!-- Row 2: Synopsis Box -->
                 @if($part->synopsis)
-                  <div style="background: #FAF8F5; border: 1px solid #F0EAE1; border-left: 3.5px solid var(--champagne-gold); border-radius: 0 8px 8px 0; padding: 12px 18px; margin-top: 10px;">
-                    <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
-                      <i class="fa-solid fa-feather-pointed" style="color: var(--champagne-gold); font-size: 0.8rem;"></i>
-                      <span style="font-size: 0.72rem; font-weight: 800; color: var(--ocean-navy); text-transform: uppercase; letter-spacing: 1px;">
-                        Sinopsis Cerita Part:
-                      </span>
+                  <div class="part-synopsis-box">
+                    <div class="part-synopsis-label">
+                      <i class="fa-solid fa-feather-pointed"></i> Sinopsis Cerita Part:
                     </div>
-                    <p style="font-size: 0.88rem; color: #334155; margin: 0; line-height: 1.65;">
+                    <p class="part-synopsis-text">
                       {{ $part->synopsis }}
                     </p>
                   </div>
                 @else
-                  <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 6px; font-style: italic;">
-                    <i class="fa-solid fa-circle-info" style="color: var(--champagne-gold); margin-right: 4px;"></i> Akses digital bab e-book resmi karya Bianca Veana Universe. Berkas siap baca dikirim instan via email.
+                  <div class="part-info-text">
+                    <i class="fa-solid fa-circle-info"></i> Akses digital bab e-book resmi karya Bianca Veana Universe. Berkas siap baca dikirim instan via email & Web Reader.
                   </div>
                 @endif
+
+                <!-- Row 3: Action Bar (Format info + Buttons) -->
+                <div class="part-actions-row">
+                  <div class="part-access-info">
+                    <i class="fa-solid fa-tablet-screen-button"></i> Bebas Ongkir · Baca Web Reader & GDrive
+                  </div>
+
+                  <div class="part-buttons-group">
+                    <a href="{{ route('reader.show', $part->slug) }}" class="btn-part-read" title="Pratinjau Bab di Web Reader">
+                      <i class="fa-solid fa-book-open"></i> <span>Baca</span>
+                    </a>
+
+                    <form action="{{ route('cart.add') }}" method="POST" class="part-buy-form">
+                      @csrf
+                      <input type="hidden" name="product_id" value="{{ $part->id }}">
+                      <input type="hidden" name="quantity" value="1">
+                      <button type="submit" class="btn-part-buy">
+                        <i class="fa-solid fa-cart-plus"></i> <span>Beli Part</span>
+                      </button>
+                    </form>
+                  </div>
+                </div>
 
               </div>
             @endforeach
@@ -230,11 +236,11 @@
       </div>
 
       <!-- FAQ & Keamanan Transaksi Digital -->
-      <div style="background: #FAF7F2; border: 1px solid var(--soft-beige); border-radius: var(--radius-md); padding: 22px 26px; margin-top: 40px;">
+      <div style="background: #FAF7F2; border: 1px solid var(--soft-beige); border-radius: var(--radius-md); padding: 22px 26px; margin-top: 40px;" class="ebook-faq-card">
         <h4 style="font-family: var(--font-serif); font-size: 1.05rem; color: var(--ocean-navy); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
           <i class="fa-solid fa-circle-question" style="color: var(--champagne-gold);"></i> Cara Membaca & Menerima E-Book:
         </h4>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; font-size: 0.8rem; color: var(--text-muted); line-height: 1.6;">
+        <div class="faq-2col-grid">
           <div>
             <strong style="color: var(--ocean-navy); display: block; margin-bottom: 4px;">1. Pembayaran Otomatis Midtrans</strong>
             Bayar dengan mudah via QRIS (Gopay/OVO/ShopeePay/Dana) atau Virtual Account BCA, Mandiri, BNI, BRI. Verifikasi berjalan real-time detik itu juga.
@@ -265,41 +271,51 @@
         </p>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
-        @foreach($otherEbooks as $other)
-          <div class="product-card" style="border: 1.5px solid var(--soft-beige); background: var(--white); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.25s ease;" onmouseover="this.style.borderColor='var(--champagne-gold)'; this.style.transform='translateY(-4px)';" onmouseout="this.style.borderColor='var(--soft-beige)'; this.style.transform='none';">
-            <div class="card-image-wrap" style="aspect-ratio: 4/5;">
-              <img src="{{ asset($other->cover_image) }}" alt="Cover {{ $other->title }}">
-              <span class="badge-series" style="background: var(--ocean-navy); color: var(--champagne-gold); font-weight: 700;">
-                {{ $other->series_number ?? 'SERI' }}
-              </span>
-            </div>
+      <div class="novel-slider-container">
+        <button type="button" class="slider-arrow-btn prev" onclick="slideNovelTrack('track-other-ebooks', -1)" aria-label="Geser ke kiri" title="Buku Sebelumnya">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
 
-            <div class="card-details" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
-              <div>
-                <span class="product-series" style="color: var(--champagne-gold); font-weight: 700; font-size: 0.74rem;">
-                  {{ $other->series_name }}
+        <div class="novel-slider-track" id="track-other-ebooks">
+          @foreach($otherEbooks as $other)
+            <div class="product-card novel-slide-card" style="border: 1.5px solid var(--soft-beige); background: var(--white); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.25s ease;" onmouseover="this.style.borderColor='var(--champagne-gold)'; this.style.transform='translateY(-4px)';" onmouseout="this.style.borderColor='var(--soft-beige)'; this.style.transform='none';">
+              <div class="card-image-wrap" style="aspect-ratio: 4/5;">
+                <img src="{{ asset($other->cover_image) }}" alt="Cover {{ $other->title }}">
+                <span class="badge-series" style="background: var(--ocean-navy); color: var(--champagne-gold); font-weight: 700;">
+                  {{ $other->series_number ?? 'SERI' }}
                 </span>
-                <h3 class="product-title" style="font-size: 1.2rem; line-height: 1.2; margin: 6px 0 8px;">
-                  {{ $other->title }}
-                </h3>
-                <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 14px; line-height: 1.5;">
-                  {{ Str::limit($other->synopsis, 80) }}
-                </p>
               </div>
 
-              <div>
-                <div style="font-size: 0.72rem; color: #15803D; font-weight: 700; margin-bottom: 10px;">
-                  <i class="fa-solid fa-check"></i> Tersedia Bab Digital & Full E-Book
+              <div class="card-details" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                  <span class="product-series" style="color: var(--champagne-gold); font-weight: 700; font-size: 0.74rem;">
+                    {{ $other->series_name }}
+                  </span>
+                  <h3 class="product-title" style="font-size: 1.2rem; line-height: 1.2; margin: 6px 0 8px;">
+                    {{ $other->title }}
+                  </h3>
+                  <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 14px; line-height: 1.5;">
+                    {{ Str::limit($other->synopsis, 80) }}
+                  </p>
                 </div>
-                <a href="{{ route('ebooks.show', $other->slug) }}" class="btn-card btn-card-primary" style="width: 100%; text-align: center; padding: 10px; font-size: 0.82rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;">
-                  <span>Lihat E-Book {{ $other->title }}</span>
-                  <i class="fa-solid fa-arrow-right"></i>
-                </a>
+
+                <div>
+                  <div style="font-size: 0.72rem; color: #15803D; font-weight: 700; margin-bottom: 10px;">
+                    <i class="fa-solid fa-check"></i> Tersedia Bab Digital & Full E-Book
+                  </div>
+                  <a href="{{ route('ebooks.show', $other->slug) }}" class="btn-card btn-card-primary" style="width: 100%; text-align: center; padding: 10px; font-size: 0.82rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;">
+                    <span>Lihat E-Book {{ $other->title }}</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
-        @endforeach
+          @endforeach
+        </div>
+
+        <button type="button" class="slider-arrow-btn next" onclick="slideNovelTrack('track-other-ebooks', 1)" aria-label="Geser ke kanan" title="Buku Berikutnya">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
       </div>
     </div>
   @endif
