@@ -229,51 +229,61 @@
       <div class="section-divider"></div>
     </div>
 
-    <div class="series-grid">
-      @foreach($notonegoroSeries as $book)
-        <div class="product-card">
-          <div class="card-image-wrap">
-            <img src="{{ asset($book->cover_image) }}" alt="Cover {{ $book->title }}">
-            <span class="badge-series">{{ $book->subtitle }}</span>
-            @if($book->is_preorder)
-              <span class="badge-preorder" style="background: #F59E0B; color: #0F172A; font-weight: 800; font-size: 0.65rem; padding: 4px 8px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.15);" title="Estimasi Pengiriman 45 - 60 Hari">
-                <i class="fa-solid fa-clock"></i> PO 45-60 HARI
-              </span>
-            @endif
-          </div>
-          <div class="card-details">
-            <span class="product-series">{{ $book->series_name }}</span>
-            <h3 class="product-title">{{ $book->title }}</h3>
-            @if($book->is_preorder)
-              <div style="margin-top: 3px; margin-bottom: 4px;">
-                <span style="background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; padding: 2px 7px; border-radius: 4px; font-size: 0.68rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
-                  <i class="fa-solid fa-clock-rotate-left"></i> PO: 45 - 60 Hari
+    <div class="novel-slider-container">
+      <button type="button" class="slider-arrow-btn prev" onclick="slideNovelTrack('track-home-notonegoro', -1)" aria-label="Geser ke kiri" title="Buku Sebelumnya">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+
+      <div class="novel-slider-track" id="track-home-notonegoro">
+        @foreach($notonegoroSeries as $book)
+          <div class="product-card novel-slide-card">
+            <div class="card-image-wrap">
+              <img src="{{ asset($book->cover_image) }}" alt="Cover {{ $book->title }}">
+              <span class="badge-series">{{ $book->subtitle }}</span>
+              @if($book->is_preorder)
+                <span class="badge-preorder" style="background: #F59E0B; color: #0F172A; font-weight: 800; font-size: 0.65rem; padding: 4px 8px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.15);" title="Estimasi Pengiriman 45 - 60 Hari">
+                  <i class="fa-solid fa-clock"></i> PO 45-60 HARI
                 </span>
-              </div>
-            @endif
-            <span class="product-author">Oleh {{ $book->author }}</span>
-            <div class="product-price-row">
-              <span class="price-current">{{ $book->formatted_price }}</span>
-              @if($book->original_price)
-                <span class="price-original">{{ $book->formatted_original_price }}</span>
               @endif
             </div>
-            <div class="card-actions">
-              <a href="{{ route('novels.show', $book->slug) }}" class="btn-card btn-card-primary">
-                View Book
-              </a>
-              <form action="{{ route('cart.add') }}" method="POST" style="display: inline;">
-                @csrf
-                <input type="hidden" name="product_id" value="{{ $book->id }}">
-                <input type="hidden" name="quantity" value="1">
-                <button type="submit" class="btn-wishlist" title="Tambah ke Keranjang">
-                  <i class="fa-solid fa-cart-plus"></i>
-                </button>
-              </form>
+            <div class="card-details">
+              <span class="product-series">{{ $book->series_name }}</span>
+              <h3 class="product-title">{{ $book->title }}</h3>
+              @if($book->is_preorder)
+                <div style="margin-top: 3px; margin-bottom: 4px;">
+                  <span style="background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; padding: 2px 7px; border-radius: 4px; font-size: 0.68rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+                    <i class="fa-solid fa-clock-rotate-left"></i> PO: 45 - 60 Hari
+                  </span>
+                </div>
+              @endif
+              <span class="product-author">Oleh {{ $book->author }}</span>
+              <div class="product-price-row">
+                <span class="price-current">{{ $book->formatted_price }}</span>
+                @if($book->original_price)
+                  <span class="price-original">{{ $book->formatted_original_price }}</span>
+                @endif
+              </div>
+              <div class="card-actions">
+                <a href="{{ route('novels.show', $book->slug) }}" class="btn-card btn-card-primary">
+                  View Book
+                </a>
+                <form action="{{ route('cart.add') }}" method="POST" style="display: inline;">
+                  @csrf
+                  <input type="hidden" name="product_id" value="{{ $book->id }}">
+                  <input type="hidden" name="quantity" value="1">
+                  <button type="submit" class="btn-wishlist" title="Tambah ke Keranjang">
+                    <i class="fa-solid fa-cart-plus"></i>
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
-        </div>
-      @endforeach
+        @endforeach
+      </div>
+
+      <button type="button" class="slider-arrow-btn next" onclick="slideNovelTrack('track-home-notonegoro', 1)" aria-label="Geser ke kanan" title="Buku Berikutnya">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
     </div>
   </div>
 </section>

@@ -83,7 +83,7 @@
 
     <!-- GROUP 1: THE SEVEN NOTONEGORO SERIES -->
     @if(isset($notonegoroNovels) && $notonegoroNovels->count() > 0)
-      <div style="background: var(--white); border-radius: var(--radius-md); border: 1px solid var(--champagne-gold); padding: 36px 32px; margin-bottom: 50px; box-shadow: var(--shadow-sm);">
+      <div class="novel-group-container" style="background: var(--white); border-radius: var(--radius-md); border: 1px solid var(--champagne-gold); padding: 36px 32px; margin-bottom: 50px; box-shadow: var(--shadow-sm); position: relative;">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
           <div>
             <span style="background: linear-gradient(135deg, #172B49, #203A5E); color: var(--champagne-gold); padding: 4px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; display: inline-flex; align-items: center; gap: 6px;">
@@ -101,72 +101,82 @@
           </span>
         </div>
 
-        <div class="series-grid" style="grid-template-columns: repeat(4, 1fr); gap: 24px;">
-          @foreach($notonegoroNovels as $book)
-            <div class="product-card" style="border: 1px solid var(--soft-beige); display: flex; flex-direction: column; justify-content: space-between;">
-              <div class="card-image-wrap" style="aspect-ratio: 4/5;">
-                <img src="{{ asset($book->cover_image) }}" alt="Cover {{ $book->title }}">
-                <span class="badge-series" style="background: var(--ocean-navy); color: var(--champagne-gold); font-weight: 700;">
-                  {{ $book->series_number ?? $book->subtitle }}
-                </span>
-                @if($book->is_preorder)
-                  <span class="badge-preorder" style="background: #F59E0B; color: #0F172A; font-weight: 800; font-size: 0.65rem; padding: 4px 8px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.15);" title="Estimasi Pengiriman 45 - 60 Hari">
-                    <i class="fa-solid fa-clock"></i> PO 45-60 HARI
+        <div class="novel-slider-container">
+          <button type="button" class="slider-arrow-btn prev" onclick="slideNovelTrack('track-notonegoro', -1)" aria-label="Geser ke kiri" title="Buku Sebelumnya">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+
+          <div class="novel-slider-track" id="track-notonegoro">
+            @foreach($notonegoroNovels as $book)
+              <div class="product-card novel-slide-card" style="border: 1px solid var(--soft-beige); display: flex; flex-direction: column; justify-content: space-between;">
+                <div class="card-image-wrap" style="aspect-ratio: 4/5;">
+                  <img src="{{ asset($book->cover_image) }}" alt="Cover {{ $book->title }}">
+                  <span class="badge-series" style="background: var(--ocean-navy); color: var(--champagne-gold); font-weight: 700;">
+                    {{ $book->series_number ?? $book->subtitle }}
                   </span>
-                @endif
-              </div>
-              <div class="card-details" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                <div>
-                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                    <span class="product-series" style="font-size: 0.75rem; color: var(--champagne-gold); font-weight: 700;">
-                      {{ $book->series_number }}
-                    </span>
-                    <span style="background: #ECFDF5; color: #065F46; padding: 2px 8px; border-radius: 3px; font-size: 0.68rem; font-weight: 700;">
-                      <i class="fa-solid fa-book-open"></i> Novel Cetak Fisik
-                    </span>
-                  </div>
-                  <h3 class="product-title" style="font-size: 1.05rem; line-height: 1.3;">{{ $book->title }}</h3>
-                  <span class="product-author" style="font-size: 0.75rem;">Oleh {{ $book->author }}</span>
                   @if($book->is_preorder)
-                    <div style="margin-top: 5px;">
-                      <span style="background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; padding: 2px 7px; border-radius: 4px; font-size: 0.68rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
-                        <i class="fa-solid fa-clock-rotate-left"></i> Pre-Order: 45 - 60 Hari
-                      </span>
-                    </div>
+                    <span class="badge-preorder" style="background: #F59E0B; color: #0F172A; font-weight: 800; font-size: 0.65rem; padding: 4px 8px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.15);" title="Estimasi Pengiriman 45 - 60 Hari">
+                      <i class="fa-solid fa-clock"></i> PO 45-60 HARI
+                    </span>
                   @endif
                 </div>
-
-                <div style="margin-top: 14px;">
-                  <div class="product-price-row">
-                    <span class="price-current" style="font-size: 1.15rem;">{{ $book->formatted_price }}</span>
-                    @if($book->original_price)
-                      <span class="price-original" style="font-size: 0.85rem;">{{ $book->formatted_original_price }}</span>
+                <div class="card-details" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                  <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                      <span class="product-series" style="font-size: 0.75rem; color: var(--champagne-gold); font-weight: 700;">
+                        {{ $book->series_number }}
+                      </span>
+                      <span style="background: #ECFDF5; color: #065F46; padding: 2px 8px; border-radius: 3px; font-size: 0.68rem; font-weight: 700;">
+                        <i class="fa-solid fa-book-open"></i> Novel Cetak Fisik
+                      </span>
+                    </div>
+                    <h3 class="product-title" style="font-size: 1.05rem; line-height: 1.3;">{{ $book->title }}</h3>
+                    <span class="product-author" style="font-size: 0.75rem;">Oleh {{ $book->author }}</span>
+                    @if($book->is_preorder)
+                      <div style="margin-top: 5px;">
+                        <span style="background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; padding: 2px 7px; border-radius: 4px; font-size: 0.68rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+                          <i class="fa-solid fa-clock-rotate-left"></i> Pre-Order: 45 - 60 Hari
+                        </span>
+                      </div>
                     @endif
                   </div>
-                  <div class="card-actions" style="margin-top: 10px;">
-                    <a href="{{ route('novels.show', $book->slug) }}" class="btn-card btn-card-primary" style="flex: 1; text-align: center; padding: 10px 8px; font-size: 0.78rem;">
-                      <i class="fa-solid fa-eye"></i> Detail Novel
-                    </a>
-                    <form action="{{ route('cart.add') }}" method="POST" style="display: inline;">
-                      @csrf
-                      <input type="hidden" name="product_id" value="{{ $book->id }}">
-                      <input type="hidden" name="quantity" value="1">
-                      <button type="submit" class="btn-wishlist" title="Beli Buku Ini">
-                        <i class="fa-solid fa-cart-plus"></i>
-                      </button>
-                    </form>
+
+                  <div style="margin-top: 14px;">
+                    <div class="product-price-row">
+                      <span class="price-current" style="font-size: 1.15rem;">{{ $book->formatted_price }}</span>
+                      @if($book->original_price)
+                        <span class="price-original" style="font-size: 0.85rem;">{{ $book->formatted_original_price }}</span>
+                      @endif
+                    </div>
+                    <div class="card-actions" style="margin-top: 10px;">
+                      <a href="{{ route('novels.show', $book->slug) }}" class="btn-card btn-card-primary" style="flex: 1; text-align: center; padding: 10px 8px; font-size: 0.78rem;">
+                        <i class="fa-solid fa-eye"></i> Detail Novel
+                      </a>
+                      <form action="{{ route('cart.add') }}" method="POST" style="display: inline;">
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{ $book->id }}">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="btn-wishlist" title="Beli Buku Ini">
+                          <i class="fa-solid fa-cart-plus"></i>
+                        </button>
+                      </form>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          @endforeach
+            @endforeach
+          </div>
+
+          <button type="button" class="slider-arrow-btn next" onclick="slideNovelTrack('track-notonegoro', 1)" aria-label="Geser ke kanan" title="Buku Berikutnya">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
         </div>
       </div>
     @endif
 
     <!-- GROUP 2: STANDALONE NOVELS -->
     @if(isset($standaloneNovels) && $standaloneNovels->count() > 0)
-      <div style="background: var(--white); border-radius: var(--radius-md); border: 1px solid var(--soft-beige); padding: 36px 32px; margin-bottom: 50px; box-shadow: var(--shadow-sm);">
+      <div class="novel-group-container" style="background: var(--white); border-radius: var(--radius-md); border: 1px solid var(--soft-beige); padding: 36px 32px; margin-bottom: 50px; box-shadow: var(--shadow-sm); position: relative;">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
           <div>
             <span style="background: #F1F5F9; color: #334155; padding: 4px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; display: inline-flex; align-items: center; gap: 6px;">
@@ -184,53 +194,63 @@
           </span>
         </div>
 
-        <div class="series-grid" style="grid-template-columns: repeat(4, 1fr); gap: 24px;">
-          @foreach($standaloneNovels as $book)
-            <div class="product-card" style="border: 1px solid var(--soft-beige); display: flex; flex-direction: column; justify-content: space-between;">
-              <div class="card-image-wrap" style="aspect-ratio: 4/5;">
-                <img src="{{ asset($book->cover_image) }}" alt="Cover {{ $book->title }}">
-                <span class="badge-series">STANDALONE NOVEL</span>
-              </div>
-              <div class="card-details" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                <div>
-                  <h3 class="product-title" style="font-size: 1.1rem; line-height: 1.3;">{{ $book->title }}</h3>
-                  <span class="product-author" style="font-size: 0.75rem;">Oleh {{ $book->author }}</span>
-                  <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 6px; line-height: 1.5;">
-                    {{ Str::limit($book->synopsis, 95) }}
-                  </p>
-                </div>
+        <div class="novel-slider-container">
+          <button type="button" class="slider-arrow-btn prev" onclick="slideNovelTrack('track-standalone', -1)" aria-label="Geser ke kiri" title="Buku Sebelumnya">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
 
-                <div style="margin-top: 14px;">
-                  <div class="product-price-row">
-                    <span class="price-current" style="font-size: 1.15rem;">{{ $book->formatted_price }}</span>
-                    @if($book->original_price)
-                      <span class="price-original" style="font-size: 0.85rem;">{{ $book->formatted_original_price }}</span>
-                    @endif
+          <div class="novel-slider-track" id="track-standalone">
+            @foreach($standaloneNovels as $book)
+              <div class="product-card novel-slide-card" style="border: 1px solid var(--soft-beige); display: flex; flex-direction: column; justify-content: space-between;">
+                <div class="card-image-wrap" style="aspect-ratio: 4/5;">
+                  <img src="{{ asset($book->cover_image) }}" alt="Cover {{ $book->title }}">
+                  <span class="badge-series">STANDALONE NOVEL</span>
+                </div>
+                <div class="card-details" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                  <div>
+                    <h3 class="product-title" style="font-size: 1.1rem; line-height: 1.3;">{{ $book->title }}</h3>
+                    <span class="product-author" style="font-size: 0.75rem;">Oleh {{ $book->author }}</span>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 6px; line-height: 1.5;">
+                      {{ Str::limit($book->synopsis, 95) }}
+                    </p>
                   </div>
-                  <div class="card-actions" style="margin-top: 10px;">
-                    <a href="{{ route('novels.show', $book->slug) }}" class="btn-card btn-card-primary" style="flex: 1; text-align: center; padding: 10px 8px; font-size: 0.78rem;">
-                      <i class="fa-solid fa-eye"></i> Detail Novel
-                    </a>
-                    <form action="{{ route('cart.add') }}" method="POST" style="display: inline;">
-                      @csrf
-                      <input type="hidden" name="product_id" value="{{ $book->id }}">
-                      <input type="hidden" name="quantity" value="1">
-                      <button type="submit" class="btn-wishlist" title="Beli Buku Ini">
-                        <i class="fa-solid fa-cart-plus"></i>
-                      </button>
-                    </form>
+
+                  <div style="margin-top: 14px;">
+                    <div class="product-price-row">
+                      <span class="price-current" style="font-size: 1.15rem;">{{ $book->formatted_price }}</span>
+                      @if($book->original_price)
+                        <span class="price-original" style="font-size: 0.85rem;">{{ $book->formatted_original_price }}</span>
+                      @endif
+                    </div>
+                    <div class="card-actions" style="margin-top: 10px;">
+                      <a href="{{ route('novels.show', $book->slug) }}" class="btn-card btn-card-primary" style="flex: 1; text-align: center; padding: 10px 8px; font-size: 0.78rem;">
+                        <i class="fa-solid fa-eye"></i> Detail Novel
+                      </a>
+                      <form action="{{ route('cart.add') }}" method="POST" style="display: inline;">
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{ $book->id }}">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="btn-wishlist" title="Beli Buku Ini">
+                          <i class="fa-solid fa-cart-plus"></i>
+                        </button>
+                      </form>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          @endforeach
+            @endforeach
+          </div>
+
+          <button type="button" class="slider-arrow-btn next" onclick="slideNovelTrack('track-standalone', 1)" aria-label="Geser ke kanan" title="Buku Berikutnya">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
         </div>
       </div>
     @endif
 
     <!-- GROUP 3: LIMITED EDITION BOXSETS -->
     @if(isset($limitedNovels) && $limitedNovels->count() > 0)
-      <div style="background: linear-gradient(135deg, #172B49 0%, #203A5E 100%); color: var(--ivory); border-radius: var(--radius-md); border: 2px solid var(--champagne-gold); padding: 36px 32px; box-shadow: var(--shadow-md);">
+      <div class="novel-group-container" style="background: linear-gradient(135deg, #172B49 0%, #203A5E 100%); color: var(--ivory); border-radius: var(--radius-md); border: 2px solid var(--champagne-gold); padding: 36px 32px; box-shadow: var(--shadow-md); position: relative;">
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
           <div>
             <span style="background: var(--champagne-gold); color: #0F172A; padding: 4px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; display: inline-flex; align-items: center; gap: 6px;">
@@ -248,46 +268,56 @@
           </span>
         </div>
 
-        <div class="series-grid" style="grid-template-columns: repeat(3, 1fr); gap: 24px;">
-          @foreach($limitedNovels as $book)
-            <div class="product-card" style="background: #FFFFFF; border: 1px solid var(--champagne-gold); display: flex; flex-direction: column; justify-content: space-between;">
-              <div class="card-image-wrap" style="aspect-ratio: 4/5;">
-                <img src="{{ asset($book->cover_image) }}" alt="Cover {{ $book->title }}">
-                <span class="badge-series" style="background: #B45309; color: #FFF;">LIMITED LUXURY BOXSET</span>
-              </div>
-              <div class="card-details" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
-                <div>
-                  <h3 class="product-title" style="font-size: 1.1rem; line-height: 1.3;">{{ $book->title }}</h3>
-                  <span class="product-author" style="font-size: 0.75rem;">Oleh {{ $book->author }}</span>
-                  <div style="background: #FEF3C7; color: #92400E; padding: 6px 10px; border-radius: 4px; font-size: 0.75rem; margin-top: 8px; font-weight: 600;">
-                    <i class="fa-solid fa-certificate"></i> Termasuk Box Beludru & Gilded Edges
-                  </div>
-                </div>
+        <div class="novel-slider-container dark-theme">
+          <button type="button" class="slider-arrow-btn prev" onclick="slideNovelTrack('track-limited', -1)" aria-label="Geser ke kiri" title="Buku Sebelumnya">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
 
-                <div style="margin-top: 14px;">
-                  <div class="product-price-row">
-                    <span class="price-current" style="font-size: 1.25rem;">{{ $book->formatted_price }}</span>
-                    @if($book->original_price)
-                      <span class="price-original" style="font-size: 0.85rem;">{{ $book->formatted_original_price }}</span>
-                    @endif
+          <div class="novel-slider-track" id="track-limited">
+            @foreach($limitedNovels as $book)
+              <div class="product-card novel-slide-card" style="background: #FFFFFF; border: 1px solid var(--champagne-gold); display: flex; flex-direction: column; justify-content: space-between;">
+                <div class="card-image-wrap" style="aspect-ratio: 4/5;">
+                  <img src="{{ asset($book->cover_image) }}" alt="Cover {{ $book->title }}">
+                  <span class="badge-series" style="background: #B45309; color: #FFF;">LIMITED LUXURY BOXSET</span>
+                </div>
+                <div class="card-details" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                  <div>
+                    <h3 class="product-title" style="font-size: 1.1rem; line-height: 1.3;">{{ $book->title }}</h3>
+                    <span class="product-author" style="font-size: 0.75rem;">Oleh {{ $book->author }}</span>
+                    <div style="background: #FEF3C7; color: #92400E; padding: 6px 10px; border-radius: 4px; font-size: 0.75rem; margin-top: 8px; font-weight: 600;">
+                      <i class="fa-solid fa-certificate"></i> Termasuk Box Beludru & Gilded Edges
+                    </div>
                   </div>
-                  <div class="card-actions" style="margin-top: 10px;">
-                    <a href="{{ route('novels.show', $book->slug) }}" class="btn-card btn-card-primary" style="flex: 1; text-align: center; padding: 10px 8px; font-size: 0.78rem;">
-                      <i class="fa-solid fa-eye"></i> Detail Edisi Boxset
-                    </a>
-                    <form action="{{ route('cart.add') }}" method="POST" style="display: inline;">
-                      @csrf
-                      <input type="hidden" name="product_id" value="{{ $book->id }}">
-                      <input type="hidden" name="quantity" value="1">
-                      <button type="submit" class="btn-wishlist" title="Beli Boxset Ini">
-                        <i class="fa-solid fa-cart-plus"></i>
-                      </button>
-                    </form>
+
+                  <div style="margin-top: 14px;">
+                    <div class="product-price-row">
+                      <span class="price-current" style="font-size: 1.25rem;">{{ $book->formatted_price }}</span>
+                      @if($book->original_price)
+                        <span class="price-original" style="font-size: 0.85rem;">{{ $book->formatted_original_price }}</span>
+                      @endif
+                    </div>
+                    <div class="card-actions" style="margin-top: 10px;">
+                      <a href="{{ route('novels.show', $book->slug) }}" class="btn-card btn-card-primary" style="flex: 1; text-align: center; padding: 10px 8px; font-size: 0.78rem;">
+                        <i class="fa-solid fa-eye"></i> Detail Edisi Boxset
+                      </a>
+                      <form action="{{ route('cart.add') }}" method="POST" style="display: inline;">
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{ $book->id }}">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="btn-wishlist" title="Beli Boxset Ini">
+                          <i class="fa-solid fa-cart-plus"></i>
+                        </button>
+                      </form>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          @endforeach
+            @endforeach
+          </div>
+
+          <button type="button" class="slider-arrow-btn next" onclick="slideNovelTrack('track-limited', 1)" aria-label="Geser ke kanan" title="Buku Berikutnya">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
         </div>
       </div>
     @endif

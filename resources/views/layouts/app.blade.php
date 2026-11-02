@@ -222,6 +222,206 @@
         padding: 6px 10px !important;
       }
     }
+
+    /* Novel Horizontal Slider / Track Base Styles */
+    .novel-slider-container {
+      position: relative;
+      width: 100%;
+    }
+    .novel-slider-track {
+      display: flex;
+      gap: 24px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scroll-snap-type: x mandatory;
+      padding: 10px 4px 18px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .novel-slider-track::-webkit-scrollbar {
+      display: none;
+    }
+    .novel-slide-card {
+      flex: 0 0 calc(25% - 18px);
+      min-width: 250px;
+      max-width: 290px;
+      scroll-snap-align: start;
+    }
+    .slider-arrow-btn {
+      position: absolute;
+      top: 45%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 2px solid var(--champagne-gold, #C6A16B);
+      color: var(--ocean-navy, #172B49);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      cursor: pointer;
+      z-index: 10;
+      box-shadow: 0 4px 16px rgba(10, 25, 47, 0.22);
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .slider-arrow-btn:hover {
+      background: var(--champagne-gold, #C6A16B);
+      color: #FFFFFF;
+      transform: translateY(-50%) scale(1.08);
+      box-shadow: 0 6px 20px rgba(198, 161, 107, 0.5);
+    }
+    .slider-arrow-btn:active {
+      transform: translateY(-50%) scale(0.95);
+    }
+    .slider-arrow-btn.prev {
+      left: -20px;
+    }
+    .slider-arrow-btn.next {
+      right: -20px;
+    }
+
+    @media (max-width: 992px) {
+      .novel-group-container {
+        padding: 28px 20px;
+      }
+      .novel-slide-card {
+        flex: 0 0 calc(50% - 12px);
+        min-width: 240px;
+      }
+      .slider-arrow-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+      }
+      .slider-arrow-btn.prev {
+        left: -10px;
+      }
+      .slider-arrow-btn.next {
+        right: -10px;
+      }
+      .hero-nav-btn {
+        display: flex !important;
+        width: 44px !important;
+        height: 44px !important;
+        font-size: 1.1rem !important;
+        z-index: 25 !important;
+      }
+      .hero-nav-btn.prev {
+        left: 12px !important;
+      }
+      .hero-nav-btn.next {
+        right: 12px !important;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero-slider-section, .hero-slides-wrapper {
+        min-height: 590px !important;
+      }
+      .hero-slide-inner {
+        padding: 85px 14px 80px !important;
+      }
+      .hero-badge {
+        margin: 8px auto 14px !important;
+        font-size: 0.68rem !important;
+        padding: 4px 10px !important;
+      }
+      .hero-title {
+        font-size: 1.65rem !important;
+        line-height: 1.25 !important;
+        margin-bottom: 12px !important;
+      }
+      .hero-tagline {
+        font-size: 0.85rem !important;
+        line-height: 1.55 !important;
+        margin-bottom: 18px !important;
+      }
+      .hero-cta-group {
+        flex-direction: column !important;
+        width: 100% !important;
+        max-width: 280px !important;
+        margin: 0 auto 16px !important;
+        gap: 10px !important;
+      }
+      .hero-cta-group .btn {
+        width: 100% !important;
+        text-align: center !important;
+        justify-content: center !important;
+        padding: 12px 18px !important;
+        font-size: 0.8rem !important;
+      }
+      .hero-micro-meta {
+        flex-direction: column !important;
+        gap: 5px !important;
+        font-size: 0.74rem !important;
+        margin-top: 8px !important;
+        margin-bottom: 34px !important;
+      }
+      .hero-nav-btn {
+        display: flex !important;
+        width: 38px !important;
+        height: 38px !important;
+        font-size: 0.95rem !important;
+        background: rgba(11, 20, 36, 0.75) !important;
+        backdrop-filter: blur(6px) !important;
+        -webkit-backdrop-filter: blur(6px) !important;
+        border: 1.5px solid var(--champagne-gold) !important;
+        color: var(--champagne-gold) !important;
+        top: 42% !important;
+        z-index: 25 !important;
+        border-radius: 50% !important;
+      }
+      .hero-nav-btn.prev {
+        left: 8px !important;
+      }
+      .hero-nav-btn.next {
+        right: 8px !important;
+      }
+      .hero-minimal-dots {
+        bottom: 14px !important;
+        z-index: 25 !important;
+      }
+
+      /* Novel Horizontal Slider Mobile */
+      .novel-group-container {
+        padding: 22px 12px !important;
+        margin-bottom: 32px !important;
+        border-radius: 12px !important;
+      }
+      .novel-slider-track {
+        gap: 14px !important;
+        padding: 6px 4px 18px !important;
+        scroll-snap-type: x mandatory !important;
+      }
+      .novel-slide-card {
+        flex: 0 0 270px !important;
+        min-width: 270px !important;
+        max-width: 82vw !important;
+        scroll-snap-align: center !important;
+      }
+      .slider-arrow-btn {
+        width: 38px !important;
+        height: 38px !important;
+        font-size: 0.92rem !important;
+        top: 42% !important;
+        background: rgba(255, 255, 255, 0.96) !important;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25) !important;
+      }
+      .slider-arrow-btn.prev {
+        left: 2px !important;
+      }
+      .slider-arrow-btn.next {
+        right: 2px !important;
+      }
+      .novel-slider-container.dark-theme .slider-arrow-btn {
+        background: rgba(23, 43, 73, 0.92) !important;
+        color: var(--champagne-gold) !important;
+        border-color: var(--champagne-gold) !important;
+      }
+    }
   </style>
   @stack('styles')
 </head>
@@ -643,6 +843,15 @@
         e.target.classList.remove('active');
       }
     });
+
+    // Global Novel Track Horizontal Slider Controller
+    function slideNovelTrack(trackId, direction) {
+      const track = document.getElementById(trackId);
+      if (!track) return;
+      const card = track.querySelector('.novel-slide-card') || track.querySelector('.product-card');
+      const scrollAmount = card ? (card.offsetWidth + 20) : 285;
+      track.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+    }
   </script>
   <!-- FLOATING LIVE CHAT CUSTOMER SUPPORT -->
   @include('partials.chat_widget')
