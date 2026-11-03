@@ -104,7 +104,7 @@
       </div>
     </div>
 
-    <!-- Slide 3: Hangat Cinta & Lembaran Kisah -->
+    <!-- Slide 3: Hierarchy -->
     <div class="hero-slide" data-index="2">
       <div class="hero-slide-bg" style="background-image: url('{{ asset('images/hero-slide-3.jpg') }}');"></div>
       <div class="hero-slide-overlay"></div>
@@ -114,7 +114,7 @@
             <i class="fa-solid fa-heart"></i> EMOTIONAL ROMANCE & BEST SELLER
           </div>
           <h1 class="hero-title">
-            HANGAT CINTA & <span class="gold-gradient-text">LEMBARAN KISAH</span>
+            <span class="gold-gradient-text">HIERARCHY</span>
           </h1>
           <p class="hero-tagline">
             Setiap helaan napas dan tatapan mata terukir dalam untaian kata memikat. Nikmati momen membaca yang menyentuh relung hati terdalam bersama edisi eksklusif bertandatangan.
@@ -139,7 +139,7 @@
         <div class="hero-artwork-preview">
           <div class="hero-glass-card">
             <div class="glass-card-image">
-              <img src="{{ asset('images/hero-slide-3.jpg') }}" alt="Hangat Cinta & Lembaran Kisah">
+              <img src="{{ asset('images/hero-slide-3.jpg') }}" alt="Hierarchy">
             </div>
             <div class="glass-card-caption">
               <div class="glass-tag">ROMANCE BEST SELLER</div>
