@@ -68,7 +68,7 @@
             <i class="fa-solid fa-wand-magic-sparkles"></i> FAIRY TALE & ROYALTY SERIES
           </div>
           <h1 class="hero-title fate-hero-title-wrap">
-            <img src="{{ asset('images/fate-hero-title.png') }}?v=1.0" 
+            <img src="{{ asset('images/fate-hero-title.png') }}?v=1.1" 
                  alt="FATE" 
                  class="fate-hero-title-img">
           </h1>
