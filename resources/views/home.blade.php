@@ -65,28 +65,31 @@
       <div class="container hero-slide-inner">
         <div class="hero-content">
           <div class="hero-badge">
-            <i class="fa-solid fa-crown"></i> ROMANCE & NOTONEGORO SERIES III
+            <i class="fa-solid fa-wand-magic-sparkles"></i> FAIRY TALE & ROYALTY SERIES
           </div>
-          <h1 class="hero-title">
-            <span class="gold-gradient-text">FATE</span>
+          <h1 class="hero-title" style="margin-bottom: 6px;">
+            <span class="gold-gradient-text" style="display: inline-block;">FATE</span> <span style="font-size: 0.6em; vertical-align: middle; color: #DFBA7D;">✦</span>
           </h1>
-          <p class="hero-tagline" style="font-style: italic; font-size: 1.25rem; color: #F3E8D6; letter-spacing: 0.5px;">
+          <div style="font-family: var(--font-serif); font-size: 1.22rem; font-style: italic; color: #F3E8D6; letter-spacing: 0.5px; margin-bottom: 16px;">
             — Bound by Fate, Burned by Love —
+          </div>
+          <p class="hero-tagline">
+            Ketika takdir mempertemukan dua jiwa yang tak seharusnya bersatu, cinta justru menjadi api yang membakar batas, keyakinan, dan segalanya yang mereka perjuangkan.
           </p>
           <div class="hero-cta-group">
             <a href="{{ route('novels.index') }}" class="btn btn-gold">
-              <i class="fa-solid fa-book-sparkles"></i> BACA KISAH LENGKAP
+              BACA KISAH LENGKAP
             </a>
             <a href="{{ route('ebooks.index') }}" class="btn btn-outline-gold">
               <i class="fa-solid fa-download"></i> DIGITAL E-BOOK EDITION
             </a>
           </div>
           <div class="hero-micro-meta">
-            <span><i class="fa-solid fa-star"></i> The Seven Notonegoro</span>
+            <span><i class="fa-solid fa-star"></i> Royal Romance</span>
             <span class="meta-dot">•</span>
-            <span><i class="fa-solid fa-clock-rotate-left"></i> Pre-Order Tersedia</span>
+            <span><i class="fa-solid fa-bolt"></i> A Love Written In Fate</span>
             <span class="meta-dot">•</span>
-            <span><i class="fa-solid fa-bolt"></i> Digital E-Book Edition</span>
+            <span><i class="fa-solid fa-book-open"></i> Special Artbook Inside</span>
           </div>
         </div>
 
@@ -97,7 +100,7 @@
             </div>
             <div class="glass-card-caption">
               <div class="glass-tag">NOTONEGORO SERIES III</div>
-              <div class="glass-title">FATE</div>
+              <div class="glass-title" style="font-style: italic; font-family: var(--font-serif); font-size: 1.05rem; color: #F3E8D6;">Fate</div>
             </div>
           </div>
         </div>
