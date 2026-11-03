@@ -65,7 +65,7 @@
       <div class="container hero-slide-inner">
         <div class="hero-content">
           <div class="hero-badge">
-            <i class="fa-solid fa-wand-magic-sparkles"></i> FAIRY TALE & ROYALTY SERIES
+            <i class="fa-solid fa-crown"></i> ROMANCE & NOTONEGORO SERIES III
           </div>
           <h1 class="hero-title">
             KASTIL SENJA & <span class="gold-gradient-text">TAKDIR MAHKOTA</span>
