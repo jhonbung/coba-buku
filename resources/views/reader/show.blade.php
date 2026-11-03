@@ -556,6 +556,54 @@
       letter-spacing: 0.5px;
     }
 
+    /* Anti-Piracy Dynamic Watermark Overlay (Psychological & Legal Deterrent) */
+    .reader-watermark-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 800;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-content: space-around;
+      overflow: hidden;
+      opacity: 0.045;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .watermark-item {
+      transform: rotate(-22deg);
+      font-size: 0.85rem;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      color: var(--reader-text);
+      white-space: nowrap;
+      margin: 40px 30px;
+      letter-spacing: 1.5px;
+    }
+
+    /* Print Protection: Blank Page on Ctrl+P */
+    @media print {
+      body * {
+        display: none !important;
+        visibility: hidden !important;
+      }
+      body::before {
+        content: "Mencetak atau menyimpan naskah digital ini dilarang oleh Undang-Undang Hak Cipta No. 28 Tahun 2014.";
+        display: block !important;
+        visibility: visible !important;
+        text-align: center;
+        padding: 50px 20px;
+        font-size: 16pt;
+        color: #DC2626;
+        font-family: sans-serif;
+      }
+    }
+
     /* Responsive adjustments */
     @media (max-width: 768px) {
       .reader-header {
@@ -707,6 +755,15 @@
     <!-- Chapter Content Body -->
     @if($hasAccess)
       <!-- FULL READING ACCESS GRANTED -->
+      @php
+        $watermarkName = $order ? ($order->customer_name . ' • ' . $order->customer_email) : (auth()->check() ? (auth()->user()->name . ' • ' . auth()->user()->email) : 'BIANCA VEANA OFFICIAL READER');
+      @endphp
+      <div class="reader-watermark-overlay" aria-hidden="true">
+        @for($w = 0; $w < 16; $w++)
+          <div class="watermark-item">{{ $watermarkName }} • {{ $parent->title }}</div>
+        @endfor
+      </div>
+
       <article class="reader-body" id="readerBodyText">
         @if($part->content)
           @php
@@ -932,21 +989,48 @@
     }
 
     // 6. Anti-Plagiarism & Content Protection
-    // Block context menu
+    // Block context menu (Right Click)
     document.addEventListener('contextmenu', function(e) {
       e.preventDefault();
       return false;
     });
 
-    // Block keyboard shortcuts (Ctrl+C, Ctrl+U, Ctrl+S, F12)
+    // Block text dragging
+    document.addEventListener('dragstart', function(e) {
+      e.preventDefault();
+      return false;
+    });
+
+    // Block keyboard shortcuts (Ctrl+C, Ctrl+U, Ctrl+S, Ctrl+P, Ctrl+A, F12)
     document.addEventListener('keydown', function(e) {
-      if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'p' || e.key === 'a')) {
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'u' || e.key === 's' || e.key === 'p' || e.key === 'a' || e.key === 'x')) {
         e.preventDefault();
         return false;
       }
-      if (e.key === 'F12') {
+      if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'C' || e.key === 'c' || e.key === 'J' || e.key === 'j'))) {
         e.preventDefault();
         return false;
+      }
+      if (e.key === 'PrintScreen') {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText('');
+        }
+      }
+    });
+
+    // Auto-blur naskah saat tab/jendela kehilangan fokus (Anti-Snipping Tool / Screen Capture)
+    window.addEventListener('blur', function() {
+      const body = document.getElementById('readerBodyText');
+      if (body) {
+        body.style.filter = 'blur(10px)';
+        body.style.transition = 'filter 0.15s ease';
+      }
+    });
+
+    window.addEventListener('focus', function() {
+      const body = document.getElementById('readerBodyText');
+      if (body) {
+        body.style.filter = 'none';
       }
     });
 
