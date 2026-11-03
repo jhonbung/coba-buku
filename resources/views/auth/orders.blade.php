@@ -29,8 +29,12 @@
             </div>
 
             <div style="display: flex; align-items: center; gap: 10px;">
-              <!-- Status Pembayaran -->
-              @if($order->payment_status === 'paid')
+              <!-- Status Pembayaran / Pesanan -->
+              @if($order->order_status === 'cancelled' || $order->payment_status === 'cancelled')
+                <span style="background: #FEE2E2; color: #991B1B; border: 1px solid #FECACA; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px;">
+                  <i class="fa-solid fa-ban"></i> Pesanan Dibatalkan
+                </span>
+              @elseif($order->payment_status === 'paid')
                 <span style="background: #ECFDF5; color: #065F46; border: 1px solid #A7F3D0; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 4px;">
                   <i class="fa-solid fa-circle-check"></i> Pembayaran Lunas
                 </span>
@@ -41,18 +45,20 @@
               @endif
 
               <!-- Status Pengiriman -->
-              @if($order->order_status === 'shipped')
-                <span style="background: #EEF2FF; color: #3730A3; border: 1px solid #C7D2FE; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 4px;">
-                  <i class="fa-solid fa-truck-fast"></i> Dalam Pengiriman
-                </span>
-              @elseif($order->order_status === 'completed')
-                <span style="background: #ECFDF5; color: #065F46; border: 1px solid #A7F3D0; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 4px;">
-                  <i class="fa-solid fa-box-open"></i> Selesai
-                </span>
-              @else
-                <span style="background: #F1F5F9; color: #475569; font-size: 0.75rem; font-weight: 600; padding: 4px 10px; border-radius: 4px;">
-                  Diproses
-                </span>
+              @if($order->order_status !== 'cancelled' && $order->payment_status !== 'cancelled')
+                @if($order->order_status === 'shipped')
+                  <span style="background: #EEF2FF; color: #3730A3; border: 1px solid #C7D2FE; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 4px;">
+                    <i class="fa-solid fa-truck-fast"></i> Dalam Pengiriman
+                  </span>
+                @elseif($order->order_status === 'completed')
+                  <span style="background: #ECFDF5; color: #065F46; border: 1px solid #A7F3D0; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 4px;">
+                    <i class="fa-solid fa-box-open"></i> Selesai
+                  </span>
+                @else
+                  <span style="background: #F1F5F9; color: #475569; font-size: 0.75rem; font-weight: 600; padding: 4px 10px; border-radius: 4px;">
+                    Diproses
+                  </span>
+                @endif
               @endif
             </div>
           </div>
@@ -132,17 +138,28 @@
           </div>
 
           <!-- Bottom Action Buttons -->
-          <div style="background: #FAF7F2; padding: 12px 24px; border-top: 1px solid var(--soft-beige); display: flex; justify-content: flex-end; gap: 12px; flex-wrap: wrap; align-items: center;">
+          <div style="background: #FAF7F2; padding: 12px 24px; border-top: 1px solid var(--soft-beige); display: flex; justify-content: flex-end; gap: 10px; flex-wrap: wrap; align-items: center;">
+            @if($order->payment_status === 'pending' && $order->order_status !== 'cancelled')
+              <form action="{{ route('account.orders.cancel', $order->order_number) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pesanan #{{ $order->order_number }}?');" style="margin: 0; display: inline;">
+                @csrf
+                <button type="submit" class="btn" style="background: transparent; border: 1.5px solid #EF4444; color: #DC2626; font-size: 0.8rem; padding: 6px 14px; border-radius: 4px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s;" onmouseover="this.style.background='#DC2626'; this.style.color='#FFF';" onmouseout="this.style.background='transparent'; this.style.color='#DC2626';" title="Batalkan Tagihan Pesanan Ini">
+                  <i class="fa-solid fa-xmark"></i> Batalkan Pesanan
+                </button>
+              </form>
+            @endif
+
             @if($hasRealCourierResi)
               <a href="https://cekresi.com/?noresi={{ urlencode($order->tracking_number) }}" target="_blank" class="btn btn-gold" style="font-size: 0.8rem; padding: 6px 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
                 <i class="fa-solid fa-magnifying-glass-location"></i> Lacak Paket Kurir
               </a>
             @endif
-            @if($order->payment_status === 'pending')
+
+            @if($order->payment_status === 'pending' && $order->order_status !== 'cancelled')
               <a href="{{ route('checkout.payment', $order->order_number) }}" class="btn btn-gold" style="font-size: 0.8rem; padding: 6px 16px;">
                 <i class="fa-solid fa-credit-card"></i> Lanjutkan Pembayaran
               </a>
             @endif
+
             <a href="{{ route('checkout.success', $order->order_number) }}" class="btn btn-outline" style="font-size: 0.8rem; padding: 6px 14px;">
               <i class="fa-solid fa-file-invoice"></i> Lihat Bukti Invoice
             </a>

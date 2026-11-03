@@ -49,6 +49,7 @@ Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear')
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
 Route::get('/checkout/payment/{order_number}', [CheckoutController::class, 'payment'])->name('checkout.payment');
+Route::post('/checkout/payment/{order_number}/cancel', [CheckoutController::class, 'cancelOrder'])->name('checkout.order.cancel');
 Route::post('/checkout/finish/{order_number}', [CheckoutController::class, 'finishPayment'])->name('checkout.finish');
 Route::get('/order/success/{order_number}', [CheckoutController::class, 'success'])->name('checkout.success');
 Route::get('/order/{order_number}/resi', [CheckoutController::class, 'resi'])->name('order.resi');
@@ -81,6 +82,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/account/profile', [CustomerAuthController::class, 'profile'])->name('account.profile');
     Route::post('/account/profile', [CustomerAuthController::class, 'updateProfile'])->name('account.profile.update');
     Route::get('/account/orders', [CustomerAuthController::class, 'orders'])->name('account.orders');
+    Route::post('/account/orders/{order_number}/cancel', [CustomerAuthController::class, 'cancelOrder'])->name('account.orders.cancel');
 });
 
 // 10. Live Chat (Customer Side)

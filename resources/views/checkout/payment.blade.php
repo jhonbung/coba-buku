@@ -126,9 +126,18 @@
         </div>
       @endif
 
-      <a href="{{ route('home') }}" style="color: var(--text-muted); font-size: 0.82rem; text-decoration: underline; margin-top: 8px;">
-        Kembali ke Beranda (Pembayaran dapat diselesaikan nanti)
-      </a>
+      <div style="display: flex; gap: 14px; align-items: center; justify-content: center; flex-wrap: wrap; margin-top: 10px;">
+        <a href="{{ route('home') }}" style="color: var(--text-muted); font-size: 0.82rem; text-decoration: underline;">
+          Kembali ke Beranda (Pembayaran dapat diselesaikan nanti)
+        </a>
+        <span style="color: #CBD5E1;">•</span>
+        <form action="{{ route('checkout.order.cancel', $order->order_number) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pesanan #{{ $order->order_number }}?');" style="margin: 0; display: inline;">
+          @csrf
+          <button type="submit" style="background: none; border: none; padding: 0; font-size: 0.82rem; color: #DC2626; cursor: pointer; text-decoration: underline;">
+            Batalkan Pesanan Ini
+          </button>
+        </form>
+      </div>
     </div>
 
   </div>

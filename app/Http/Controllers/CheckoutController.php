@@ -440,4 +440,68 @@ class CheckoutController extends Controller
         $order = Order::with('items.product')->where('order_number', $order_number)->firstOrFail();
         return view('admin.resi', compact('order'));
     }
+
+    /**
+     * Batalkan pesanan langsung dari halaman checkout / pembayaran
+     */
+    public function cancelOrder(Request $request, string $order_number)
+    {
+        $order = Order::with('items.product')->where('order_number', $order_number)->firstOrFail();
+
+        if (\Illuminate\Support\Facades\Auth::guard('web')->check()) {
+            $user = \Illuminate\Support\Facades\Auth::guard('web')->user();
+            if ($order->user_id && $order->user_id !== $user->id && $order->customer_email !== $user->email) {
+                abort(403, 'Akses tidak diizinkan.');
+            }
+        }
+
+        if ($order->payment_status === 'paid') {
+            return back()->with('error', 'Pesanan yang sudah dibayar tidak dapat dibatalkan.');
+        }
+
+        if ($order->order_status === 'cancelled' || $order->payment_status === 'cancelled') {
+            return back()->with('info', 'Pesanan ini sudah dibatalkan sebelumnya.');
+        }
+
+        if (in_array($order->order_status, ['shipped', 'completed'])) {
+            return back()->with('error', 'Pesanan yang sudah dikirim atau selesai tidak dapat dibatalkan.');
+        }
+
+        // Kembalikan stok fisik
+        foreach ($order->items as $item) {
+            if ($item->product && $item->product->category !== 'ebook') {
+                $item->product->increment('stock', $item->quantity);
+            }
+        }
+
+        // Kembalikan kuota kupon
+        if ($order->coupon_code) {
+            $coupon = Coupon::where('code', $order->coupon_code)->first();
+            if ($coupon && $coupon->usage_count > 0) {
+                $coupon->decrement('usage_count');
+            }
+        }
+
+        // Batalkan di Midtrans
+        try {
+            $serverKey = config('services.midtrans.server_key') ?: env('MIDTRANS_SERVER_KEY');
+            if ($serverKey) {
+                \Midtrans\Config::$serverKey = $serverKey;
+                \Midtrans\Config::$isProduction = (bool) (config('services.midtrans.is_production') ?? env('MIDTRANS_IS_PRODUCTION', false));
+                \Midtrans\Transaction::cancel($order->order_number);
+            }
+        } catch (\Throwable $e) {}
+
+        $order->update([
+            'order_status' => 'cancelled',
+            'payment_status' => 'cancelled',
+            'notes' => trim(($order->notes ? $order->notes . "\n" : '') . '[Dibatalkan oleh customer pada ' . now()->timezone('Asia/Jakarta')->format('d M Y, H:i') . ' WIB]'),
+        ]);
+
+        if (\Illuminate\Support\Facades\Auth::guard('web')->check()) {
+            return redirect()->route('account.orders')->with('success', "Pesanan #{$order->order_number} berhasil dibatalkan.");
+        }
+
+        return redirect()->route('home')->with('success', "Pesanan #{$order->order_number} berhasil dibatalkan.");
+    }
 }
