@@ -58,7 +58,7 @@
       </div>
     </div>
 
-    <!-- Slide 2: Kastil Senja & Takdir Mahkota -->
+    <!-- Slide 2: FATE (The Seven Notonegoro Series III) -->
     <div class="hero-slide" data-index="1">
       <div class="hero-slide-bg" style="background-image: url('{{ asset('images/hero-slide-2.jpg') }}');"></div>
       <div class="hero-slide-overlay"></div>
@@ -68,10 +68,10 @@
             <i class="fa-solid fa-crown"></i> ROMANCE & NOTONEGORO SERIES III
           </div>
           <h1 class="hero-title">
-            KASTIL SENJA & <span class="gold-gradient-text">TAKDIR MAHKOTA</span>
+            <span class="gold-gradient-text">FATE</span>
           </h1>
-          <p class="hero-tagline">
-            Di balik megahnya dinding istana dan air terjun keabadian, tersimpan rahasia takdir cinta sang putri. Rasakan keajaiban kisah fantasi kerajaan paling memikat hati.
+          <p class="hero-tagline" style="font-style: italic; font-size: 1.25rem; color: #F3E8D6; letter-spacing: 0.5px;">
+            — Bound by Fate, Burned by Love —
           </p>
           <div class="hero-cta-group">
             <a href="{{ route('novels.index') }}" class="btn btn-gold">
@@ -82,22 +82,22 @@
             </a>
           </div>
           <div class="hero-micro-meta">
-            <span><i class="fa-solid fa-star"></i> High Fantasy Romance</span>
+            <span><i class="fa-solid fa-star"></i> The Seven Notonegoro</span>
             <span class="meta-dot">•</span>
-            <span><i class="fa-solid fa-bolt"></i> Instant Digital Delivery</span>
+            <span><i class="fa-solid fa-clock-rotate-left"></i> Pre-Order Tersedia</span>
             <span class="meta-dot">•</span>
-            <span><i class="fa-solid fa-sparkles"></i> Special Artbook Inside</span>
+            <span><i class="fa-solid fa-bolt"></i> Digital E-Book Edition</span>
           </div>
         </div>
 
         <div class="hero-artwork-preview">
           <div class="hero-glass-card">
             <div class="glass-card-image">
-              <img src="{{ asset('images/hero-slide-2.jpg') }}" alt="Kastil Senja & Takdir Mahkota">
+              <img src="{{ asset('images/hero-slide-2.jpg') }}" alt="FATE — The Seven Notonegoro Series III">
             </div>
             <div class="glass-card-caption">
-              <div class="glass-tag">FAIRYTALE COLLECTION</div>
-              <div class="glass-title">Senja di Tepi Danau Takdir</div>
+              <div class="glass-tag">NOTONEGORO SERIES III</div>
+              <div class="glass-title">FATE</div>
             </div>
           </div>
         </div>
