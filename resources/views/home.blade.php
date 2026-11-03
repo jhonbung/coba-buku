@@ -67,11 +67,26 @@
           <div class="hero-badge">
             <i class="fa-solid fa-wand-magic-sparkles"></i> FAIRY TALE & ROYALTY SERIES
           </div>
-          <h1 class="hero-title" style="margin-bottom: 6px;">
-            <span class="gold-gradient-text" style="display: inline-block;">FATE</span> <span style="font-size: 0.6em; vertical-align: middle; color: #DFBA7D;">✦</span>
+          <h1 class="hero-title" style="font-size: clamp(3.6rem, 7.5vw, 5.4rem); line-height: 1.05; margin-bottom: 8px; font-weight: 700; font-family: var(--font-serif); letter-spacing: 1.5px; display: inline-flex; align-items: baseline; gap: 8px; flex-wrap: wrap;">
+            <span style="font-style: italic; color: #FFFDF8; text-shadow: 0 4px 18px rgba(0,0,0,0.4);">FATE</span>
+            <span style="display: inline-flex; align-items: center; position: relative; top: -0.35em;">
+              <svg width="68" height="32" viewBox="0 0 68 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="overflow: visible;">
+                <path d="M50 2C50 6.5 54 8.5 58.5 8.5C54 8.5 50 10.5 50 15C50 10.5 46 8.5 41.5 8.5C46 8.5 50 6.5 50 2Z" fill="#E5C388"/>
+                <path d="M4 14C24 4 48 4 52 13C54 18 46 24 35 23C22 22 20 13 36 15C46 16 52 21 58 24" stroke="url(#goldFlourishFate)" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+                <defs>
+                  <linearGradient id="goldFlourishFate" x1="4" y1="4" x2="58" y2="24" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#F9ECD3"/>
+                    <stop offset="0.5" stop-color="#DFBA7D"/>
+                    <stop offset="1" stop-color="#C6A16B"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </span>
           </h1>
-          <div style="font-family: var(--font-serif); font-size: 1.22rem; font-style: italic; color: #F3E8D6; letter-spacing: 0.5px; margin-bottom: 16px;">
-            — Bound by Fate, Burned by Love —
+          <div style="font-family: var(--font-serif); font-size: clamp(1.1rem, 2.4vw, 1.35rem); font-style: italic; color: #F1E5D1; letter-spacing: 0.8px; margin-bottom: 18px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <span style="color: var(--champagne-gold); font-weight: 300;">—</span>
+            <span><span style="color: var(--champagne-gold);">B</span>ound by Fate, Burned by Love</span>
+            <span style="color: var(--champagne-gold); font-weight: 300;">—</span>
           </div>
           <p class="hero-tagline">
             Ketika takdir mempertemukan dua jiwa yang tak seharusnya bersatu, cinta justru menjadi api yang membakar batas, keyakinan, dan segalanya yang mereka perjuangkan.
