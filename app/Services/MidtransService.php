@@ -141,6 +141,11 @@ class MidtransService
                 'bca_va', 'bni_va', 'bri_va', 'mandiri_va', 'permata_va', 'other_va',
                 'credit_card'
             ],
+            'expiry' => [
+                'start_time' => now()->timezone('Asia/Jakarta')->format('Y-m-d H:i:s O'),
+                'unit' => 'hours',
+                'duration' => \App\Models\Order::EXPIRY_HOURS,
+            ],
         ];
 
         // 2. If Midtrans credentials are set, call real API

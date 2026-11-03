@@ -328,6 +328,8 @@
                   <i class="fa-solid fa-check-double"></i> {{ $order->payment_method }}
                   @if($order->payment_status === 'paid')
                     <span style="background: #DCFCE7; color: #15803D; font-size: 0.68rem; font-weight: 700; padding: 1px 6px; border-radius: 4px; margin-left: 4px;">Lunas</span>
+                  @elseif(in_array($order->payment_status, ['expired', 'cancelled', 'failed']))
+                    <span style="background: #FEE2E2; color: #991B1B; font-size: 0.68rem; font-weight: 700; padding: 1px 6px; border-radius: 4px; margin-left: 4px;">{{ $order->payment_status === 'expired' ? 'Kedaluwarsa' : 'Dibatalkan' }}</span>
                   @else
                     <span style="background: #FEF3C7; color: #B45309; font-size: 0.68rem; font-weight: 700; padding: 1px 6px; border-radius: 4px; margin-left: 4px;">{{ ucfirst($order->payment_status) }}</span>
                   @endif

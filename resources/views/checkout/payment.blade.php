@@ -32,12 +32,27 @@
       </div>
 
       <div style="text-align: right;">
-        <span style="background: rgba(198, 161, 107, 0.2); color: var(--champagne-gold); border: 1px solid var(--champagne-gold); padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
-          <i class="fa-solid fa-clock"></i> MENUNGGU PEMBAYARAN
-        </span>
-        <div style="font-size: 0.72rem; color: #94A3B8; margin-top: 6px;">
-          Verifikasi otomatis 24/7 instan
-        </div>
+        @if($order->payment_status === 'expired')
+          <span style="background: rgba(239, 68, 68, 0.2); color: #EF4444; border: 1px solid #EF4444; padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-clock-rotate-left"></i> WAKTU PEMBAYARAN HABIS
+          </span>
+        @elseif($order->order_status === 'cancelled')
+          <span style="background: rgba(239, 68, 68, 0.2); color: #EF4444; border: 1px solid #EF4444; padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-ban"></i> PESANAN DIBATALKAN
+          </span>
+        @else
+          <span style="background: rgba(198, 161, 107, 0.2); color: var(--champagne-gold); border: 1px solid var(--champagne-gold); padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-clock"></i> MENUNGGU PEMBAYARAN
+          </span>
+          @if($order->remaining_time)
+            <div style="font-size: 0.74rem; color: #F59E0B; margin-top: 5px; font-weight: 600;">
+              <i class="fa-regular fa-hourglass-half"></i> Sisa Waktu: {{ $order->remaining_time }}
+            </div>
+          @endif
+          <div style="font-size: 0.68rem; color: #94A3B8; margin-top: 2px;">
+            Batas: {{ $order->formatted_expires_at }}
+          </div>
+        @endif
       </div>
     </div>
 
@@ -103,42 +118,66 @@
     </div>
 
     <!-- Action Buttons -->
-    <div style="display: flex; flex-direction: column; gap: 14px; align-items: center;">
-      <button id="pay-button" type="button" class="btn btn-gold" style="width: 100%; max-width: 440px; padding: 18px 24px; font-size: 1.05rem; font-weight: 700; letter-spacing: 0.5px; box-shadow: 0 4px 15px rgba(198, 161, 107, 0.4);">
-        <i class="fa-solid fa-lock"></i> BAYAR SEKARANG VIA MIDTRANS
-      </button>
+    @if($order->order_status === 'cancelled' || in_array($order->payment_status, ['cancelled', 'expired']))
+      <div style="background: #FEF2F2; border: 1.5px solid #FCA5A5; border-radius: 8px; padding: 26px 20px; text-align: center; margin-bottom: 20px;">
+        <div style="width: 56px; height: 56px; border-radius: 50%; background: #FEE2E2; color: #DC2626; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 14px;">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+        </div>
+        <h3 style="font-family: var(--font-serif); color: #991B1B; font-size: 1.35rem; margin: 0 0 8px;">
+          {{ $order->payment_status === 'expired' ? 'Batas Waktu Pembayaran Telah Habis' : 'Pesanan Ini Telah Dibatalkan' }}
+        </h3>
+        <p style="color: #7F1D1D; font-size: 0.88rem; margin: 0 auto 20px; max-width: 500px; line-height: 1.6;">
+          {{ $order->payment_status === 'expired' ? 'Tagihan pesanan ini kedaluwarsa secara otomatis karena melewati batas waktu 24 jam. Stok buku telah dipulihkan kembali ke toko.' : 'Pesanan ini sudah dibatalkan sehingga proses pembayaran tidak dapat dilanjutkan.' }}
+        </p>
+        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+          <a href="{{ route('novels.index') }}" class="btn btn-gold" style="font-size: 0.85rem; padding: 11px 24px; font-weight: 700; text-decoration: none;">
+            <i class="fa-solid fa-book"></i> Buat Pesanan Baru
+          </a>
+          @auth('web')
+            <a href="{{ route('account.orders') }}" class="btn btn-outline" style="font-size: 0.85rem; padding: 11px 20px; text-decoration: none;">
+              <i class="fa-solid fa-list-check"></i> Riwayat Pesanan
+            </a>
+          @endauth
+        </div>
+      </div>
+    @else
+      <div style="display: flex; flex-direction: column; gap: 14px; align-items: center;">
+        <button id="pay-button" type="button" class="btn btn-gold" style="width: 100%; max-width: 440px; padding: 18px 24px; font-size: 1.05rem; font-weight: 700; letter-spacing: 0.5px; box-shadow: 0 4px 15px rgba(198, 161, 107, 0.4);">
+          <i class="fa-solid fa-lock"></i> BAYAR SEKARANG VIA MIDTRANS
+        </button>
 
-      <!-- Testing Simulator (Only when Midtrans key is not set or in Sandbox) -->
-      @if(!$isConfigured)
-        <div style="margin-top: 16px; background: #FEF3C7; border: 1px dashed #F59E0B; border-radius: 8px; padding: 18px 24px; max-width: 540px; text-align: center; width: 100%;">
-          <div style="font-size: 0.85rem; font-weight: 700; color: #92400E; margin-bottom: 6px;">
-            <i class="fa-solid fa-circle-info"></i> Mode Pengujian Midtrans (Demo Simulation)
+        <!-- Testing Simulator (Only when Midtrans key is not set or in Sandbox) -->
+        @if(!$isConfigured)
+          <div style="margin-top: 16px; background: #FEF3C7; border: 1px dashed #F59E0B; border-radius: 8px; padding: 18px 24px; max-width: 540px; text-align: center; width: 100%;">
+            <div style="font-size: 0.85rem; font-weight: 700; color: #92400E; margin-bottom: 6px;">
+              <i class="fa-solid fa-circle-info"></i> Mode Pengujian Midtrans (Demo Simulation)
+            </div>
+            <p style="font-size: 0.78rem; color: #78350F; margin: 0 0 12px; line-height: 1.5;">
+              API Key Midtrans belum diisi di file <code>.env</code>. Anda dapat menguji seluruh alur hingga halaman pesanan sukses dengan tombol simulasi di bawah:
+            </p>
+            <form action="{{ route('checkout.finish', $order->order_number) }}" method="POST" style="margin: 0;">
+              @csrf
+              <button type="submit" style="background: #15803D; color: #FFFFFF; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 700; font-size: 0.82rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-circle-check"></i> Simulasi Bayar Berhasil (Instant Test)
+              </button>
+            </form>
           </div>
-          <p style="font-size: 0.78rem; color: #78350F; margin: 0 0 12px; line-height: 1.5;">
-            API Key Midtrans belum diisi di file <code>.env</code>. Anda dapat menguji seluruh alur hingga halaman pesanan sukses dengan tombol simulasi di bawah:
-          </p>
-          <form action="{{ route('checkout.finish', $order->order_number) }}" method="POST" style="margin: 0;">
+        @endif
+
+        <div style="display: flex; gap: 14px; align-items: center; justify-content: center; flex-wrap: wrap; margin-top: 10px;">
+          <a href="{{ route('home') }}" style="color: var(--text-muted); font-size: 0.82rem; text-decoration: underline;">
+            Kembali ke Beranda (Pembayaran dapat diselesaikan nanti)
+          </a>
+          <span style="color: #CBD5E1;">•</span>
+          <form action="{{ route('checkout.order.cancel', $order->order_number) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pesanan #{{ $order->order_number }}?');" style="margin: 0; display: inline;">
             @csrf
-            <button type="submit" style="background: #15803D; color: #FFFFFF; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 700; font-size: 0.82rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
-              <i class="fa-solid fa-circle-check"></i> Simulasi Bayar Berhasil (Instant Test)
+            <button type="submit" style="background: none; border: none; padding: 0; font-size: 0.82rem; color: #DC2626; cursor: pointer; text-decoration: underline;">
+              Batalkan Pesanan Ini
             </button>
           </form>
         </div>
-      @endif
-
-      <div style="display: flex; gap: 14px; align-items: center; justify-content: center; flex-wrap: wrap; margin-top: 10px;">
-        <a href="{{ route('home') }}" style="color: var(--text-muted); font-size: 0.82rem; text-decoration: underline;">
-          Kembali ke Beranda (Pembayaran dapat diselesaikan nanti)
-        </a>
-        <span style="color: #CBD5E1;">•</span>
-        <form action="{{ route('checkout.order.cancel', $order->order_number) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pesanan #{{ $order->order_number }}?');" style="margin: 0; display: inline;">
-          @csrf
-          <button type="submit" style="background: none; border: none; padding: 0; font-size: 0.82rem; color: #DC2626; cursor: pointer; text-decoration: underline;">
-            Batalkan Pesanan Ini
-          </button>
-        </form>
       </div>
-    </div>
+    @endif
 
   </div>
 

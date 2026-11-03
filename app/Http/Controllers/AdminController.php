@@ -93,6 +93,9 @@ class AdminController extends Controller
 
     public function orders(Request $request)
     {
+        // Otomatis batalkan pesanan pending yang sudah lewat 24 jam
+        Order::cancelAllExpired();
+
         $startDate = $request->query('start_date');
         $endDate = $request->query('end_date');
         $selectedCategory = $request->query('category', 'all');

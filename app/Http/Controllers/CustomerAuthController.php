@@ -170,6 +170,9 @@ class CustomerAuthController extends Controller
             return redirect()->route('login');
         }
 
+        // Otomatis batalkan pesanan pending yang sudah lewat batas waktu (real-time auto-cancel)
+        Order::cancelAllExpired();
+
         $orders = Order::with('items.product')
             ->where(function ($q) use ($user) {
                 $q->where('user_id', $user->id)
@@ -204,47 +207,15 @@ class CustomerAuthController extends Controller
             return back()->with('error', 'Pesanan yang sudah lunas tidak dapat dibatalkan secara otomatis. Silakan hubungi admin / customer care kami.');
         }
 
-        if ($order->order_status === 'cancelled' || $order->payment_status === 'cancelled') {
-            return back()->with('info', 'Pesanan ini sudah dibatalkan sebelumnya.');
+        if ($order->order_status === 'cancelled' || in_array($order->payment_status, ['cancelled', 'expired'])) {
+            return back()->with('info', 'Pesanan ini sudah dibatalkan atau kedaluwarsa.');
         }
 
         if (in_array($order->order_status, ['shipped', 'completed'])) {
             return back()->with('error', 'Pesanan yang sudah dikirim atau selesai tidak dapat dibatalkan.');
         }
 
-        // 1. Kembalikan stok produk fisik
-        foreach ($order->items as $item) {
-            if ($item->product && $item->product->category !== 'ebook') {
-                $item->product->increment('stock', $item->quantity);
-            }
-        }
-
-        // 2. Kembalikan kuota kupon diskon jika digunakan
-        if ($order->coupon_code) {
-            $coupon = \App\Models\Coupon::where('code', $order->coupon_code)->first();
-            if ($coupon && $coupon->usage_count > 0) {
-                $coupon->decrement('usage_count');
-            }
-        }
-
-        // 3. Batalkan transaksi di Midtrans jika ada
-        try {
-            $serverKey = config('services.midtrans.server_key') ?: env('MIDTRANS_SERVER_KEY');
-            if ($serverKey) {
-                \Midtrans\Config::$serverKey = $serverKey;
-                \Midtrans\Config::$isProduction = (bool) (config('services.midtrans.is_production') ?? env('MIDTRANS_IS_PRODUCTION', false));
-                \Midtrans\Transaction::cancel($order->order_number);
-            }
-        } catch (\Throwable $e) {
-            // Midtrans cancel bisa gagal jika transaksi belum dibuka di Midtrans; tidak masalah
-        }
-
-        // 4. Update status pesanan
-        $order->update([
-            'order_status' => 'cancelled',
-            'payment_status' => 'cancelled',
-            'notes' => trim(($order->notes ? $order->notes . "\n" : '') . '[Dibatalkan oleh customer pada ' . now()->timezone('Asia/Jakarta')->format('d M Y, H:i') . ' WIB]'),
-        ]);
+        $order->cancelOrder('customer');
 
         return back()->with('success', "Pesanan #{$order->order_number} berhasil dibatalkan.");
     }

@@ -30,7 +30,11 @@
 
             <div style="display: flex; align-items: center; gap: 10px;">
               <!-- Status Pembayaran / Pesanan -->
-              @if($order->order_status === 'cancelled' || $order->payment_status === 'cancelled')
+              @if($order->payment_status === 'expired')
+                <span style="background: #FEE2E2; color: #991B1B; border: 1px solid #FECACA; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px;" title="Kedaluwarsa otomatis karena melewati batas waktu 24 jam">
+                  <i class="fa-solid fa-clock-rotate-left"></i> Waktu Habis (Kedaluwarsa)
+                </span>
+              @elseif($order->order_status === 'cancelled' || $order->payment_status === 'cancelled')
                 <span style="background: #FEE2E2; color: #991B1B; border: 1px solid #FECACA; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px;">
                   <i class="fa-solid fa-ban"></i> Pesanan Dibatalkan
                 </span>
@@ -39,13 +43,20 @@
                   <i class="fa-solid fa-circle-check"></i> Pembayaran Lunas
                 </span>
               @else
-                <span style="background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 4px;">
-                  <i class="fa-solid fa-clock"></i> Menunggu Bayar
-                </span>
+                <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px;">
+                  <span style="background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px;">
+                    <i class="fa-solid fa-clock"></i> Menunggu Bayar
+                  </span>
+                  @if($order->remaining_time)
+                    <span style="font-size: 0.68rem; color: #B45309; font-weight: 600;" title="Batas bayar: {{ $order->formatted_expires_at }}">
+                      <i class="fa-regular fa-hourglass-half"></i> Sisa {{ $order->remaining_time }}
+                    </span>
+                  @endif
+                </div>
               @endif
 
               <!-- Status Pengiriman -->
-              @if($order->order_status !== 'cancelled' && $order->payment_status !== 'cancelled')
+              @if(!in_array($order->order_status, ['cancelled']) && !in_array($order->payment_status, ['cancelled', 'expired']))
                 @if($order->order_status === 'shipped')
                   <span style="background: #EEF2FF; color: #3730A3; border: 1px solid #C7D2FE; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 4px;">
                     <i class="fa-solid fa-truck-fast"></i> Dalam Pengiriman
@@ -139,7 +150,7 @@
 
           <!-- Bottom Action Buttons -->
           <div style="background: #FAF7F2; padding: 12px 24px; border-top: 1px solid var(--soft-beige); display: flex; justify-content: flex-end; gap: 10px; flex-wrap: wrap; align-items: center;">
-            @if($order->payment_status === 'pending' && $order->order_status !== 'cancelled')
+            @if($order->payment_status === 'pending' && $order->order_status !== 'cancelled' && !$order->is_expired)
               <form action="{{ route('account.orders.cancel', $order->order_number) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pesanan #{{ $order->order_number }}?');" style="margin: 0; display: inline;">
                 @csrf
                 <button type="submit" class="btn" style="background: transparent; border: 1.5px solid #EF4444; color: #DC2626; font-size: 0.8rem; padding: 6px 14px; border-radius: 4px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s;" onmouseover="this.style.background='#DC2626'; this.style.color='#FFF';" onmouseout="this.style.background='transparent'; this.style.color='#DC2626';" title="Batalkan Tagihan Pesanan Ini">
@@ -154,9 +165,15 @@
               </a>
             @endif
 
-            @if($order->payment_status === 'pending' && $order->order_status !== 'cancelled')
+            @if($order->payment_status === 'pending' && $order->order_status !== 'cancelled' && !$order->is_expired)
               <a href="{{ route('checkout.payment', $order->order_number) }}" class="btn btn-gold" style="font-size: 0.8rem; padding: 6px 16px;">
                 <i class="fa-solid fa-credit-card"></i> Lanjutkan Pembayaran
+              </a>
+            @endif
+
+            @if(in_array($order->payment_status, ['expired', 'cancelled']))
+              <a href="{{ route('novels.index') }}" class="btn btn-outline" style="font-size: 0.8rem; padding: 6px 14px; color: var(--champagne-gold); border-color: var(--champagne-gold); text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+                <i class="fa-solid fa-rotate-right"></i> Pesan Ulang
               </a>
             @endif
 
