@@ -67,9 +67,10 @@
           <div class="hero-badge">
             <i class="fa-solid fa-wand-magic-sparkles"></i> FAIRY TALE & ROYALTY SERIES
           </div>
-          <h1 class="hero-title" style="display: block; width: 100%; font-size: clamp(3.2rem, 7vw, 4.6rem); line-height: 1.1; margin-top: 14px; margin-bottom: 8px; font-weight: 700; font-family: var(--font-serif); letter-spacing: 2px;">
-            <span style="font-style: italic; color: #FFFDF8; text-shadow: 0 4px 18px rgba(0,0,0,0.5);">FATE</span>
-            <span style="font-size: 0.6em; vertical-align: middle; color: #DFBA7D; margin-left: 8px;">✦</span>
+          <h1 class="hero-title fate-hero-title-wrap">
+            <img src="{{ asset('images/fate-hero-title.png') }}?v=1.0" 
+                 alt="FATE" 
+                 class="fate-hero-title-img">
           </h1>
           <div style="font-family: var(--font-serif); font-size: clamp(1.05rem, 2.2vw, 1.25rem); font-style: italic; color: #F1E5D1; letter-spacing: 0.5px; margin-bottom: 18px;">
             <span style="color: var(--champagne-gold);">—</span> Bound by Fate, Burned by Love <span style="color: var(--champagne-gold);">—</span>

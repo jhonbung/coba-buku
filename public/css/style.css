@@ -381,6 +381,23 @@ img {
   letter-spacing: 0.5px;
 }
 
+.fate-hero-title-wrap {
+  display: block;
+  width: 100%;
+  margin-top: 14px;
+  margin-bottom: 12px;
+  line-height: 1;
+}
+
+.fate-hero-title-img {
+  height: clamp(52px, 8vw, 84px);
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 4px 18px rgba(0, 0, 0, 0.45));
+}
+
 .gold-gradient-text {
   background: linear-gradient(135deg, #F9ECD3 0%, #DFBA7D 50%, #C6A16B 100%);
   -webkit-background-clip: text;
@@ -2426,6 +2443,14 @@ img {
     font-size: 1.65rem !important;
     line-height: 1.25 !important;
     margin-bottom: 12px !important;
+  }
+  .fate-hero-title-wrap {
+    margin: 8px auto 12px !important;
+    text-align: center !important;
+  }
+  .fate-hero-title-img {
+    height: clamp(38px, 11vw, 56px) !important;
+    margin: 0 auto !important;
   }
   .hero-tagline {
     font-size: 0.85rem !important;
