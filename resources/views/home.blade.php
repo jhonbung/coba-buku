@@ -128,7 +128,7 @@
             </a>
           </div>
           <div class="hero-micro-meta">
-            <span><i class="fa-solid fa-pen-fancy"></i> Bertandatangan Asli</span>
+            <span><i class="fa-solid fa-pen-fancy"></i> Bertandatangan Digital</span>
             <span class="meta-dot">•</span>
             <span><i class="fa-solid fa-box"></i> Hard Box & Bubble Wrap</span>
             <span class="meta-dot">•</span>
