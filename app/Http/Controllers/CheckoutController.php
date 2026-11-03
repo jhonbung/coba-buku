@@ -435,6 +435,19 @@ class CheckoutController extends Controller
     public function success(string $order_number)
     {
         $order = Order::with('items.product')->where('order_number', $order_number)->firstOrFail();
+
+        // 1. Cek jika pesanan sudah kedaluwarsa (24 jam)
+        if ($order->is_expired) {
+            $order->cancelOrder('expired');
+            $order->refresh();
+        }
+
+        // 2. Jika pesanan belum dibayar dan belum dibatalkan (masih pending), arahkan ke halaman pembayaran
+        if ($order->payment_status === 'pending' && $order->order_status !== 'cancelled') {
+            return redirect()->route('checkout.payment', $order->order_number)
+                ->with('warning', 'Pesanan ini belum dibayar. Silakan selesaikan pembayaran terlebih dahulu.');
+        }
+
         return view('checkout.success', compact('order'));
     }
 

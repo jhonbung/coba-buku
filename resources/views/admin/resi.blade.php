@@ -181,6 +181,11 @@
   </div>
 
   <div class="resi-container">
+    @if($order->order_status === 'cancelled' || in_array($order->payment_status, ['cancelled', 'expired']))
+      <div style="background: #FEE2E2; border: 2px dashed #DC2626; color: #991B1B; padding: 12px; margin-bottom: 16px; border-radius: 6px; text-align: center; font-weight: 700; font-size: 0.9rem;">
+        &#9888; PERHATIAN: PESANAN INI TELAH DIBATALKAN / KEDALUWARSA. JANGAN LAKUKAN PENGIRIMAN PAKET.
+      </div>
+    @endif
     <div class="resi-header">
       <div style="display: flex; align-items: center; gap: 12px;">
         <img src="{{ asset('images/logo.png') }}" alt="Logo" style="height: 48px; width: auto; object-fit: contain;">
@@ -266,7 +271,15 @@
         <span class="fragile-badge">FRAGILE · JANGAN DIBANTING / BUKU ASLI</span>
       </div>
       <div style="text-align: right; font-weight: 600;">
-        Status Pembayaran: <span style="color: #15803D;">LUNAS (PAID)</span>
+        @if($order->payment_status === 'paid')
+          Status Pembayaran: <span style="color: #15803D;">LUNAS (PAID)</span>
+        @elseif($order->order_status === 'cancelled' || $order->payment_status === 'cancelled')
+          Status Pembayaran: <span style="color: #DC2626;">DIBATALKAN (BATAL)</span>
+        @elseif($order->payment_status === 'expired')
+          Status Pembayaran: <span style="color: #DC2626;">KEDALUWARSA (EXPIRED)</span>
+        @else
+          Status Pembayaran: <span style="color: #D97706;">MENUNGGU PEMBAYARAN</span>
+        @endif
       </div>
     </div>
   </div>

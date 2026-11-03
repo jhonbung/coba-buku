@@ -177,9 +177,19 @@
               </a>
             @endif
 
-            <a href="{{ route('checkout.success', $order->order_number) }}" class="btn btn-outline" style="font-size: 0.8rem; padding: 6px 14px;">
-              <i class="fa-solid fa-file-invoice"></i> Lihat Bukti Invoice
-            </a>
+            @if($order->payment_status === 'paid')
+              <a href="{{ route('checkout.success', $order->order_number) }}" class="btn btn-outline" style="font-size: 0.8rem; padding: 6px 14px;" title="Lihat Bukti Pembayaran Resmi">
+                <i class="fa-solid fa-file-invoice"></i> Lihat Bukti Invoice
+              </a>
+            @elseif($order->order_status === 'cancelled' || in_array($order->payment_status, ['cancelled', 'expired']))
+              <a href="{{ route('checkout.success', $order->order_number) }}" class="btn btn-outline" style="font-size: 0.8rem; padding: 6px 14px; color: #64748B; border-color: #CBD5E1;" title="Lihat Rincian Pesanan yang Dibatalkan">
+                <i class="fa-solid fa-circle-info"></i> Rincian Pesanan (Batal)
+              </a>
+            @else
+              <a href="{{ route('checkout.payment', $order->order_number) }}" class="btn btn-outline" style="font-size: 0.8rem; padding: 6px 14px;" title="Lihat Rincian Tagihan Pesanan">
+                <i class="fa-solid fa-file-lines"></i> Rincian Tagihan
+              </a>
+            @endif
           </div>
 
         </div>
