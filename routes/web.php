@@ -63,6 +63,7 @@ Route::get('/coupons/available', [CouponController::class, 'available'])->name('
 
 // Product Reviews (Verified Buyers Only)
 Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 Route::post('/reviews/{id}/helpful', [ReviewController::class, 'voteHelpful'])->name('reviews.helpful');
 
 // 8. Newsletter

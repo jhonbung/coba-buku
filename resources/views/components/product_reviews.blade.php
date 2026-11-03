@@ -220,9 +220,9 @@
                 </div>
               </div>
 
-              <!-- Rating & Date -->
-              <div style="text-align: right;">
-                <div style="color: #F59E0B; font-size: 0.85rem; margin-bottom: 3px;">
+              <!-- Rating & Date & Action -->
+              <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+                <div style="color: #F59E0B; font-size: 0.85rem;">
                   @for($i = 1; $i <= 5; $i++)
                     @if($i <= $rev->rating)
                       <i class="fa-solid fa-star"></i>
@@ -231,9 +231,20 @@
                     @endif
                   @endfor
                 </div>
-                <span style="font-size: 0.72rem; color: var(--text-muted);">
-                  {{ $rev->formatted_date }}
-                </span>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="font-size: 0.72rem; color: var(--text-muted);">
+                    {{ $rev->formatted_date }}
+                  </span>
+                  @if(auth()->guard('web')->check() && auth()->guard('web')->id() === $rev->user_id)
+                    <form action="{{ route('reviews.destroy', $rev->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus ulasan ini?');" style="margin: 0; display: inline;">
+                      @csrf
+                      @method('DELETE')
+                      <button type="submit" style="background: none; border: none; padding: 0; font-size: 0.72rem; color: #DC2626; cursor: pointer; text-decoration: underline;" title="Hapus Ulasan Anda">
+                        <i class="fa-solid fa-trash-can"></i> Hapus
+                      </button>
+                    </form>
+                  @endif
+                </div>
               </div>
             </div>
 

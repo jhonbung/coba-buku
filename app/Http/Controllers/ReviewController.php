@@ -129,5 +129,23 @@ class ReviewController extends Controller
             'count' => $review->helpful_count,
         ]);
     }
+
+    /**
+     * Hapus ulasan milik customer yang sedang login
+     */
+    public function destroy(int $id)
+    {
+        if (!Auth::guard('web')->check()) {
+            return redirect()->route('login')->with('warning', 'Silakan login terlebih dahulu.');
+        }
+
+        $review = Review::where('id', $id)
+            ->where('user_id', Auth::guard('web')->id())
+            ->firstOrFail();
+
+        $review->delete();
+
+        return back()->with('success', 'Ulasan Anda berhasil dihapus.');
+    }
 }
 
