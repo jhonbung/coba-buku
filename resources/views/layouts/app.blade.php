@@ -12,6 +12,40 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="{{ asset('css/style.css') }}?v={{ file_exists(public_path('css/style.css')) ? filemtime(public_path('css/style.css')) : time() }}">
   <style>
+    /* Header Action Spacing & Cart Badge Position (Cache-Proof) */
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 28px !important;
+    }
+    #nav-cart-btn {
+      width: 38px !important;
+      height: 38px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      position: relative !important;
+      border-radius: 50% !important;
+      transition: all 0.2s ease !important;
+    }
+    .cart-badge {
+      position: absolute !important;
+      top: -2px !important;
+      right: -2px !important;
+      background: var(--champagne-gold, #C6A16B) !important;
+      color: var(--ocean-navy-deep, #0B1424) !important;
+      font-size: 0.68rem !important;
+      font-weight: 700 !important;
+      width: 18px !important;
+      height: 18px !important;
+      border-radius: 50% !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+      pointer-events: none !important;
+    }
+
     /* Critical Mobile Header & Drawer CSS (Guaranteed cache-proof on all phones) */
     .mobile-menu-btn {
       display: none;
@@ -214,7 +248,7 @@
         letter-spacing: 0.8px !important;
       }
       .header-actions {
-        gap: 8px !important;
+        gap: 18px !important;
       }
       .header-actions .btn-user-text {
         display: none !important;
@@ -255,7 +289,7 @@
         display: none !important;
       }
       .header-actions {
-        gap: 6px !important;
+        gap: 14px !important;
       }
     }
 
@@ -852,7 +886,7 @@
 
       <!-- Header Actions -->
       <div class="header-actions">
-        <a href="{{ route('cart.index') }}" class="icon-btn" title="Keranjang Belanja" id="nav-cart-btn">
+        <a href="{{ route('cart.index') }}" class="icon-btn" title="Keranjang Belanja" id="nav-cart-btn" style="width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center; position: relative;">
           <i class="fa-solid fa-bag-shopping"></i>
           @php
             try {
