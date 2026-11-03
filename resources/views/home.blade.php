@@ -25,7 +25,8 @@
             WELCOME TO THE UNIVERSE OF <span class="gold-gradient-text">BIANCA VEANA</span>
           </h1>
           <p class="hero-tagline">
-            Stories that stay with you long after the final page. Masuki semesta keluarga Notonegoro, di mana cinta, takdir, dan rahasia darah biru berpadu dalam keanggunan abadi.
+            <span style="display: block; font-style: italic; color: #F1E5D1; margin-bottom: 10px; font-family: var(--font-serif); font-size: 1.08rem;">Stories that stay with you long after the final page.</span>
+            Step into the world of the Notonegoro dynasty, where love defies fate, secrets lie beneath a legacy of power and prestige, and every story leaves a lasting impression.
           </p>
           <div class="hero-cta-group">
             <a href="#notonegoro-series" class="btn btn-gold">
