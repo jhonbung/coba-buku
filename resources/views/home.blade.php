@@ -76,7 +76,7 @@
             <span style="color: var(--champagne-gold);">—</span> Bound by Fate, Burned by Love <span style="color: var(--champagne-gold);">—</span>
           </div>
           <p class="hero-tagline">
-            Ketika takdir mempertemukan dua jiwa yang tak seharusnya bersatu, cinta justru menjadi api yang membakar batas, keyakinan, dan segalanya yang mereka perjuangkan.
+            Ketika takdir mempertemukan dua jiwa yang tak seharusnya bersatu, cinta justru menjadi api yang membakar batas, keyakinan, dan segala yang mereka perjuangkan. Di antara rahasia kerajaan dan permainan takdir, mampukah cinta bertahan ketika hati menjadi taruhan?
           </p>
           <div class="hero-cta-group">
             <a href="{{ route('novels.index') }}" class="btn btn-gold">
