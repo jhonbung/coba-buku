@@ -134,8 +134,9 @@ class ShippingService
             $destinationId = 73914; // Kota Bandar Lampung (Kedaton/Pusat)
         }
 
-        // Minimum weight 1000g (1 kg)
-        $weight = max(1000, $weightGrams);
+        // Hitung pembulatan kilogram pengiriman resmi (min 1000g / 1 kg, 1200g -> 2000g / 2 kg)
+        $kg = (int) ceil(max(1000, $weightGrams) / 1000);
+        $weight = $kg * 1000;
 
         // Resolve province if not explicitly provided
         if (empty($province)) {

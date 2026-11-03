@@ -56,3 +56,4 @@ class CouponSeeder extends Seeder
         }
     }
 }
+

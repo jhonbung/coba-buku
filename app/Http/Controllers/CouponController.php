@@ -151,3 +151,4 @@ class CouponController extends Controller
         return $subtotal;
     }
 }
+

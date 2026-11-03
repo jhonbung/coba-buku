@@ -69,13 +69,14 @@ class CheckoutController extends Controller
         }
 
         $weightInKg = (int) ceil(max(1000, $totalWeight) / 1000);
+        $billingWeight = $weightInKg * 1000;
         $originDesc = $shippingService->getOriginDescription();
         $isLiveApi = $shippingService->isApiKeySet();
 
         // Provinces and Cities dictionary
         $provincesAndCities = $hasPhysicalItems ? $shippingService->getProvincesAndCities() : [];
         $defaultDestinationId = 17589; // Jakarta Selatan
-        $initialCourierRates = $hasPhysicalItems ? $shippingService->calculateCost($defaultDestinationId, $totalWeight) : [];
+        $initialCourierRates = $hasPhysicalItems ? $shippingService->calculateCost($defaultDestinationId, $billingWeight) : [];
 
         // Coupon Handling
         $appliedCoupon = session()->get('applied_coupon', null);
@@ -152,12 +153,13 @@ class CheckoutController extends Controller
             }
         }
 
-        $weight = max(1000, $totalWeight);
-        $rates = $shippingService->calculateCost($destinationId, $weight, $province, $city);
+        $weightInKg = (int) ceil(max(1000, $totalWeight) / 1000);
+        $billingWeight = $weightInKg * 1000;
+        $rates = $shippingService->calculateCost($destinationId, $billingWeight, $province, $city);
 
         return response()->json([
-            'weight_grams' => $weight,
-            'weight_kg' => ceil($weight / 1000),
+            'weight_grams' => $totalWeight,
+            'weight_kg' => $weightInKg,
             'rates' => $rates,
             'is_live_api' => $shippingService->isApiKeySet(),
         ]);

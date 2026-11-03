@@ -108,3 +108,4 @@ class AdminCouponController extends Controller
         return redirect()->route('admin.coupons.index')->with('success', "Kupon [{$code}] berhasil dihapus!");
     }
 }
+
