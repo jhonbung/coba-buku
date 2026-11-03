@@ -36,13 +36,25 @@ class ReviewController extends Controller
         $user = Auth::guard('web')->user();
         $product = Product::findOrFail($validated['product_id']);
 
-        // 1. Verifikasi Pembelian: Hanya pembeli yang memiliki pesanan berstatus 'paid'
-        $targetIds = [$product->id];
-        if ($product->parent_id) {
-            $targetIds[] = $product->parent_id;
+        // 1. Verifikasi Pembelian Sesuai Kategori Produk (Novel Fisik vs E-Book vs Merchandise)
+        if ($product->category === 'ebook') {
+            // E-Book: hanya berlaku untuk edisi e-book dan serial part digital (bukan buku cetak fisik)
+            $parentId = $product->parent_id ?: $product->id;
+            $targetIds = Product::where('category', 'ebook')
+                ->where(function ($q) use ($parentId, $product) {
+                    $q->where('parent_id', $parentId)
+                      ->orWhere('id', $product->id);
+                })->pluck('id')->toArray();
+        } elseif ($product->category === 'novel') {
+            // Novel Fisik: hanya berlaku untuk edisi cetak fisik (bukan e-book digital)
+            $targetIds = Product::where('category', 'novel')
+                ->where(function ($q) use ($product) {
+                    $q->where('id', $product->id)
+                      ->orWhere('title', 'like', "%{$product->title}%");
+                })->pluck('id')->toArray();
         } else {
-            $childIds = $product->ebookParts()->pluck('id')->toArray();
-            $targetIds = array_merge($targetIds, $childIds);
+            // Merchandise
+            $targetIds = [$product->id];
         }
 
         $paidOrderItem = OrderItem::whereHas('order', function ($q) use ($user) {
@@ -51,7 +63,8 @@ class ReviewController extends Controller
         })->whereIn('product_id', $targetIds)->latest()->first();
 
         if (!$paidOrderItem) {
-            return back()->with('error', 'Akses Ulasan Terproteksi: Hanya pembeli yang telah memesan dan menyelesaikan pembayaran untuk produk ini yang berhak memberikan ulasan.');
+            $catLabel = $product->category === 'ebook' ? 'E-Book Digital' : ($product->category === 'novel' ? 'Buku Cetak Fisik' : 'Merchandise');
+            return back()->with('error', "Akses Ulasan Terproteksi: Hanya pembeli yang telah memesan dan menyelesaikan pembayaran untuk {$catLabel} ini yang berhak memberikan ulasan.");
         }
 
         // 2. Upload foto unboxing jika ada

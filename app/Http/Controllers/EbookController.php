@@ -71,12 +71,11 @@ class EbookController extends Controller
             }
         }
 
-        // 6. Ulasan Pembeli Terverifikasi
-        $targetIds = [$book->id];
-        $childIds = $book->ebookParts()->pluck('id')->toArray();
-        $targetIds = array_merge($targetIds, $childIds);
+        // 6. Ulasan KHUSUS E-Book & Serial Part (eksklusif category = ebook, bukan novel fisik)
+        $ebookProductIds = $book->ebookParts()->pluck('id')->toArray();
+        $reviewTargetProduct = $fullEdition ?: ($chapterParts->first() ?: $book);
 
-        $reviews = \App\Models\Review::whereIn('product_id', $targetIds)
+        $reviews = \App\Models\Review::whereIn('product_id', $ebookProductIds)
             ->where('is_approved', true)
             ->latest()
             ->get();
@@ -97,17 +96,21 @@ class EbookController extends Controller
         if (auth()->guard('web')->check()) {
             $userId = auth()->guard('web')->id();
 
-            $userExistingReview = \App\Models\Review::where('product_id', $book->id)
+            $userExistingReview = \App\Models\Review::whereIn('product_id', $ebookProductIds)
                 ->where('user_id', $userId)
                 ->first();
 
             $userCanReview = \App\Models\OrderItem::whereHas('order', function ($q) use ($userId) {
                 $q->where('user_id', $userId)
                   ->where('payment_status', 'paid');
-            })->whereIn('product_id', $targetIds)->exists();
+            })->whereIn('product_id', $ebookProductIds)->exists();
         }
 
-        return view('ebooks.show', compact('book', 'fullEdition', 'chapterParts', 'otherEbooks', 'item', 'purchasedProductIds', 'reviews', 'avgRating', 'totalReviews', 'starBreakdown', 'userCanReview', 'userExistingReview'));
+        return view('ebooks.show', compact(
+            'book', 'fullEdition', 'chapterParts', 'otherEbooks', 'item', 
+            'purchasedProductIds', 'reviews', 'avgRating', 'totalReviews', 
+            'starBreakdown', 'userCanReview', 'userExistingReview', 'reviewTargetProduct'
+        ));
     }
 
     public function downloadDemo(int $id)

@@ -294,9 +294,9 @@
 
   </div>
 
-  <!-- Customer Reviews Section (Verified Buyers Only) -->
+  <!-- Customer Reviews Section (Verified E-Book Buyers Only) -->
   <x-product_reviews 
-    :product="$book" 
+    :product="$reviewTargetProduct" 
     :reviews="$reviews" 
     :avgRating="$avgRating" 
     :totalReviews="$totalReviews" 

@@ -101,14 +101,13 @@ class NovelController extends Controller
             ->take(3)
             ->get();
 
-        // 1. Ambil ulasan produk terverifikasi
-        $targetIds = [$novel->id];
-        if ($novel->parent_id) {
-            $targetIds[] = $novel->parent_id;
-        } else {
-            $childIds = $novel->ebookParts()->pluck('id')->toArray();
-            $targetIds = array_merge($targetIds, $childIds);
-        }
+        // 1. Ambil ulasan KHUSUS buku novel cetak fisik (eksklusif category = novel, bukan e-book)
+        $physicalIds = [$novel->id];
+        $relatedPhysicalIds = Product::where('category', 'novel')
+            ->where('id', '!=', $novel->id)
+            ->where('title', 'like', "%{$novel->title}%")
+            ->pluck('id')->toArray();
+        $targetIds = array_values(array_unique(array_merge($physicalIds, $relatedPhysicalIds)));
 
         $reviews = \App\Models\Review::whereIn('product_id', $targetIds)
             ->where('is_approved', true)
