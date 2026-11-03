@@ -117,7 +117,7 @@
             <span class="gold-gradient-text">HIERARCHY</span>
           </h1>
           <p class="hero-tagline">
-            Setiap helaan napas dan tatapan mata terukir dalam untaian kata memikat. Nikmati momen membaca yang menyentuh relung hati terdalam bersama edisi eksklusif bertandatangan.
+            Ketika impian menjadi seorang ibu mempertemukan tiga hati dalam satu ikatan.
           </p>
           <div class="hero-cta-group">
             <a href="{{ route('novels.index') }}" class="btn btn-gold">
