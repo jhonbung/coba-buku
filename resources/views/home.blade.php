@@ -143,7 +143,7 @@
             </div>
             <div class="glass-card-caption">
               <div class="glass-tag">ROMANCE BEST SELLER</div>
-              <div class="glass-title">Edisi Lembaran Terindah</div>
+              <div class="glass-title">HIERARCHY</div>
             </div>
           </div>
         </div>
