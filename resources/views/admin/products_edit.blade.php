@@ -334,8 +334,8 @@
               <i class="fa-solid fa-book-open-reader" style="color: var(--champagne-gold);"></i> Isi Naskah Cerita Bab (Web Novel Reader)
             </label>
             @if($product->slug)
-              <a href="{{ route('reader.show', $product->slug) }}" target="_blank" style="font-size: 0.75rem; color: #166534; background: #DCFCE7; padding: 3px 10px; border-radius: 4px; border: 1px solid #BBF7D0; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
-                <i class="fa-solid fa-arrow-up-right-from-square"></i> Preview Reader
+              <a href="{{ route('reader.show', ['slug' => $product->slug, 'preview' => 'admin']) }}" target="_blank" style="font-size: 0.75rem; color: #166534; background: #DCFCE7; padding: 3px 10px; border-radius: 4px; border: 1px solid #BBF7D0; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;" title="Pratinjau Khusus Admin">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i> Preview Reader (Admin)
               </a>
             @endif
           </div>

@@ -646,7 +646,7 @@
       </div>
       <div class="drawer-list">
         @foreach($allParts as $p)
-          <a href="{{ route('reader.show', ['slug' => $p->slug, 'order' => request('order')]) }}" class="drawer-item {{ $p->id === $part->id ? 'active' : '' }}">
+          <a href="{{ route('reader.show', array_filter(['slug' => $p->slug, 'order' => request('order'), 'preview' => request('preview')])) }}" class="drawer-item {{ $p->id === $part->id ? 'active' : '' }}">
             <div style="font-family: 'Plus Jakarta Sans', sans-serif;">
               <strong style="display: block; font-size: 0.88rem; margin-bottom: 2px;">
                 {{ $p->title }}
@@ -663,6 +663,13 @@
       </div>
     </div>
   </div>
+
+  <!-- Admin Preview Warning Banner -->
+  @if(auth()->guard('admin')->check() && request('preview') === 'admin')
+    <div style="background: #FEF3C7; border-bottom: 1.5px solid #FDE68A; padding: 10px 16px; text-align: center; font-size: 0.82rem; color: #92400E; font-weight: 600;">
+      <i class="fa-solid fa-shield-halved" style="color: #D97706;"></i> Anda sedang membuka naskah ini sebagai <strong>Admin (Mode Pratinjau)</strong>. Pembeli biasa wajib menyelesaikan pembayaran terlebih dahulu sebelum tombol "Baca" muncul dan naskah terbuka.
+    </div>
+  @endif
 
   <!-- Main Reader Canvas -->
   <main class="reader-container">
@@ -683,9 +690,9 @@
           $readingMinutes = max(2, ceil($wordCount / 180));
         @endphp
         <span><i class="fa-regular fa-clock" style="color: var(--champagne-gold);"></i> ~{{ $readingMinutes }} menit membaca</span>
-        @if(auth()->guard('admin')->check())
+        @if(auth()->guard('admin')->check() && request('preview') === 'admin')
           <span>•</span>
-          <span style="background: #FEF3C7; color: #92400E; padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 0.72rem;">
+          <span style="background: #FEF3C7; color: #92400E; padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 0.72rem; border: 1px solid #FDE68A;">
             <i class="fa-solid fa-shield-halved"></i> Mode Pratinjau Admin
           </span>
         @elseif($hasAccess)
@@ -823,7 +830,7 @@
     <!-- Chapter Navigation Footer -->
     <nav class="chapter-nav-bar">
       @if($prevPart)
-        <a href="{{ route('reader.show', ['slug' => $prevPart->slug, 'order' => request('order')]) }}" class="nav-chapter-btn">
+        <a href="{{ route('reader.show', array_filter(['slug' => $prevPart->slug, 'order' => request('order'), 'preview' => request('preview')])) }}" class="nav-chapter-btn">
           <i class="fa-solid fa-arrow-left"></i>
           <span>Bab Sebelumnya</span>
         </a>
@@ -839,7 +846,7 @@
       </button>
 
       @if($nextPart)
-        <a href="{{ route('reader.show', ['slug' => $nextPart->slug, 'order' => request('order')]) }}" class="nav-chapter-btn">
+        <a href="{{ route('reader.show', array_filter(['slug' => $nextPart->slug, 'order' => request('order'), 'preview' => request('preview')])) }}" class="nav-chapter-btn">
           <span>Bab Selanjutnya</span>
           <i class="fa-solid fa-arrow-right"></i>
         </a>

@@ -133,14 +133,30 @@
               <i class="fa-solid fa-check-double" style="color: #10B981;"></i> Seluruh Bab Lengkap (Awal s/d Tamat) + Bonus Epilog Digital
             </div>
 
-            <form action="{{ route('cart.add') }}" method="POST" style="margin: 0;">
-              @csrf
-              <input type="hidden" name="product_id" value="{{ $fullEdition->id }}">
-              <input type="hidden" name="quantity" value="1">
-              <button type="submit" class="btn btn-primary" style="padding: 12px 28px; font-size: 0.9rem; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; border-radius: 6px; box-shadow: 0 4px 10px rgba(198, 161, 107, 0.3);">
-                <i class="fa-solid fa-cart-shopping"></i> Beli E-Book Lengkap Sekarang
-              </button>
-            </form>
+            @php
+              $purchasedProductIds = $purchasedProductIds ?? [];
+              $isFullPurchased = in_array($fullEdition->id, $purchasedProductIds) || in_array($book->id, $purchasedProductIds);
+            @endphp
+
+            @if($isFullPurchased)
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="background: #DCFCE7; color: #166534; border: 1px solid #BBF7D0; padding: 6px 14px; border-radius: 6px; font-weight: 700; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 6px;">
+                  <i class="fa-solid fa-circle-check" style="color: #16A34A;"></i> E-Book Sudah Dibeli (Lunas)
+                </span>
+                <a href="{{ route('reader.show', $fullEdition->slug) }}" class="btn btn-gold" style="padding: 10px 22px; font-size: 0.88rem; font-weight: 700; display: inline-flex; align-items: center; gap: 8px;">
+                  <i class="fa-solid fa-book-open-reader"></i> Baca E-Book Lengkap
+                </a>
+              </div>
+            @else
+              <form action="{{ route('cart.add') }}" method="POST" style="margin: 0;">
+                @csrf
+                <input type="hidden" name="product_id" value="{{ $fullEdition->id }}">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="btn btn-primary" style="padding: 12px 28px; font-size: 0.9rem; font-weight: 700; display: inline-flex; align-items: center; gap: 8px; border-radius: 6px; box-shadow: 0 4px 10px rgba(198, 161, 107, 0.3);">
+                  <i class="fa-solid fa-cart-shopping"></i> Beli E-Book Lengkap Sekarang
+                </button>
+              </form>
+            @endif
           </div>
         </div>
       @endif
@@ -164,6 +180,9 @@
         @if($chapterParts->count() > 0)
           <div style="display: flex; flex-direction: column; gap: 18px;">
             @foreach($chapterParts as $part)
+              @php
+                $isPartPurchased = in_array($part->id, $purchasedProductIds) || (!empty($fullEdition) && in_array($fullEdition->id, $purchasedProductIds)) || in_array($book->id, $purchasedProductIds);
+              @endphp
               <div class="ebook-part-card">
                 
                 <!-- Row 1: Header (Badge, Title, Price) -->
@@ -178,12 +197,18 @@
                   </div>
 
                   <div class="part-price-wrap">
-                    <span class="part-price">
-                      {{ $part->formatted_price }}
-                    </span>
-                    <span class="part-delivery-tag">
-                      <i class="fa-solid fa-check"></i> Bebas Ongkir
-                    </span>
+                    @if($isPartPurchased)
+                      <span style="background: #DCFCE7; color: #166534; border: 1px solid #BBF7D0; padding: 4px 10px; border-radius: 4px; font-size: 0.76rem; font-weight: 700; display: inline-flex; align-items: center; gap: 5px;">
+                        <i class="fa-solid fa-circle-check" style="color: #16A34A;"></i> Sudah Dibeli
+                      </span>
+                    @else
+                      <span class="part-price">
+                        {{ $part->formatted_price }}
+                      </span>
+                      <span class="part-delivery-tag">
+                        <i class="fa-solid fa-check"></i> Bebas Ongkir
+                      </span>
+                    @endif
                   </div>
                 </div>
 
@@ -210,18 +235,20 @@
                   </div>
 
                   <div class="part-buttons-group">
-                    <a href="{{ route('reader.show', $part->slug) }}" class="btn-part-read" title="Pratinjau Bab di Web Reader">
-                      <i class="fa-solid fa-book-open"></i> <span>Baca</span>
-                    </a>
-
-                    <form action="{{ route('cart.add') }}" method="POST" class="part-buy-form">
-                      @csrf
-                      <input type="hidden" name="product_id" value="{{ $part->id }}">
-                      <input type="hidden" name="quantity" value="1">
-                      <button type="submit" class="btn-part-buy">
-                        <i class="fa-solid fa-cart-plus"></i> <span>Beli Part</span>
-                      </button>
-                    </form>
+                    @if($isPartPurchased)
+                      <a href="{{ route('reader.show', $part->slug) }}" class="btn-part-read" style="background: linear-gradient(135deg, #15803D 0%, #166534 100%); color: #FFF; border: none; font-weight: 700; padding: 8px 18px;" title="Mulai Membaca Bab Ini di Web Reader">
+                        <i class="fa-solid fa-book-open-reader"></i> <span>Baca Part Sekarang</span>
+                      </a>
+                    @else
+                      <form action="{{ route('cart.add') }}" method="POST" class="part-buy-form">
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{ $part->id }}">
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="btn-part-buy" style="padding: 9px 20px; font-weight: 700;">
+                          <i class="fa-solid fa-cart-shopping"></i> <span>Beli Part ({{ $part->formatted_price }})</span>
+                        </button>
+                      </form>
+                    @endif
                   </div>
                 </div>
 

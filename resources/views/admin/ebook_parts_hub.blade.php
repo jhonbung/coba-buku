@@ -38,6 +38,19 @@
     </div>
   @endif
 
+  <!-- Keamanan Pembelian & Hak Baca -->
+  <div style="background: #EFF6FF; border: 1.5px solid #BFDBFE; border-radius: 8px; padding: 12px 18px; margin-bottom: 24px; font-size: 0.84rem; color: #1E40AF; display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <i class="fa-solid fa-shield-halved" style="font-size: 1.25rem; color: #2563EB;"></i>
+      <span>
+        <strong>Sistem Akses Aman:</strong> Di website toko pembeli, tombol <strong>"Baca Part"</strong> HANYA akan muncul setelah pembeli menyelesaikan pembayaran (Status Lunas). Sebelum bayar, pembeli hanya melihat tombol <strong>"Beli Part"</strong>.
+      </span>
+    </div>
+    <span style="background: #DBEAFE; color: #1E40AF; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 4px; border: 1px solid #93C5FD;">
+      <i class="fa-solid fa-lock"></i> Terproteksi Paywall Otomatis
+    </span>
+  </div>
+
   <!-- =========================================================================
        GROUP 1: THE SEVEN NOTONEGORO SERIES (SERIAL DINASTI)
        ========================================================================= -->
@@ -123,8 +136,8 @@
                       <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0;">
                         <span style="font-weight: 800; color: #15803D; font-size: 0.88rem;">{{ $part->formatted_price }}</span>
                         <div style="display: flex; align-items: center; gap: 5px;">
-                          <a href="{{ route('reader.show', $part->slug) }}" target="_blank" style="background: #F0FDF4; color: #166534; border: 1px solid #BBF7D0; padding: 3px 8px; border-radius: 4px; font-size: 0.72rem; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 3px;" title="Preview Web Novel Reader">
-                            <i class="fa-solid fa-book-open"></i> Baca
+                          <a href="{{ route('reader.show', ['slug' => $part->slug, 'preview' => 'admin']) }}" target="_blank" style="background: #F0FDF4; color: #166534; border: 1px solid #BBF7D0; padding: 3px 8px; border-radius: 4px; font-size: 0.72rem; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 3px;" title="Pratinjau Khusus Admin (Pembeli hanya bisa baca setelah bayar lunas)">
+                            <i class="fa-solid fa-eye"></i> Preview Admin
                           </a>
                           <a href="{{ route('admin.products.edit', $part->id) }}" style="background: #EEF2FF; color: #4338CA; border: 1px solid #C7D2FE; padding: 3px 8px; border-radius: 4px; font-size: 0.72rem; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 3px;" title="Edit Sinopsis, Teks Cerita & Detail Part">
                             <i class="fa-solid fa-pen-to-square"></i> Edit

@@ -83,8 +83,8 @@
                   <span style="font-size: 1.05rem; font-weight: 700; color: #15803D;">
                     {{ $part->formatted_price }}
                   </span>
-                  <a href="{{ route('reader.show', $part->slug) }}" target="_blank" style="background: #F0FDF4; color: #166534; border: 1px solid #BBF7D0; padding: 6px 10px; border-radius: 4px; font-size: 0.75rem; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;" title="Preview Web Novel Reader">
-                    <i class="fa-solid fa-book-open"></i> Baca
+                  <a href="{{ route('reader.show', ['slug' => $part->slug, 'preview' => 'admin']) }}" target="_blank" style="background: #F0FDF4; color: #166534; border: 1px solid #BBF7D0; padding: 6px 10px; border-radius: 4px; font-size: 0.75rem; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;" title="Pratinjau Khusus Admin (Pembeli hanya bisa baca setelah bayar lunas)">
+                    <i class="fa-solid fa-eye"></i> Preview Admin
                   </a>
                   <a href="{{ route('admin.products.edit', $part->id) }}" style="background: #EEF2FF; color: #4338CA; border: 1px solid #C7D2FE; padding: 6px 10px; border-radius: 4px; font-size: 0.75rem; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;" title="Edit Sinopsis & Harga Part">
                     <i class="fa-solid fa-pen-to-square"></i> Edit

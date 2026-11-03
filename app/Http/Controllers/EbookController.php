@@ -20,7 +20,7 @@ class EbookController extends Controller
         return view('ebooks.index', compact('ebookTitles'));
     }
 
-    public function show(string $slug)
+    public function show(Request $request, string $slug)
     {
         // 1. Cari produk berdasarkan slug
         $item = Product::where('slug', $slug)->firstOrFail();
@@ -50,7 +50,28 @@ class EbookController extends Controller
             ->orderBy('order_index')
             ->get();
 
-        return view('ebooks.show', compact('book', 'fullEdition', 'chapterParts', 'otherEbooks', 'item'));
+        // 5. Cek kepemilikan part/e-book yang sudah DIBELI & LUNAS (payment_status = 'paid')
+        $purchasedProductIds = [];
+        if (auth()->guard('web')->check()) {
+            $purchasedProductIds = \App\Models\OrderItem::whereHas('order', function ($q) {
+                $q->where('user_id', auth()->guard('web')->id())
+                  ->where('payment_status', 'paid');
+            })->pluck('product_id')->toArray();
+        }
+
+        // Cek juga jika ada parameter ?order=BV-... yang sudah lunas
+        if ($request->filled('order')) {
+            $paidOrder = \App\Models\Order::with('items')
+                ->where('order_number', $request->query('order'))
+                ->where('payment_status', 'paid')
+                ->first();
+            if ($paidOrder) {
+                $orderProductIds = $paidOrder->items->pluck('product_id')->toArray();
+                $purchasedProductIds = array_unique(array_merge($purchasedProductIds, $orderProductIds));
+            }
+        }
+
+        return view('ebooks.show', compact('book', 'fullEdition', 'chapterParts', 'otherEbooks', 'item', 'purchasedProductIds'));
     }
 
     public function downloadDemo(int $id)
@@ -96,14 +117,25 @@ class EbookController extends Controller
             })->first();
         }
 
-        // 3. Verifikasi Hak Akses Membaca
+        // 3. Verifikasi Hak Akses Membaca (Wajib Payment Status Paid)
         $hasAccess = false;
         $order = null;
 
-        // Admin selalu punya akses baca (mode preview)
-        if (auth()->guard('admin')->check()) {
+        // Admin mode preview: HANYA jika login sebagai admin DAN membuka tautan preview dari dashboard admin (?preview=admin)
+        $isAdminPreview = auth()->guard('admin')->check() && $request->query('preview') === 'admin';
+        if ($isAdminPreview) {
             $hasAccess = true;
         }
+
+        // Cari ID e-book lengkap dari buku ini (jika user membeli e-book lengkap, semua part otomatis terbuka)
+        $fullEditionPart = $allParts->first(function ($p) {
+            return $p->subcategory === 'ebook' || empty($p->part_number);
+        });
+        $validProductIds = array_values(array_unique(array_filter([
+            $part->id, 
+            $parent->id, 
+            $fullEditionPart ? $fullEditionPart->id : null
+        ])));
 
         // Cek jika ada parameter nomor pesanan (?order=BV-...) yang sudah lunas (paid)
         $orderNumber = $request->query('order');
@@ -114,8 +146,8 @@ class EbookController extends Controller
                 ->first();
 
             if ($matchedOrder) {
-                $itemMatches = $matchedOrder->items->contains(function($item) use ($part, $parent) {
-                    return $item->product_id === $part->id || $item->product_id === $parent->id;
+                $itemMatches = $matchedOrder->items->contains(function ($item) use ($validProductIds) {
+                    return in_array($item->product_id, $validProductIds);
                 });
                 if ($itemMatches) {
                     $hasAccess = true;
@@ -124,16 +156,16 @@ class EbookController extends Controller
             }
         }
 
-        // Cek jika customer login memiliki pesanan berstatus paid untuk part ini atau buku induknya
-        if (!$hasAccess && auth()->check()) {
+        // Cek jika customer login memiliki pesanan berstatus paid untuk part ini, edisi lengkap, atau buku induknya
+        if (!$hasAccess && auth()->guard('web')->check()) {
             $userOrders = \App\Models\Order::with('items')
-                ->where('user_id', auth()->id())
+                ->where('user_id', auth()->guard('web')->id())
                 ->where('payment_status', 'paid')
                 ->get();
 
             foreach ($userOrders as $uOrder) {
-                if ($uOrder->items->contains(function($item) use ($part, $parent) {
-                    return $item->product_id === $part->id || $item->product_id === $parent->id;
+                if ($uOrder->items->contains(function ($item) use ($validProductIds) {
+                    return in_array($item->product_id, $validProductIds);
                 })) {
                     $hasAccess = true;
                     $order = $uOrder;
@@ -142,6 +174,6 @@ class EbookController extends Controller
             }
         }
 
-        return view('reader.show', compact('part', 'parent', 'allParts', 'prevPart', 'nextPart', 'hasAccess', 'order'));
+        return view('reader.show', compact('part', 'parent', 'allParts', 'prevPart', 'nextPart', 'hasAccess', 'order', 'isAdminPreview'));
     }
 }
