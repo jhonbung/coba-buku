@@ -111,7 +111,7 @@
       <div class="container hero-slide-inner">
         <div class="hero-content">
           <div class="hero-badge">
-            <i class="fa-solid fa-heart"></i> INTIMATE ROMANCE & BEST SELLER
+            <i class="fa-solid fa-heart"></i> EMOTIONAL ROMANCE & BEST SELLER
           </div>
           <h1 class="hero-title">
             HANGAT CINTA & <span class="gold-gradient-text">LEMBARAN KISAH</span>
