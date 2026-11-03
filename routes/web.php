@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminCouponController;
 use App\Http\Controllers\AdminCustomerController;
+use App\Http\Controllers\AdminReviewController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ChatController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MerchandiseController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\NovelController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 
 // 1. Homepage
@@ -58,6 +60,10 @@ Route::post('/shipping/calculate', [CheckoutController::class, 'calculateShippin
 Route::post('/coupons/apply', [CouponController::class, 'apply'])->name('coupons.apply');
 Route::post('/coupons/remove', [CouponController::class, 'remove'])->name('coupons.remove');
 Route::get('/coupons/available', [CouponController::class, 'available'])->name('coupons.available');
+
+// Product Reviews (Verified Buyers Only)
+Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+Route::post('/reviews/{id}/helpful', [ReviewController::class, 'voteHelpful'])->name('reviews.helpful');
 
 // 8. Newsletter
 Route::post('/newsletter', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
@@ -133,4 +139,10 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
     Route::put('/coupons/{id}', [AdminCouponController::class, 'update'])->name('coupons.update');
     Route::post('/coupons/{id}/toggle', [AdminCouponController::class, 'toggle'])->name('coupons.toggle');
     Route::delete('/coupons/{id}', [AdminCouponController::class, 'destroy'])->name('coupons.destroy');
+
+    // 16. Reviews Management (Admin)
+    Route::get('/reviews', [AdminReviewController::class, 'index'])->name('reviews.index');
+    Route::post('/reviews/{id}/reply', [AdminReviewController::class, 'reply'])->name('reviews.reply');
+    Route::patch('/reviews/{id}/toggle', [AdminReviewController::class, 'toggleApproval'])->name('reviews.toggle');
+    Route::delete('/reviews/{id}', [AdminReviewController::class, 'destroy'])->name('reviews.destroy');
 });

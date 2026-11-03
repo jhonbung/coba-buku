@@ -58,8 +58,19 @@
       <h1 class="product-detail-title">
         {{ $novel->title }}
       </h1>
-      <div style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 24px;">
+      <div style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 12px;">
         Author: <strong style="color: var(--ocean-navy);">{{ $novel->author }}</strong> · Genre: <strong style="color: var(--ocean-navy);">{{ $novel->genre }}</strong>
+      </div>
+
+      <!-- Rating Snippet (Clickable to jump to reviews) -->
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 22px; flex-wrap: wrap;">
+        <a href="#reviews-section" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px; background: #FFFBEB; border: 1px solid #FDE68A; padding: 4px 12px; border-radius: 999px; transition: transform 0.15s ease;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+          <span style="color: #F59E0B; font-size: 0.88rem; font-weight: 700;"><i class="fa-solid fa-star"></i> {{ number_format($avgRating, 1) }}</span>
+          <span style="color: #92400E; font-size: 0.78rem; font-weight: 600;">({{ $totalReviews }} Ulasan)</span>
+        </a>
+        <span style="font-size: 0.75rem; color: #16A34A; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+          <i class="fa-solid fa-circle-check"></i> 100% Ulasan Pembeli Terverifikasi
+        </span>
       </div>
 
       <!-- Price Box -->
@@ -272,6 +283,17 @@
       </div>
     </div>
   @endif
+
+  <!-- Customer Reviews Section (Verified Buyers Only) -->
+  <x-product_reviews 
+    :product="$novel" 
+    :reviews="$reviews" 
+    :avgRating="$avgRating" 
+    :totalReviews="$totalReviews" 
+    :starBreakdown="$starBreakdown" 
+    :userCanReview="$userCanReview" 
+    :userExistingReview="$userExistingReview" 
+  />
 
   <!-- Related Novels Section -->
   @if($relatedNovels->count() > 0)

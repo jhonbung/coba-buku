@@ -65,10 +65,21 @@
       </h1>
 
       @if($product->subtitle)
-        <div style="font-size: 1rem; color: var(--champagne-gold); font-weight: 600; margin-bottom: 18px;">
+        <div style="font-size: 1rem; color: var(--champagne-gold); font-weight: 600; margin-bottom: 12px;">
           {{ $product->subtitle }}
         </div>
       @endif
+
+      <!-- Rating Snippet (Clickable to jump to reviews) -->
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 22px; flex-wrap: wrap;">
+        <a href="#reviews-section" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px; background: #FFFBEB; border: 1px solid #FDE68A; padding: 4px 12px; border-radius: 999px; transition: transform 0.15s ease;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+          <span style="color: #F59E0B; font-size: 0.88rem; font-weight: 700;"><i class="fa-solid fa-star"></i> {{ number_format($avgRating, 1) }}</span>
+          <span style="color: #92400E; font-size: 0.78rem; font-weight: 600;">({{ $totalReviews }} Ulasan)</span>
+        </a>
+        <span style="font-size: 0.75rem; color: #16A34A; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+          <i class="fa-solid fa-circle-check"></i> 100% Pembeli Terverifikasi
+        </span>
+      </div>
 
       <!-- Price Box -->
       <div style="background: var(--white); padding: 20px 28px; border-radius: var(--radius-md); border: 1px solid var(--soft-beige); margin-bottom: 24px; display: flex; align-items: baseline; gap: 16px;">
@@ -159,6 +170,17 @@
 
     </div>
   </div>
+
+  <!-- Customer Reviews Section (Verified Buyers Only) -->
+  <x-product_reviews 
+    :product="$product" 
+    :reviews="$reviews" 
+    :avgRating="$avgRating" 
+    :totalReviews="$totalReviews" 
+    :starBreakdown="$starBreakdown" 
+    :userCanReview="$userCanReview" 
+    :userExistingReview="$userExistingReview" 
+  />
 </div>
 @endsection
 

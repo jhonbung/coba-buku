@@ -71,7 +71,43 @@ class EbookController extends Controller
             }
         }
 
-        return view('ebooks.show', compact('book', 'fullEdition', 'chapterParts', 'otherEbooks', 'item', 'purchasedProductIds'));
+        // 6. Ulasan Pembeli Terverifikasi
+        $targetIds = [$book->id];
+        $childIds = $book->ebookParts()->pluck('id')->toArray();
+        $targetIds = array_merge($targetIds, $childIds);
+
+        $reviews = \App\Models\Review::whereIn('product_id', $targetIds)
+            ->where('is_approved', true)
+            ->latest()
+            ->get();
+
+        $avgRating = $reviews->count() > 0 ? round($reviews->avg('rating'), 1) : 5.0;
+        $totalReviews = $reviews->count();
+        $starBreakdown = [
+            5 => $reviews->where('rating', 5)->count(),
+            4 => $reviews->where('rating', 4)->count(),
+            3 => $reviews->where('rating', 3)->count(),
+            2 => $reviews->where('rating', 2)->count(),
+            1 => $reviews->where('rating', 1)->count(),
+        ];
+
+        $userCanReview = false;
+        $userExistingReview = null;
+
+        if (auth()->guard('web')->check()) {
+            $userId = auth()->guard('web')->id();
+
+            $userExistingReview = \App\Models\Review::where('product_id', $book->id)
+                ->where('user_id', $userId)
+                ->first();
+
+            $userCanReview = \App\Models\OrderItem::whereHas('order', function ($q) use ($userId) {
+                $q->where('user_id', $userId)
+                  ->where('payment_status', 'paid');
+            })->whereIn('product_id', $targetIds)->exists();
+        }
+
+        return view('ebooks.show', compact('book', 'fullEdition', 'chapterParts', 'otherEbooks', 'item', 'purchasedProductIds', 'reviews', 'avgRating', 'totalReviews', 'starBreakdown', 'userCanReview', 'userExistingReview'));
     }
 
     public function downloadDemo(int $id)

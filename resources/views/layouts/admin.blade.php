@@ -661,6 +661,11 @@
           <span>Customer</span>
         </a>
 
+        <a href="{{ route('admin.reviews.index') }}" class="admin-nav-link {{ request()->routeIs('admin.reviews*') ? 'active' : '' }}">
+          <i class="fa-solid fa-star"></i>
+          <span>Ulasan & Rating</span>
+        </a>
+
         <a href="{{ route('admin.chat.index') }}" class="admin-nav-link {{ request()->routeIs('admin.chat*') ? 'active' : '' }}">
           <i class="fa-solid fa-comments"></i>
           <span>Live Chat</span>

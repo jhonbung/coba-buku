@@ -101,6 +101,52 @@ class NovelController extends Controller
             ->take(3)
             ->get();
 
-        return view('novels.show', compact('novel', 'otherEditions', 'seriesSiblings', 'relatedNovels'));
+        // 1. Ambil ulasan produk terverifikasi
+        $targetIds = [$novel->id];
+        if ($novel->parent_id) {
+            $targetIds[] = $novel->parent_id;
+        } else {
+            $childIds = $novel->ebookParts()->pluck('id')->toArray();
+            $targetIds = array_merge($targetIds, $childIds);
+        }
+
+        $reviews = \App\Models\Review::whereIn('product_id', $targetIds)
+            ->where('is_approved', true)
+            ->latest()
+            ->get();
+
+        $avgRating = $reviews->count() > 0 ? round($reviews->avg('rating'), 1) : 5.0;
+        $totalReviews = $reviews->count();
+        $starBreakdown = [
+            5 => $reviews->where('rating', 5)->count(),
+            4 => $reviews->where('rating', 4)->count(),
+            3 => $reviews->where('rating', 3)->count(),
+            2 => $reviews->where('rating', 2)->count(),
+            1 => $reviews->where('rating', 1)->count(),
+        ];
+
+        // 2. Verifikasi hak mengulas: HANYA customer yang sudah login & memiliki order lunas (paid)
+        $userCanReview = false;
+        $userExistingReview = null;
+
+        if (auth()->guard('web')->check()) {
+            $userId = auth()->guard('web')->id();
+
+            $userExistingReview = \App\Models\Review::where('product_id', $novel->id)
+                ->where('user_id', $userId)
+                ->first();
+
+            $hasPaid = \App\Models\OrderItem::whereHas('order', function ($q) use ($userId) {
+                $q->where('user_id', $userId)
+                  ->where('payment_status', 'paid');
+            })->whereIn('product_id', $targetIds)->exists();
+
+            $userCanReview = $hasPaid;
+        }
+
+        return view('novels.show', compact(
+            'novel', 'otherEditions', 'seriesSiblings', 'relatedNovels',
+            'reviews', 'avgRating', 'totalReviews', 'starBreakdown', 'userCanReview', 'userExistingReview'
+        ));
     }
 }

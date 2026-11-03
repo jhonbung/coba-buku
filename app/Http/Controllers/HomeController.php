@@ -25,7 +25,7 @@ class HomeController extends Controller
             ->get();
 
         $quotes = Quote::orderBy('order_index')->get();
-        $reviews = Review::latest()->take(6)->get();
+        $reviews = Review::where('is_approved', true)->latest()->take(6)->get();
 
         $teaserVideos = TeaserVideo::where('is_active', true)->orderBy('order_index')->latest()->get();
         $teaserVideo = $teaserVideos->first();
