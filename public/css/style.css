@@ -43,6 +43,9 @@
 html {
   -webkit-tap-highlight-color: transparent;
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
 }
 
 button, a, [role="button"], .tappable {
@@ -63,7 +66,9 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  max-width: 100vw;
   width: 100%;
+  position: relative;
 }
 
 h1, h2, h3, h4, h5, h6, .font-serif {
@@ -2244,16 +2249,48 @@ img {
   grid-template-columns: 1.4fr 0.6fr;
   gap: 40px;
   align-items: start;
+  width: 100%;
+  max-width: 100%;
+}
+
+.cart-grid-layout > *,
+.checkout-grid-layout > *,
+.product-detail-layout > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.cart-desktop-table {
+  display: block;
+  width: 100%;
+}
+
+.cart-mobile-cards {
+  display: none;
+  width: 100%;
+}
+
+.cart-page-container {
+  padding: 60px 24px;
 }
 
 .cart-summary-box {
   position: sticky;
   top: 100px;
+  background: var(--white);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--champagne-gold);
+  padding: 30px;
+  box-shadow: var(--shadow-sm);
+  width: 100%;
+  max-width: 100%;
 }
 
 .cart-table-wrapper {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  width: 100%;
+  min-width: 0;
 }
 
 .page-banner-title {
@@ -2384,6 +2421,22 @@ img {
   }
   .hero-nav-btn.next {
     right: 12px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .cart-desktop-table {
+    display: none !important;
+  }
+  .cart-mobile-cards {
+    display: block !important;
+  }
+  .cart-page-container {
+    padding: 24px 14px !important;
+  }
+  .cart-summary-box {
+    padding: 20px 16px !important;
+    position: static !important;
   }
 }
 
@@ -2723,8 +2776,17 @@ img {
     grid-template-columns: 1fr !important;
     gap: 14px !important;
   }
+  .cart-page-container {
+    padding: 20px 12px !important;
+  }
+  .cart-summary-box {
+    padding: 18px 14px !important;
+  }
+  .cart-grid-layout {
+    gap: 18px !important;
+  }
   .page-banner-title {
-    font-size: 1.7rem !important;
+    font-size: 1.45rem !important;
     line-height: 1.25 !important;
   }
   #bv-chat-widget {

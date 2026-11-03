@@ -199,18 +199,19 @@
     @media (max-width: 600px) {
       .header-inner {
         padding: 8px 12px !important;
-        gap: 8px !important;
+        gap: 6px !important;
       }
       .brand-crest-img {
-        height: 32px !important;
+        height: 28px !important;
       }
       .brand-name {
-        font-size: 1.05rem !important;
-        letter-spacing: 1.5px !important;
+        font-size: 0.95rem !important;
+        letter-spacing: 1px !important;
+        white-space: nowrap !important;
       }
       .brand-tagline {
-        font-size: 0.44rem !important;
-        letter-spacing: 1px !important;
+        font-size: 0.42rem !important;
+        letter-spacing: 0.8px !important;
       }
       .header-actions {
         gap: 8px !important;
@@ -220,6 +221,41 @@
       }
       .header-actions .btn-user-auth {
         padding: 6px 10px !important;
+      }
+      .user-name-text,
+      .user-chevron-icon {
+        display: none !important;
+      }
+      .btn-user-pill {
+        padding: 2px !important;
+        gap: 0 !important;
+        border-radius: 50% !important;
+        border-width: 1.5px !important;
+      }
+      .user-avatar-circle {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 0.82rem !important;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .header-inner {
+        padding: 8px 8px !important;
+        gap: 4px !important;
+      }
+      .brand-crest-img {
+        height: 24px !important;
+      }
+      .brand-name {
+        font-size: 0.82rem !important;
+        letter-spacing: 0.5px !important;
+      }
+      .brand-tagline {
+        display: none !important;
+      }
+      .header-actions {
+        gap: 6px !important;
       }
     }
 
@@ -840,17 +876,17 @@
             $currentUser = Auth::guard('web')->user();
           @endphp
           <div style="position: relative; display: inline-block;" id="userMenuDropdown">
-            <button type="button" onclick="toggleUserDropdown()" style="display: flex; align-items: center; gap: 8px; background: var(--ivory); border: 1.5px solid var(--champagne-gold); padding: 5px 12px 5px 6px; border-radius: 20px; cursor: pointer; color: var(--ocean-navy); font-size: 0.82rem; font-weight: 700;">
-              <span style="width: 28px; height: 28px; border-radius: 50%; background: var(--ocean-navy); color: var(--champagne-gold); display: flex; align-items: center; justify-content: center; font-size: 0.78rem;">
+            <button type="button" onclick="toggleUserDropdown()" class="btn-user-pill" style="display: flex; align-items: center; gap: 8px; background: var(--ivory); border: 1.5px solid var(--champagne-gold); padding: 5px 12px 5px 6px; border-radius: 20px; cursor: pointer; color: var(--ocean-navy); font-size: 0.82rem; font-weight: 700; transition: all 0.2s;">
+              <span class="user-avatar-circle" style="width: 28px; height: 28px; border-radius: 50%; background: var(--ocean-navy); color: var(--champagne-gold); display: flex; align-items: center; justify-content: center; font-size: 0.78rem; flex-shrink: 0;">
                 {{ strtoupper(substr($currentUser->name, 0, 1)) }}
               </span>
-              <span style="max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+              <span class="user-name-text" style="max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                 {{ explode(' ', $currentUser->name)[0] }}
               </span>
-              <i class="fa-solid fa-chevron-down" style="font-size: 0.65rem; color: var(--champagne-gold);"></i>
+              <i class="fa-solid fa-chevron-down user-chevron-icon" style="font-size: 0.65rem; color: var(--champagne-gold);"></i>
             </button>
 
-            <div id="userDropdownContent" style="display: none; position: absolute; right: 0; top: 115%; width: 200px; background: #FFFFFF; border-radius: 8px; border: 1px solid var(--soft-beige); box-shadow: var(--shadow-md); z-index: 1000; overflow: hidden;">
+            <div id="userDropdownContent" style="display: none; position: absolute; right: 0; top: 115%; width: 200px; max-width: calc(100vw - 24px); background: #FFFFFF; border-radius: 8px; border: 1px solid var(--soft-beige); box-shadow: var(--shadow-md); z-index: 1000; overflow: hidden;">
               <div style="padding: 12px 16px; border-bottom: 1px solid #F1F5F9; background: #FAF9F6;">
                 <strong style="font-size: 0.85rem; color: var(--ocean-navy); display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $currentUser->name }}</strong>
                 <span style="font-size: 0.72rem; color: var(--text-muted); display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $currentUser->email }}</span>

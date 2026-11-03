@@ -10,89 +10,156 @@
   </div>
 </div>
 
-<div class="container" style="padding: 60px 24px;">
+<div class="container cart-page-container">
   @if(!empty($cart) && count($cart) > 0)
     <div class="cart-grid-layout">
-      <!-- Left: Items Table -->
-      <div style="background: var(--white); border-radius: var(--radius-md); border: 1px solid var(--soft-beige); box-shadow: var(--shadow-sm); overflow: hidden;">
-        <div class="cart-table-wrapper">
-        <table style="width: 100%; border-collapse: collapse; font-size: 0.92rem;">
-          <thead>
-            <tr style="background: var(--ivory); border-bottom: 1px solid var(--soft-beige); color: var(--ocean-navy);">
-              <th style="padding: 16px 20px; text-align: left;">Produk</th>
-              <th style="padding: 16px 20px; text-align: center;">Harga</th>
-              <th style="padding: 16px 20px; text-align: center;">Jumlah</th>
-              <th style="padding: 16px 20px; text-align: right;">Subtotal</th>
-              <th style="padding: 16px 20px; text-align: center;">Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-            @foreach($cart as $item)
-              <tr style="border-bottom: 1px solid #F0EAE1;">
-                <td style="padding: 18px 20px;">
-                  <div style="display: flex; gap: 16px; align-items: center;">
-                    <img src="{{ asset($item['cover_image']) }}" alt="{{ $item['title'] }}" style="width: 55px; height: 80px; object-fit: cover; border-radius: 4px; border: 1px solid var(--soft-beige);">
-                    <div>
-                      <span style="font-size: 0.75rem; color: var(--champagne-gold); text-transform: uppercase; font-weight: 600;">{{ $item['series_name'] ?? 'BIANCA VEANA' }}</span>
-                      <h4 style="font-family: var(--font-serif); font-size: 1.05rem; color: var(--ocean-navy);">{{ $item['title'] }}</h4>
+      <!-- Left: Items Container (Desktop Table + Mobile Cards) -->
+      <div style="background: var(--white); border-radius: var(--radius-md); border: 1px solid var(--soft-beige); box-shadow: var(--shadow-sm); overflow: hidden; min-width: 0;">
+        
+        <!-- 1. DESKTOP VIEW: Table (Hidden on Mobile <= 768px) -->
+        <div class="cart-desktop-table cart-table-wrapper" style="width: 100%; min-width: 0;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.92rem;">
+            <thead>
+              <tr style="background: var(--ivory); border-bottom: 1px solid var(--soft-beige); color: var(--ocean-navy);">
+                <th style="padding: 16px 20px; text-align: left;">Produk</th>
+                <th style="padding: 16px 20px; text-align: center;">Harga</th>
+                <th style="padding: 16px 20px; text-align: center;">Jumlah</th>
+                <th style="padding: 16px 20px; text-align: right;">Subtotal</th>
+                <th style="padding: 16px 20px; text-align: center;">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($cart as $item)
+                <tr style="border-bottom: 1px solid #F0EAE1;">
+                  <td style="padding: 18px 20px;">
+                    <div style="display: flex; gap: 16px; align-items: center;">
+                      <img src="{{ asset($item['cover_image']) }}" alt="{{ $item['title'] }}" style="width: 55px; height: 80px; object-fit: cover; border-radius: 4px; border: 1px solid var(--soft-beige);">
                       <div>
-                        @if(($item['category'] ?? '') === 'ebook')
-                          <span style="background: #EFF6FF; color: #1D4ED8; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px;">
-                            <i class="fa-solid fa-tablet-screen-button"></i> DIGITAL E-BOOK (Rp 0 ONGKIR)
-                          </span>
-                        @else
-                          <span style="background: #FDF2F8; color: #9D174D; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px;">
-                            <i class="fa-solid fa-box"></i> NOVEL CETAK FISIK
-                          </span>
-                        @endif
-                        @if(!empty($item['is_preorder']))
-                          <div style="margin-top: 4px;">
-                            <span style="background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px;">
-                              <i class="fa-solid fa-clock-rotate-left"></i> PRE-ORDER (Estimasi 45 - 60 Hari)
+                        <span style="font-size: 0.75rem; color: var(--champagne-gold); text-transform: uppercase; font-weight: 600;">{{ $item['series_name'] ?? 'BIANCA VEANA' }}</span>
+                        <h4 style="font-family: var(--font-serif); font-size: 1.05rem; color: var(--ocean-navy);">{{ $item['title'] }}</h4>
+                        <div>
+                          @if(($item['category'] ?? '') === 'ebook')
+                            <span style="background: #EFF6FF; color: #1D4ED8; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px;">
+                              <i class="fa-solid fa-tablet-screen-button"></i> DIGITAL E-BOOK (Rp 0 ONGKIR)
                             </span>
-                          </div>
-                        @endif
+                          @else
+                            <span style="background: #FDF2F8; color: #9D174D; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px;">
+                              <i class="fa-solid fa-box"></i> NOVEL CETAK FISIK
+                            </span>
+                          @endif
+                          @if(!empty($item['is_preorder']))
+                            <div style="margin-top: 4px;">
+                              <span style="background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px;">
+                                <i class="fa-solid fa-clock-rotate-left"></i> PRE-ORDER (Estimasi 45 - 60 Hari)
+                              </span>
+                            </div>
+                          @endif
+                        </div>
                       </div>
                     </div>
+                  </td>
+                  <td style="padding: 18px 20px; text-align: center; font-weight: 600; color: var(--text-dark);">
+                    Rp {{ number_format($item['price'], 0, ',', '.') }}
+                  </td>
+                  <td style="padding: 18px 20px; text-align: center;">
+                    <form action="{{ route('cart.update') }}" method="POST" style="display: inline-flex; align-items: center; border: 1px solid var(--soft-beige); border-radius: 4px; overflow: hidden;">
+                      @csrf
+                      <input type="hidden" name="product_id" value="{{ $item['id'] }}">
+                      <button type="submit" name="quantity" value="{{ $item['quantity'] - 1 }}" style="background: var(--ivory); border: none; padding: 6px 10px; cursor: pointer;">-</button>
+                      <span style="padding: 6px 12px; font-weight: 600; font-size: 0.9rem;">{{ $item['quantity'] }}</span>
+                      <button type="submit" name="quantity" value="{{ $item['quantity'] + 1 }}" style="background: var(--ivory); border: none; padding: 6px 10px; cursor: pointer;">+</button>
+                    </form>
+                  </td>
+                  <td style="padding: 18px 20px; text-align: right; font-weight: 700; color: var(--ocean-navy);">
+                    Rp {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}
+                  </td>
+                  <td style="padding: 18px 20px; text-align: center;">
+                    <form action="{{ route('cart.remove', $item['id']) }}" method="POST">
+                      @csrf
+                      @method('DELETE')
+                      <button type="submit" style="background: none; border: none; color: #E11D48; cursor: pointer; font-size: 1rem;" title="Hapus Item">
+                        <i class="fa-regular fa-trash-can"></i>
+                      </button>
+                    </form>
+                  </td>
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 2. MOBILE VIEW: Responsive Product Cards (Hidden on Desktop > 768px) -->
+        <div class="cart-mobile-cards" style="width: 100%;">
+          @foreach($cart as $item)
+            <div class="cart-mobile-item-card" style="padding: 16px 14px; border-bottom: 1px solid #F0EAE1; display: flex; flex-direction: column; gap: 12px;">
+              <div style="display: flex; gap: 12px; align-items: flex-start;">
+                <img src="{{ asset($item['cover_image']) }}" alt="{{ $item['title'] }}" style="width: 58px; height: 84px; object-fit: cover; border-radius: 6px; border: 1px solid var(--soft-beige); flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.06);">
+                <div style="flex: 1; min-width: 0;">
+                  <span style="font-size: 0.68rem; color: var(--champagne-gold); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; display: block;">{{ $item['series_name'] ?? 'BIANCA VEANA' }}</span>
+                  <h4 style="font-family: var(--font-serif); font-size: 1.02rem; color: var(--ocean-navy); margin: 2px 0 6px; line-height: 1.3;">{{ $item['title'] }}</h4>
+                  
+                  <div style="margin-bottom: 6px;">
+                    @if(($item['category'] ?? '') === 'ebook')
+                      <span style="background: #EFF6FF; color: #1D4ED8; font-size: 0.65rem; font-weight: 700; padding: 2px 6px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px;">
+                        <i class="fa-solid fa-tablet-screen-button"></i> DIGITAL E-BOOK
+                      </span>
+                    @else
+                      <span style="background: #FDF2F8; color: #9D174D; font-size: 0.65rem; font-weight: 700; padding: 2px 6px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px;">
+                        <i class="fa-solid fa-box"></i> NOVEL CETAK FISIK
+                      </span>
+                    @endif
+                    @if(!empty($item['is_preorder']))
+                      <div style="margin-top: 3px;">
+                        <span style="background: #FEF3C7; color: #92400E; border: 1px solid #FDE68A; font-size: 0.65rem; font-weight: 700; padding: 2px 6px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px;">
+                          <i class="fa-solid fa-clock-rotate-left"></i> PRE-ORDER (45-60 Hari)
+                        </span>
+                      </div>
+                    @endif
                   </div>
-                </td>
-                <td style="padding: 18px 20px; text-align: center; font-weight: 600; color: var(--text-dark);">
-                  Rp {{ number_format($item['price'], 0, ',', '.') }}
-                </td>
-                <td style="padding: 18px 20px; text-align: center;">
-                  <form action="{{ route('cart.update') }}" method="POST" style="display: inline-flex; align-items: center; border: 1px solid var(--soft-beige); border-radius: 4px; overflow: hidden;">
-                    @csrf
-                    <input type="hidden" name="product_id" value="{{ $item['id'] }}">
-                    <button type="submit" name="quantity" value="{{ $item['quantity'] - 1 }}" style="background: var(--ivory); border: none; padding: 6px 10px; cursor: pointer;">-</button>
-                    <span style="padding: 6px 12px; font-weight: 600; font-size: 0.9rem;">{{ $item['quantity'] }}</span>
-                    <button type="submit" name="quantity" value="{{ $item['quantity'] + 1 }}" style="background: var(--ivory); border: none; padding: 6px 10px; cursor: pointer;">+</button>
-                  </form>
-                </td>
-                <td style="padding: 18px 20px; text-align: right; font-weight: 700; color: var(--ocean-navy);">
-                  Rp {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}
-                </td>
-                <td style="padding: 18px 20px; text-align: center;">
-                  <form action="{{ route('cart.remove', $item['id']) }}" method="POST">
+
+                  <div style="font-size: 0.82rem; color: var(--text-muted);">
+                    Satuan: <strong style="color: var(--text-dark);">Rp {{ number_format($item['price'], 0, ',', '.') }}</strong>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Stepper, Subtotal, Delete -->
+              <div style="display: flex; justify-content: space-between; align-items: center; background: #FAF7F2; padding: 8px 10px; border-radius: 6px; flex-wrap: wrap; gap: 8px;">
+                <form action="{{ route('cart.update') }}" method="POST" style="display: inline-flex; align-items: center; border: 1.5px solid var(--soft-beige); border-radius: 6px; overflow: hidden; background: #FFF;">
+                  @csrf
+                  <input type="hidden" name="product_id" value="{{ $item['id'] }}">
+                  <button type="submit" name="quantity" value="{{ $item['quantity'] - 1 }}" style="background: #F8FAFC; border: none; width: 34px; height: 34px; cursor: pointer; font-size: 1rem; font-weight: 700; display: flex; align-items: center; justify-content: center; color: var(--ocean-navy); touch-action: manipulation;">-</button>
+                  <span style="padding: 0 10px; font-weight: 700; font-size: 0.88rem; min-width: 24px; text-align: center;">{{ $item['quantity'] }}</span>
+                  <button type="submit" name="quantity" value="{{ $item['quantity'] + 1 }}" style="background: #F8FAFC; border: none; width: 34px; height: 34px; cursor: pointer; font-size: 1rem; font-weight: 700; display: flex; align-items: center; justify-content: center; color: var(--ocean-navy); touch-action: manipulation;">+</button>
+                </form>
+
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <div style="text-align: right;">
+                    <span style="font-size: 0.68rem; color: var(--text-muted); display: block;">Total</span>
+                    <strong style="color: var(--ocean-navy); font-size: 0.95rem;">Rp {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}</strong>
+                  </div>
+                  <form action="{{ route('cart.remove', $item['id']) }}" method="POST" style="margin: 0;">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" style="background: none; border: none; color: #E11D48; cursor: pointer; font-size: 1rem;" title="Hapus Item">
+                    <button type="submit" style="background: #FEE2E2; border: 1px solid #FECACA; color: #DC2626; width: 34px; height: 34px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; justify-content: center;" title="Hapus Item" aria-label="Hapus Item">
                       <i class="fa-regular fa-trash-can"></i>
                     </button>
                   </form>
-                </td>
-              </tr>
-            @endforeach
-          </tbody>
-        </table>
+                </div>
+              </div>
+            </div>
+          @endforeach
         </div>
-        <div style="padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; background: #FAF7F2; flex-wrap: wrap; gap: 10px;">
-          <a href="{{ route('novels.index') }}" style="color: var(--ocean-navy); font-size: 0.85rem; font-weight: 600;">
-            <i class="fa-solid fa-arrow-left"></i> Lanjut Belanja Koleksi Lain
+
+        <!-- Footer Actions inside Items Container -->
+        <div style="padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; background: #FAF7F2; flex-wrap: wrap; gap: 10px;">
+          <a href="{{ route('novels.index') }}" style="color: var(--ocean-navy); font-size: 0.82rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-arrow-left"></i> Lanjut Belanja
           </a>
-          <form action="{{ route('cart.clear') }}" method="POST">
+          <form action="{{ route('cart.clear') }}" method="POST" onsubmit="return confirm('Kosongkan semua buku di keranjang?');" style="margin: 0;">
             @csrf
-            <button type="submit" style="background: none; border: none; color: var(--text-muted); font-size: 0.82rem; cursor: pointer;">
-              Kosongkan Keranjang
+            <button type="submit" style="background: none; border: none; color: var(--text-muted); font-size: 0.8rem; cursor: pointer; padding: 4px 6px;">
+              <i class="fa-regular fa-trash-can"></i> Kosongkan Keranjang
             </button>
           </form>
         </div>
