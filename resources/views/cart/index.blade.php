@@ -166,47 +166,47 @@
       </div>
 
       <!-- Right: Summary Box -->
-      <div class="cart-summary-box" style="background: var(--white); border-radius: var(--radius-md); border: 1px solid var(--champagne-gold); padding: 30px; box-shadow: var(--shadow-sm);">
+      <div class="cart-summary-box">
         <h3 style="font-family: var(--font-serif); font-size: 1.4rem; color: var(--ocean-navy); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--soft-beige);">
           Ringkasan Belanja
         </h3>
 
         <!-- PANEL VOUCHER & DISKON DI KERANJANG -->
-        <div style="background: #FDFBF7; border: 1.5px dashed var(--champagne-gold); border-radius: 8px; padding: 14px; margin-bottom: 20px;">
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
-            <span style="font-size: 0.85rem; font-weight: 700; color: var(--ocean-navy); display: flex; align-items: center; gap: 7px;">
+        <div class="cart-voucher-box" style="background: #FDFBF7; border: 1.5px dashed var(--champagne-gold); border-radius: 8px; padding: 14px; margin-bottom: 20px; width: 100%; box-sizing: border-box;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; gap: 8px; flex-wrap: wrap;">
+            <span style="font-size: 0.84rem; font-weight: 700; color: var(--ocean-navy); display: flex; align-items: center; gap: 6px; white-space: nowrap;">
               <i class="fa-solid fa-ticket" style="color: var(--champagne-gold);"></i> Voucher & Promo
             </span>
             @if(isset($availableCoupons) && count($availableCoupons) > 0)
-              <button type="button" onclick="toggleCartVouchers()" id="btn-toggle-cart-vouchers" style="background: none; border: none; font-size: 0.76rem; font-weight: 600; color: #B45309; cursor: pointer; text-decoration: underline; padding: 0;">
-                Lihat Voucher ({{ count($availableCoupons) }})
+              <button type="button" onclick="toggleCartVouchers()" id="btn-toggle-cart-vouchers" style="background: #FEF3C7; border: 1px solid #FCD34D; color: #92400E; font-size: 0.72rem; font-weight: 700; cursor: pointer; padding: 3px 8px; border-radius: 12px; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;">
+                <i class="fa-solid fa-tags" style="font-size: 0.68rem;"></i> Lihat Voucher ({{ count($availableCoupons) }})
               </button>
             @endif
           </div>
 
           <!-- Banner Kupon Aktif -->
-          <div id="cart-applied-banner" style="display: {{ $appliedCoupon ? 'flex' : 'none' }}; align-items: center; justify-content: space-between; background: #ECFDF5; border: 1px solid #A7F3D0; padding: 8px 12px; border-radius: 6px; margin-bottom: 10px;">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <i class="fa-solid fa-circle-check" style="color: #10B981; font-size: 0.95rem;"></i>
-              <div>
-                <strong id="cart-coupon-code" style="font-family: monospace; font-size: 0.85rem; color: #065F46;">{{ $appliedCoupon['code'] ?? '' }}</strong>
-                <span id="cart-coupon-desc" style="display: block; font-size: 0.7rem; color: #047857;">{{ $appliedCoupon['name'] ?? 'Voucher aktif' }}</span>
+          <div id="cart-applied-banner" style="display: {{ $appliedCoupon ? 'flex' : 'none' }}; align-items: center; justify-content: space-between; background: #ECFDF5; border: 1px solid #A7F3D0; padding: 8px 12px; border-radius: 6px; margin-bottom: 10px; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 8px; min-width: 0;">
+              <i class="fa-solid fa-circle-check" style="color: #10B981; font-size: 0.95rem; flex-shrink: 0;"></i>
+              <div style="min-width: 0;">
+                <strong id="cart-coupon-code" style="font-family: monospace; font-size: 0.85rem; color: #065F46; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $appliedCoupon['code'] ?? '' }}</strong>
+                <span id="cart-coupon-desc" style="display: block; font-size: 0.7rem; color: #047857; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $appliedCoupon['name'] ?? 'Voucher aktif' }}</span>
               </div>
             </div>
-            <button type="button" onclick="removeCartCoupon()" style="background: #FEE2E2; border: 1px solid #FECACA; color: #DC2626; font-size: 0.72rem; font-weight: 700; cursor: pointer; padding: 3px 8px; border-radius: 4px;">
+            <button type="button" onclick="removeCartCoupon()" style="background: #FEE2E2; border: 1px solid #FECACA; color: #DC2626; font-size: 0.72rem; font-weight: 700; cursor: pointer; padding: 4px 8px; border-radius: 4px; flex-shrink: 0;">
               <i class="fa-solid fa-xmark"></i> Hapus
             </button>
           </div>
 
           <!-- Input Kupon -->
-          <div id="cart-input-group" style="display: {{ $appliedCoupon ? 'none' : 'flex' }}; gap: 6px;">
-            <input type="text" id="cart_coupon_input" placeholder="Masukkan kode promo..." style="flex: 1; padding: 8px 10px; border: 1px solid var(--soft-beige); border-radius: 4px; font-size: 0.82rem; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; background: #FFF;">
-            <button type="button" onclick="applyCartCoupon()" id="btn-apply-cart-coupon" class="btn btn-gold" style="padding: 8px 14px; font-size: 0.8rem; font-weight: 700; white-space: nowrap;">
+          <div id="cart-input-group" style="display: {{ $appliedCoupon ? 'none' : 'flex' }}; gap: 6px; width: 100%; box-sizing: border-box; align-items: stretch;">
+            <input type="text" id="cart_coupon_input" placeholder="Masukkan kode promo..." style="flex: 1 1 0%; min-width: 0; width: 0; padding: 9px 12px; border: 1.5px solid var(--soft-beige); border-radius: 6px; font-size: 0.82rem; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; background: #FFF; box-sizing: border-box; outline: none;">
+            <button type="button" onclick="applyCartCoupon()" id="btn-apply-cart-coupon" class="btn btn-gold" style="padding: 9px 14px; font-size: 0.78rem; font-weight: 700; white-space: nowrap; flex-shrink: 0; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center;">
               Gunakan
             </button>
           </div>
 
-          <div id="cart-coupon-feedback" style="display: none; font-size: 0.76rem; margin-top: 8px; padding: 6px 10px; border-radius: 4px;"></div>
+          <div id="cart-coupon-feedback" style="display: none; font-size: 0.76rem; margin-top: 8px; padding: 6px 10px; border-radius: 4px; line-height: 1.4;"></div>
 
           <!-- List Voucher Tersedia -->
           @if(isset($availableCoupons) && count($availableCoupons) > 0)
@@ -225,7 +225,7 @@
                       <div style="font-size: 0.73rem; color: #1E293B; margin-top: 2px; font-weight: 600;">{{ $avCoupon->name }}</div>
                       <div style="font-size: 0.68rem; color: #64748B;">{{ $avCoupon->formatted_min_spend }}</div>
                     </div>
-                    <button type="button" onclick="selectQuickCartCoupon('{{ $avCoupon->code }}')" class="btn" style="background: var(--champagne-gold); color: #0E1A2B; font-weight: 700; font-size: 0.72rem; padding: 5px 10px; border-radius: 4px; border: none; cursor: pointer; white-space: nowrap;">
+                    <button type="button" onclick="selectQuickCartCoupon('{{ $avCoupon->code }}')" class="btn" style="background: var(--champagne-gold); color: #0E1A2B; font-weight: 700; font-size: 0.72rem; padding: 5px 10px; border-radius: 4px; border: none; cursor: pointer; white-space: nowrap; flex-shrink: 0;">
                       Pakai
                     </button>
                   </div>
