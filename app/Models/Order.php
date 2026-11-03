@@ -20,6 +20,8 @@ class Order extends Model
         'city',
         'postal_code',
         'courier',
+        'coupon_code',
+        'discount_amount',
         'shipping_cost',
         'subtotal',
         'total_amount',
@@ -34,6 +36,7 @@ class Order extends Model
 
     protected $casts = [
         'shipping_cost' => 'integer',
+        'discount_amount' => 'integer',
         'subtotal' => 'integer',
         'total_amount' => 'integer',
         'digital_delivered' => 'boolean',

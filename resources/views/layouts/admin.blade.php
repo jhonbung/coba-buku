@@ -651,6 +651,11 @@
           <span>Pesanan</span>
         </a>
 
+        <a href="{{ route('admin.coupons.index') }}" class="admin-nav-link {{ request()->routeIs('admin.coupons*') ? 'active' : '' }}">
+          <i class="fa-solid fa-ticket"></i>
+          <span>Kupon & Diskon</span>
+        </a>
+
         <a href="{{ route('admin.customers.index') }}" class="admin-nav-link {{ request()->routeIs('admin.customers*') ? 'active' : '' }}">
           <i class="fa-solid fa-users"></i>
           <span>Customer</span>

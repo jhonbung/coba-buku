@@ -86,6 +86,18 @@ class MidtransService
             ];
         }
 
+        // Add discount if exists
+        if ((int) $order->discount_amount > 0) {
+            $discountPrice = - (int) $order->discount_amount;
+            $calculatedGross += $discountPrice;
+            $items[] = [
+                'id' => 'DISCOUNT',
+                'price' => $discountPrice,
+                'quantity' => 1,
+                'name' => mb_substr('Diskon: ' . ($order->coupon_code ?: 'Promo'), 0, 48, 'UTF-8'),
+            ];
+        }
+
         // Fallback safety if item details sum differs from total amount
         $grossAmount = (int) $order->total_amount;
         if ($calculatedGross !== $grossAmount) {

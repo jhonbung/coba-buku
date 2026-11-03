@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CartItem;
+use App\Models\Coupon;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,7 +26,20 @@ class CartController extends Controller
             $subtotal += $item['price'] * $item['quantity'];
         }
 
-        return view('cart.index', compact('cart', 'subtotal'));
+        $appliedCoupon = session()->get('applied_coupon', null);
+        $discountAmount = 0;
+        if ($appliedCoupon) {
+            $couponModel = Coupon::where('code', $appliedCoupon['code'])->first();
+            if ($couponModel && $couponModel->checkValidity($subtotal, 0)['valid']) {
+                $discountAmount = $couponModel->calculateDiscount($subtotal, 0);
+            } else {
+                session()->forget('applied_coupon');
+                $appliedCoupon = null;
+            }
+        }
+        $availableCoupons = Coupon::public()->get();
+
+        return view('cart.index', compact('cart', 'subtotal', 'appliedCoupon', 'discountAmount', 'availableCoupons'));
     }
 
     /**

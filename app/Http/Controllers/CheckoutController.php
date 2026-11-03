@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CartItem;
+use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
@@ -76,6 +77,32 @@ class CheckoutController extends Controller
         $defaultDestinationId = 17589; // Jakarta Selatan
         $initialCourierRates = $hasPhysicalItems ? $shippingService->calculateCost($defaultDestinationId, $totalWeight) : [];
 
+        // Coupon Handling
+        $appliedCoupon = session()->get('applied_coupon', null);
+        $discountAmount = 0;
+        if ($appliedCoupon) {
+            $couponModel = Coupon::where('code', $appliedCoupon['code'])->first();
+            if ($couponModel) {
+                $check = $couponModel->checkValidity($subtotal, 0);
+                if ($couponModel->type === 'shipping' && !$hasPhysicalItems) {
+                    session()->forget('applied_coupon');
+                    $appliedCoupon = null;
+                } elseif (!$check['valid'] && $couponModel->type !== 'shipping') {
+                    session()->forget('applied_coupon');
+                    $appliedCoupon = null;
+                } else {
+                    $discountAmount = $couponModel->calculateDiscount($subtotal, 0);
+                    $appliedCoupon['discount_amount'] = $discountAmount;
+                    session()->put('applied_coupon', $appliedCoupon);
+                }
+            } else {
+                session()->forget('applied_coupon');
+                $appliedCoupon = null;
+            }
+        }
+
+        $availableCoupons = Coupon::public()->get();
+
         return view('checkout.index', compact(
             'cart',
             'subtotal',
@@ -86,7 +113,10 @@ class CheckoutController extends Controller
             'originDesc',
             'isLiveApi',
             'provincesAndCities',
-            'initialCourierRates'
+            'initialCourierRates',
+            'appliedCoupon',
+            'discountAmount',
+            'availableCoupons'
         ));
     }
 
@@ -204,7 +234,22 @@ class CheckoutController extends Controller
 
         $courierName = $hasPhysicalItems ? $request->input('courier') : 'Digital Delivery (Email Langsung)';
         $shippingCost = $hasPhysicalItems ? (int) $request->input('shipping_cost', 10000) : 0;
-        $totalAmount = $subtotal + $shippingCost;
+
+        // Hitung diskon voucher dari sesi jika ada
+        $appliedCoupon = session()->get('applied_coupon', null);
+        $couponCode = null;
+        $discountAmount = 0;
+
+        if ($appliedCoupon) {
+            $couponModel = Coupon::where('code', $appliedCoupon['code'])->first();
+            if ($couponModel && $couponModel->checkValidity($subtotal, $shippingCost)['valid']) {
+                $couponCode = $couponModel->code;
+                $discountAmount = $couponModel->calculateDiscount($subtotal, $shippingCost);
+                $couponModel->increment('usage_count');
+            }
+        }
+
+        $totalAmount = max(0, ($subtotal + $shippingCost) - $discountAmount);
 
         $orderNumber = 'BV-' . date('Ymd') . '-' . strtoupper(Str::random(5));
         
@@ -227,6 +272,8 @@ class CheckoutController extends Controller
             'city' => $hasPhysicalItems ? $fullLocation : 'Online / Digital Delivery',
             'postal_code' => $hasPhysicalItems ? $request->input('postal_code') : '-',
             'courier' => $courierName,
+            'coupon_code' => $couponCode,
+            'discount_amount' => $discountAmount,
             'shipping_cost' => $shippingCost,
             'subtotal' => $subtotal,
             'total_amount' => $totalAmount,
@@ -264,6 +311,7 @@ class CheckoutController extends Controller
 
         CartItem::where('user_id', $userId)->delete();
         session()->forget('cart');
+        session()->forget('applied_coupon');
 
         return redirect()->route('checkout.payment', ['order_number' => $order->order_number]);
     }

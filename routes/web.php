@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminCouponController;
 use App\Http\Controllers\AdminCustomerController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\CustomerAuthController;
 use App\Http\Controllers\EbookController;
 use App\Http\Controllers\HomeController;
@@ -51,6 +53,11 @@ Route::get('/order/{order_number}/resi', [CheckoutController::class, 'resi'])->n
 Route::post('/midtrans/callback', [CheckoutController::class, 'handleNotification'])->name('midtrans.callback');
 Route::get('/shipping/destinations', [CheckoutController::class, 'searchDestinations'])->name('shipping.destinations');
 Route::post('/shipping/calculate', [CheckoutController::class, 'calculateShipping'])->name('shipping.calculate');
+
+// Coupons & Promos (Customer Side)
+Route::post('/coupons/apply', [CouponController::class, 'apply'])->name('coupons.apply');
+Route::post('/coupons/remove', [CouponController::class, 'remove'])->name('coupons.remove');
+Route::get('/coupons/available', [CouponController::class, 'available'])->name('coupons.available');
 
 // 8. Newsletter
 Route::post('/newsletter', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
@@ -119,4 +126,11 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
     Route::get('/chat/conversations', [ChatController::class, 'adminGetConversations'])->name('chat.conversations');
     Route::get('/chat/messages/{userId}', [ChatController::class, 'adminGetMessages'])->name('chat.messages');
     Route::post('/chat/send', [ChatController::class, 'adminSendMessage'])->name('chat.send');
+
+    // 15. Coupon Management (Admin)
+    Route::get('/coupons', [AdminCouponController::class, 'index'])->name('coupons.index');
+    Route::post('/coupons', [AdminCouponController::class, 'store'])->name('coupons.store');
+    Route::put('/coupons/{id}', [AdminCouponController::class, 'update'])->name('coupons.update');
+    Route::post('/coupons/{id}/toggle', [AdminCouponController::class, 'toggle'])->name('coupons.toggle');
+    Route::delete('/coupons/{id}', [AdminCouponController::class, 'destroy'])->name('coupons.destroy');
 });

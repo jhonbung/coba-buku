@@ -310,9 +310,87 @@
           @endforeach
         </div>
 
+        <!-- PANEL VOUCHER & DISKON EKSKLUSIF -->
+        <div class="checkout-voucher-box" style="background: #FDFBF7; border: 1.5px dashed var(--champagne-gold); border-radius: 8px; padding: 14px; margin-bottom: 20px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+            <span style="font-size: 0.85rem; font-weight: 700; color: var(--ocean-navy); display: flex; align-items: center; gap: 7px;">
+              <i class="fa-solid fa-ticket" style="color: var(--champagne-gold);"></i> Voucher & Diskon
+            </span>
+            @if(count($availableCoupons) > 0)
+              <button type="button" onclick="toggleAvailableVouchers()" id="btn-toggle-vouchers" style="background: none; border: none; font-size: 0.76rem; font-weight: 600; color: #B45309; cursor: pointer; text-decoration: underline; padding: 0;">
+                Lihat Voucher Tersedia ({{ count($availableCoupons) }})
+              </button>
+            @endif
+          </div>
+
+          <!-- Banner Kupon yang Sedang Aktif -->
+          <div id="applied-coupon-banner" style="display: {{ $appliedCoupon ? 'flex' : 'none' }}; align-items: center; justify-content: space-between; background: #ECFDF5; border: 1px solid #A7F3D0; padding: 8px 12px; border-radius: 6px; margin-bottom: 10px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <i class="fa-solid fa-circle-check" style="color: #10B981; font-size: 0.95rem;"></i>
+              <div>
+                <strong id="banner-coupon-code" style="font-family: monospace; font-size: 0.85rem; color: #065F46; letter-spacing: 0.5px;">{{ $appliedCoupon['code'] ?? '' }}</strong>
+                <span id="banner-coupon-desc" style="display: block; font-size: 0.7rem; color: #047857;">{{ $appliedCoupon['name'] ?? 'Voucher aktif' }}</span>
+              </div>
+            </div>
+            <button type="button" onclick="removeCoupon()" style="background: #FEE2E2; border: 1px solid #FECACA; color: #DC2626; font-size: 0.72rem; font-weight: 700; cursor: pointer; padding: 3px 8px; border-radius: 4px;">
+              <i class="fa-solid fa-xmark"></i> Hapus
+            </button>
+          </div>
+
+          <!-- Input Kode Promo Manual -->
+          <div id="coupon-input-group" style="display: {{ $appliedCoupon ? 'none' : 'flex' }}; gap: 6px;">
+            <input type="text" id="coupon_code_input" placeholder="Masukkan kode promo..." style="flex: 1; padding: 8px 10px; border: 1px solid var(--soft-beige); border-radius: 4px; font-size: 0.82rem; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; background: #FFF;">
+            <button type="button" onclick="applyCoupon()" id="btn-apply-coupon" class="btn btn-gold" style="padding: 8px 14px; font-size: 0.8rem; font-weight: 700; white-space: nowrap;">
+              Gunakan
+            </button>
+          </div>
+
+          <div id="coupon-feedback" style="display: none; font-size: 0.76rem; margin-top: 8px; padding: 6px 10px; border-radius: 4px;"></div>
+
+          <!-- Drawer Voucher Tersedia (1-Click Klaim) -->
+          @if(count($availableCoupons) > 0)
+            <div id="available-vouchers-drawer" style="display: none; margin-top: 12px; border-top: 1px dashed #E2D9CC; padding-top: 10px;">
+              <div style="font-size: 0.72rem; color: #64748B; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
+                Pilih Voucher Siap Pakai:
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 8px; max-height: 220px; overflow-y: auto;">
+                @foreach($availableCoupons as $avCoupon)
+                  <div class="voucher-ticket-card" style="display: flex; align-items: center; justify-content: space-between; background: #FFFFFF; border: 1px solid #E2D9CC; border-left: 3.5px solid var(--champagne-gold); border-radius: 6px; padding: 8px 10px; gap: 8px;">
+                    <div style="flex: 1; min-width: 0;">
+                      <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                        <span style="font-family: monospace; font-size: 0.8rem; font-weight: 700; color: var(--ocean-navy); background: #FAF7F2; padding: 2px 6px; border-radius: 4px; border: 1px dashed #CBD5E1;">
+                          {{ $avCoupon->code }}
+                        </span>
+                        <span style="font-size: 0.68rem; font-weight: 700; color: #166534; background: #DCFCE7; padding: 2px 6px; border-radius: 4px;">
+                          {{ $avCoupon->formatted_value }}
+                        </span>
+                      </div>
+                      <div style="font-size: 0.73rem; color: #1E293B; margin-top: 3px; font-weight: 600; line-height: 1.2;">
+                        {{ $avCoupon->name }}
+                      </div>
+                      <div style="font-size: 0.68rem; color: #64748B; margin-top: 1px;">
+                        {{ $avCoupon->formatted_min_spend }}
+                      </div>
+                    </div>
+                    <button type="button" onclick="selectQuickCoupon('{{ $avCoupon->code }}')" class="btn" style="background: var(--champagne-gold); color: #0E1A2B; font-weight: 700; font-size: 0.72rem; padding: 6px 12px; border-radius: 4px; border: none; cursor: pointer; white-space: nowrap; flex-shrink: 0;">
+                      Pakai
+                    </button>
+                  </div>
+                @endforeach
+              </div>
+            </div>
+          @endif
+        </div>
+
         <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.92rem; color: var(--text-dark);">
           <span>Subtotal Produk:</span>
           <span style="font-weight: 600;">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+        </div>
+
+        <!-- Baris Diskon Voucher -->
+        <div id="discount-row" style="display: {{ $discountAmount > 0 ? 'flex' : 'none' }}; justify-content: space-between; margin-bottom: 10px; font-size: 0.92rem; color: #059669; font-weight: 600;">
+          <span>Potongan Diskon (<span id="discount-code-badge">{{ $appliedCoupon['code'] ?? '' }}</span>):</span>
+          <span id="discount-display">-Rp {{ number_format($discountAmount, 0, ',', '.') }}</span>
         </div>
 
         <div style="display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 0.92rem; color: var(--text-dark);">
@@ -325,7 +403,7 @@
         <div style="display: flex; justify-content: space-between; margin-bottom: 24px; font-size: 1.25rem; font-weight: 700; color: var(--ocean-navy); padding-top: 14px; border-top: 1px solid var(--soft-beige);">
           <span>Total Pembayaran:</span>
           <span id="total-display" style="color: var(--champagne-gold);">
-            Rp {{ number_format($subtotal + ($hasPhysicalItems ? ($initialCourierRates[0]['cost'] ?? 10000) : 0), 0, ',', '.') }}
+            Rp {{ number_format(max(0, ($subtotal + ($hasPhysicalItems ? ($initialCourierRates[0]['cost'] ?? 10000) : 0)) - $discountAmount), 0, ',', '.') }}
           </span>
         </div>
 
@@ -353,16 +431,24 @@
 <script>
   const baseSubtotal = {{ $subtotal }};
   let currentShippingCost = {{ $hasPhysicalItems ? ($initialCourierRates[0]['cost'] ?? 10000) : 0 }};
+  let currentDiscountAmount = {{ $discountAmount }};
+  let currentAppliedCode = '{{ $appliedCoupon['code'] ?? '' }}';
 
   // Provinces and Cities JSON dataset
   const provincesData = @json($provincesAndCities ?? []);
+
+  function recalculateGrandTotal() {
+    const total = Math.max(0, (baseSubtotal + currentShippingCost) - currentDiscountAmount);
+    document.getElementById('total-display').innerText = 'Rp ' + total.toLocaleString('id-ID');
+  }
 
   function selectCourierRate(courierName, cost) {
     currentShippingCost = cost;
     document.getElementById('input_shipping_cost').value = cost;
     document.getElementById('shipping-display').innerText = 'Rp ' + cost.toLocaleString('id-ID');
-    const total = baseSubtotal + cost;
-    document.getElementById('total-display').innerText = 'Rp ' + total.toLocaleString('id-ID');
+    
+    // Recalculate discount if coupon is shipping discount
+    recalculateGrandTotal();
 
     document.querySelectorAll('.courier-card').forEach(card => {
       const radio = card.querySelector('input[type="radio"]');
@@ -374,6 +460,171 @@
         card.style.background = '#FFFFFF';
       }
     });
+  }
+
+  function toggleAvailableVouchers() {
+    const drawer = document.getElementById('available-vouchers-drawer');
+    const btn = document.getElementById('btn-toggle-vouchers');
+    if (!drawer) return;
+
+    if (drawer.style.display === 'none' || drawer.style.display === '') {
+      drawer.style.display = 'block';
+      if (btn) btn.innerText = 'Tutup Daftar Voucher';
+    } else {
+      drawer.style.display = 'none';
+      if (btn) btn.innerText = 'Lihat Voucher Tersedia ({{ count($availableCoupons) }})';
+    }
+  }
+
+  function selectQuickCoupon(code) {
+    const input = document.getElementById('coupon_code_input');
+    if (input) input.value = code;
+    applyCoupon(code);
+  }
+
+  async function applyCoupon(codeToApply = null) {
+    const input = document.getElementById('coupon_code_input');
+    const code = (codeToApply || (input ? input.value : '')).trim().toUpperCase();
+    const feedback = document.getElementById('coupon-feedback');
+    const btn = document.getElementById('btn-apply-coupon');
+
+    if (!code) {
+      if (feedback) {
+        feedback.style.display = 'block';
+        feedback.style.background = '#FEF2F2';
+        feedback.style.color = '#991B1B';
+        feedback.style.border = '1px solid #FECACA';
+        feedback.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Masukkan kode voucher terlebih dahulu.';
+      }
+      return;
+    }
+
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+    }
+
+    try {
+      const res = await fetch('/coupons/apply', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({
+          code: code,
+          shipping_cost: currentShippingCost
+        })
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        currentDiscountAmount = data.discount_amount;
+        currentAppliedCode = data.coupon.code;
+
+        // Update discount row in summary
+        const discountRow = document.getElementById('discount-row');
+        const discountBadge = document.getElementById('discount-code-badge');
+        const discountDisplay = document.getElementById('discount-display');
+
+        if (discountRow) discountRow.style.display = 'flex';
+        if (discountBadge) discountBadge.innerText = data.coupon.code;
+        if (discountDisplay) discountDisplay.innerText = data.discount_formatted;
+
+        // Update applied banner
+        const banner = document.getElementById('applied-coupon-banner');
+        const bannerCode = document.getElementById('banner-coupon-code');
+        const bannerDesc = document.getElementById('banner-coupon-desc');
+        const inputGroup = document.getElementById('coupon-input-group');
+
+        if (banner) banner.style.display = 'flex';
+        if (bannerCode) bannerCode.innerText = data.coupon.code;
+        if (bannerDesc) bannerDesc.innerText = data.coupon.name + ' (' + data.coupon.value_formatted + ')';
+        if (inputGroup) inputGroup.style.display = 'none';
+
+        if (feedback) {
+          feedback.style.display = 'block';
+          feedback.style.background = '#ECFDF5';
+          feedback.style.color = '#065F46';
+          feedback.style.border = '1px solid #A7F3D0';
+          feedback.innerHTML = '<i class="fa-solid fa-circle-check"></i> ' + data.message;
+        }
+
+        recalculateGrandTotal();
+
+      } else {
+        if (feedback) {
+          feedback.style.display = 'block';
+          feedback.style.background = '#FEF2F2';
+          feedback.style.color = '#991B1B';
+          feedback.style.border = '1px solid #FECACA';
+          feedback.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> ' + (data.message || 'Kupon tidak dapat digunakan.');
+        }
+      }
+    } catch (err) {
+      console.error(err);
+      if (feedback) {
+        feedback.style.display = 'block';
+        feedback.style.background = '#FEF2F2';
+        feedback.style.color = '#991B1B';
+        feedback.style.border = '1px solid #FECACA';
+        feedback.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Terjadi kesalahan saat memeriksa voucher.';
+      }
+    } finally {
+      if (btn) {
+        btn.disabled = false;
+        btn.innerText = 'Gunakan';
+      }
+    }
+  }
+
+  async function removeCoupon() {
+    const feedback = document.getElementById('coupon-feedback');
+
+    try {
+      const res = await fetch('/coupons/remove', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({
+          shipping_cost: currentShippingCost
+        })
+      });
+
+      const data = await res.json();
+      currentDiscountAmount = 0;
+      currentAppliedCode = '';
+
+      const discountRow = document.getElementById('discount-row');
+      if (discountRow) discountRow.style.display = 'none';
+
+      const banner = document.getElementById('applied-coupon-banner');
+      if (banner) banner.style.display = 'none';
+
+      const inputGroup = document.getElementById('coupon-input-group');
+      if (inputGroup) inputGroup.style.display = 'flex';
+
+      const input = document.getElementById('coupon_code_input');
+      if (input) input.value = '';
+
+      if (feedback) {
+        feedback.style.display = 'block';
+        feedback.style.background = '#F8FAFC';
+        feedback.style.color = '#475569';
+        feedback.style.border = '1px solid #E2E8F0';
+        feedback.innerHTML = '<i class="fa-solid fa-info-circle"></i> Voucher promo telah dihapus.';
+      }
+
+      recalculateGrandTotal();
+
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   function onProvinceChanged(provName) {
