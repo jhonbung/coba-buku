@@ -293,6 +293,17 @@
     </div>
   </div>
 
+  <!-- Customer Reviews Section (Verified Buyers Only) -->
+  <x-product_reviews 
+    :product="$novel" 
+    :reviews="$reviews" 
+    :avgRating="$avgRating" 
+    :totalReviews="$totalReviews" 
+    :starBreakdown="$starBreakdown" 
+    :userCanReview="$userCanReview" 
+    :userExistingReview="$userExistingReview" 
+  />
+
   <!-- Chronological Series Progression Shelf (The Seven Notonegoro Series or other multi-book series) -->
   @if(isset($seriesSiblings) && $seriesSiblings->count() > 0)
     <div class="series-progression-shelf">
@@ -381,17 +392,6 @@
       </div>
     </div>
   @endif
-
-  <!-- Customer Reviews Section (Verified Buyers Only) -->
-  <x-product_reviews 
-    :product="$novel" 
-    :reviews="$reviews" 
-    :avgRating="$avgRating" 
-    :totalReviews="$totalReviews" 
-    :starBreakdown="$starBreakdown" 
-    :userCanReview="$userCanReview" 
-    :userExistingReview="$userExistingReview" 
-  />
 
   <!-- Related Novels Section -->
   @if($relatedNovels->count() > 0)
