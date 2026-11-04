@@ -47,7 +47,7 @@
           <label style="display: block; font-size: 0.85rem; font-weight: 600; color: var(--ocean-navy); margin-bottom: 6px;">Pilih Kategori Produk *</label>
           <select name="category" id="product_category" required onchange="updateCategoryForm()" style="width: 100%; padding: 12px 16px; border: 1px solid var(--soft-beige); border-radius: 4px; font-size: 0.92rem; background: #FFF; font-weight: 600;">
             <option value="novel" {{ old('category') === 'novel' ? 'selected' : '' }}>📖 Novel Cetak (Physical Book)</option>
-            <option value="merchandise" {{ old('category') === 'merchandise' ? 'selected' : '' }}>👑 Merchandise Resmi</option>
+            <option value="merchandise" {{ old('category') === 'merchandise' ? 'selected' : '' }}>Merchandise Resmi</option>
           </select>
           <span style="font-size: 0.72rem; color: #64748B; margin-top: 4px; display: block;">*Untuk menambahkan e-book atau bab digital, gunakan menu <strong>Serial E-Book</strong>.</span>
         </div>
@@ -244,7 +244,7 @@
     <!-- SECTION 4: KELENGKAPAN / BONUS / DIGITAL ACCESS -->
     <div class="admin-card" style="margin-bottom: 24px;">
       <h3 style="font-family: var(--font-serif); font-size: 1.25rem; color: var(--ocean-navy); margin-bottom: 20px; padding-bottom: 8px; border-bottom: 1px solid var(--soft-beige); display: flex; align-items: center; gap: 10px;">
-        <i class="fa-solid fa-crown" style="color: var(--champagne-gold);"></i> 
+        <img src="{{ asset('images/logo.png') }}" alt="BV" style="height: 20px; width: auto; object-fit: contain; vertical-align: middle;"> 
         <span id="title-section-4">4. Kelengkapan Kemasan & Akses</span>
       </h3>
 
@@ -323,7 +323,7 @@
     const boxSlot3 = document.getElementById('box-slot-3');
 
     if (cat === 'merchandise') {
-      badge.innerHTML = '<i class="fa-solid fa-crown"></i> Mode Merchandise Resmi';
+      badge.innerHTML = '<img src="{{ asset("images/logo.png") }}" alt="BV" style="height: 14px; width: auto; object-fit: contain; vertical-align: middle;"> Mode Merchandise Resmi';
       badge.style.background = '#FEF3C7';
       badge.style.color = '#92400E';
       badge.style.border = '1px solid #FDE68A';

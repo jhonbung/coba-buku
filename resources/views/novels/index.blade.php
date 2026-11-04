@@ -20,8 +20,8 @@
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--soft-beige);">
       <!-- Series Group Tabs -->
       <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
-        <span style="font-size: 0.78rem; font-weight: 700; color: var(--ocean-navy); text-transform: uppercase; margin-right: 4px;">
-          <i class="fa-solid fa-crown" style="color: var(--champagne-gold);"></i> Seri:
+        <span style="font-size: 0.78rem; font-weight: 700; color: var(--ocean-navy); text-transform: uppercase; margin-right: 4px; display: inline-flex; align-items: center; gap: 4px;">
+          <img src="{{ asset('images/logo.png') }}" alt="BV" style="height: 14px; width: auto; object-fit: contain; vertical-align: middle;"> Seri:
         </span>
         <a href="{{ route('novels.index', array_merge(request()->except('category', 'page'))) }}" 
            class="btn {{ !request('category') ? 'btn-gold' : 'btn-outline-gold' }}" 
@@ -87,7 +87,7 @@
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
           <div>
             <span style="background: linear-gradient(135deg, #172B49, #203A5E); color: var(--champagne-gold); padding: 4px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; display: inline-flex; align-items: center; gap: 6px;">
-              <i class="fa-solid fa-crown"></i> SERIAL UTAMA TRAH NOTONEGORO (KRONOLOGIS SERI 1 – 7)
+              <img src="{{ asset('images/logo.png') }}" alt="BV" style="height: 15px; width: auto; object-fit: contain; vertical-align: middle;"> SERIAL UTAMA TRAH NOTONEGORO (KRONOLOGIS SERI 1 – 7)
             </span>
             <h2 style="font-family: var(--font-serif); font-size: 2.1rem; color: var(--ocean-navy); margin: 10px 0 6px;">
               The Seven Notonegoro Series

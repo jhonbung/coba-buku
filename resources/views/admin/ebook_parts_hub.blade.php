@@ -58,7 +58,7 @@
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #E2E8F0;">
       <div>
         <h3 style="font-family: var(--font-display); font-size: 1.35rem; color: #0F172A; margin: 0; display: flex; align-items: center; gap: 10px;">
-          <i class="fa-solid fa-crown" style="color: var(--champagne-gold);"></i> The Seven Notonegoro Series (Serial Utama)
+          <img src="{{ asset('images/logo.png') }}" alt="BV" style="height: 20px; width: auto; object-fit: contain; vertical-align: middle;"> The Seven Notonegoro Series (Serial Utama)
         </h3>
         <span style="font-size: 0.8rem; color: #64748B;">
           Struktur buku induk kronologis Trah Notonegoro. Setiap judul dapat memiliki beberapa part bab berbayar.

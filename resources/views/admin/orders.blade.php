@@ -210,8 +210,8 @@
             Rp {{ number_format($categoryBreakdown['merchandise']['revenue'], 0, ',', '.') }}
           </div>
         </div>
-        <div style="width: 38px; height: 38px; border-radius: 8px; background: #FAF5FF; border: 1px solid #E9D5FF; display: flex; align-items: center; justify-content: center; color: #9333EA; font-size: 1rem;">
-          <i class="fa-solid fa-crown"></i>
+        <div style="width: 38px; height: 38px; border-radius: 8px; background: #FAF5FF; border: 1px solid #E9D5FF; display: flex; align-items: center; justify-content: center;">
+          <img src="{{ asset('images/logo.png') }}" alt="BV" style="width: 22px; height: 22px; object-fit: contain;">
         </div>
       </div>
       <div style="font-size: 0.78rem; color: #64748B; border-top: 1px solid #F1F5F9; padding-top: 8px; display: flex; justify-content: space-between;">
@@ -241,7 +241,7 @@
       </a>
       <a href="{{ route('admin.orders', array_merge(request()->query(), ['category' => 'merchandise', 'page' => 1])) }}"
          style="padding: 8px 16px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; {{ $selectedCategory === 'merchandise' ? 'background: #7E22CE; color: #FFF; box-shadow: 0 2px 4px rgba(126,34,206,0.25);' : 'background: #FFF; color: #7E22CE; border: 1px solid #E9D5FF;' }}">
-        <i class="fa-solid fa-crown"></i> Merchandise
+        <img src="{{ asset('images/logo.png') }}" alt="BV" style="height: 14px; width: auto; object-fit: contain; vertical-align: middle;"> Merchandise
       </a>
     </div>
 
@@ -366,13 +366,18 @@
                       $itemCat = $it->product ? $it->product->category : 'novel';
                       $catBadge = match($itemCat) {
                         'ebook' => ['bg' => '#ECFDF5', 'border' => '#A7F3D0', 'color' => '#065F46', 'label' => 'E-BOOK', 'icon' => 'fa-book-bookmark'],
-                        'merchandise' => ['bg' => '#FAF5FF', 'border' => '#E9D5FF', 'color' => '#6B21A8', 'label' => 'MERCH', 'icon' => 'fa-crown'],
+                        'merchandise' => ['bg' => '#FAF5FF', 'border' => '#E9D5FF', 'color' => '#6B21A8', 'label' => 'MERCH', 'icon' => ''],
                         default => ['bg' => '#EFF6FF', 'border' => '#BFDBFE', 'color' => '#1E40AF', 'label' => 'NOVEL', 'icon' => 'fa-book-open'],
                       };
                     @endphp
                     <li style="display: flex; align-items: flex-start; gap: 6px;">
-                      <span style="background: {{ $catBadge['bg'] }}; border: 1px solid {{ $catBadge['border'] }}; color: {{ $catBadge['color'] }}; font-size: 0.65rem; font-weight: 800; padding: 2px 6px; border-radius: 4px; letter-spacing: 0.5px; white-space: nowrap; margin-top: 1px;">
-                        <i class="fa-solid {{ $catBadge['icon'] }}" style="font-size: 0.6rem; margin-right: 2px;"></i>{{ $catBadge['label'] }}
+                      <span style="background: {{ $catBadge['bg'] }}; border: 1px solid {{ $catBadge['border'] }}; color: {{ $catBadge['color'] }}; font-size: 0.65rem; font-weight: 800; padding: 2px 6px; border-radius: 4px; letter-spacing: 0.5px; white-space: nowrap; margin-top: 1px; display: inline-flex; align-items: center; gap: 3px;">
+                        @if($itemCat === 'merchandise')
+                          <img src="{{ asset('images/logo.png') }}" alt="BV" style="height: 10px; width: auto; object-fit: contain;">
+                        @else
+                          <i class="fa-solid {{ $catBadge['icon'] }}" style="font-size: 0.6rem;"></i>
+                        @endif
+                        {{ $catBadge['label'] }}
                       </span>
                       <div style="line-height: 1.35;">
                         <strong style="color: #1E293B;">{{ $it->product_title }}</strong>

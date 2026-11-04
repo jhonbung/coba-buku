@@ -108,8 +108,8 @@
       <!-- SECTION 1: FULL E-BOOK OPTION (COMPLETE EDITION) -->
       @if($fullEdition)
         <div style="background: #FFFFFF; border: 2px solid var(--champagne-gold); border-radius: var(--radius-md); padding: 24px; margin-bottom: 32px; box-shadow: 0 4px 15px rgba(198, 161, 107, 0.15); position: relative;">
-          <div style="position: absolute; top: -12px; left: 24px; background: var(--champagne-gold); color: var(--white); font-size: 0.72rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 4px 14px; border-radius: 20px; box-shadow: var(--shadow-sm);">
-            <i class="fa-solid fa-crown"></i> PILIHAN TERLENGKAP & PALING HEMAT
+          <div style="position: absolute; top: -12px; left: 24px; background: var(--champagne-gold); color: var(--white); font-size: 0.72rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 4px 14px; border-radius: 20px; box-shadow: var(--shadow-sm); display: inline-flex; align-items: center; gap: 6px;">
+            <img src="{{ asset('images/logo.png') }}" alt="BV" style="height: 14px; width: auto; object-fit: contain; vertical-align: middle;"> PILIHAN TERLENGKAP & PALING HEMAT
           </div>
 
           <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-top: 6px; margin-bottom: 14px; flex-wrap: wrap; gap: 12px;">

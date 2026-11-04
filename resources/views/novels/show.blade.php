@@ -247,7 +247,7 @@
       @if($novel->collectors_items)
         <div style="background: linear-gradient(135deg, #FAF6F0 0%, #F4EBDD 100%); border: 1px solid var(--champagne-gold); border-radius: var(--radius-md); padding: 24px; margin-bottom: 32px;">
           <h4 style="font-family: var(--font-serif); font-size: 1.15rem; color: var(--ocean-navy); margin-bottom: 14px; display: flex; align-items: center; gap: 8px;">
-            <i class="fa-solid fa-crown" style="color: var(--champagne-gold);"></i> Bonus Edisi Spesial & Collector’s Keepsake:
+            <img src="{{ asset('images/logo.png') }}" alt="BV" style="height: 18px; width: auto; object-fit: contain; vertical-align: middle;"> Bonus Edisi Spesial & Collector’s Keepsake:
           </h4>
           <ul class="collectors-bonus-grid" style="list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; padding: 0; margin: 0;">
             @foreach($novel->collectors_items as $item)
@@ -310,7 +310,7 @@
       <div class="series-shelf-header">
         <div>
           <span style="background: linear-gradient(135deg, #172B49, #203A5E); color: var(--champagne-gold); padding: 4px 12px; border-radius: 4px; font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; display: inline-flex; align-items: center; gap: 6px;">
-            <i class="fa-solid fa-crown"></i> URUTAN LENGKAP SERIAL NOTONEGORO
+            <img src="{{ asset('images/logo.png') }}" alt="BV" style="height: 14px; width: auto; object-fit: contain; vertical-align: middle;"> URUTAN LENGKAP SERIAL NOTONEGORO
           </span>
           <h3 class="series-shelf-title">
             The Seven Notonegoro Series (Kronologis Jilid 1 – 4)

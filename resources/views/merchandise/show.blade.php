@@ -42,8 +42,8 @@
       @endif
 
       <div style="display: flex; gap: 14px; margin-top: 20px; justify-content: center; flex-wrap: wrap;">
-        <span style="font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; color: var(--ocean-navy); background: var(--ivory); padding: 6px 14px; border-radius: var(--radius-sm); border: 1px solid var(--soft-beige); font-weight: 600;">
-          <i class="fa-solid fa-crown" style="color: var(--champagne-gold);"></i> Official Merchandise
+        <span style="font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; color: var(--ocean-navy); background: var(--ivory); padding: 6px 14px; border-radius: var(--radius-sm); border: 1px solid var(--soft-beige); font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+          <img src="{{ asset('images/logo.png') }}" alt="BV" style="height: 14px; width: auto; object-fit: contain; vertical-align: middle;"> Official Merchandise
         </span>
         <span style="font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; color: var(--ocean-navy); background: var(--ivory); padding: 6px 14px; border-radius: var(--radius-sm); border: 1px solid var(--soft-beige); font-weight: 600;">
           <i class="fa-solid fa-box-open" style="color: var(--champagne-gold);"></i> Exclusive Packaging

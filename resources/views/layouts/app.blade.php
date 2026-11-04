@@ -993,7 +993,7 @@
         <span>E-Books (Serial Digital)</span>
       </a>
       <a href="{{ route('merchandise.index') }}" class="mobile-drawer-link {{ request()->routeIs('merchandise.*') ? 'active' : '' }}" onclick="closeMobileNav()">
-        <i class="fa-solid fa-crown"></i>
+        <img src="{{ asset('images/logo.png') }}" alt="BV" style="width: 18px; height: 18px; object-fit: contain;">
         <span>Merchandise Resmi</span>
       </a>
       <a href="{{ route('author.index') }}" class="mobile-drawer-link {{ request()->routeIs('author.*') ? 'active' : '' }}" onclick="closeMobileNav()">

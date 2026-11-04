@@ -5,7 +5,7 @@
 @section('content')
 <div style="background: radial-gradient(circle at 50% 50%, #1c365d 0%, #172B49 100%); color: var(--ivory); padding: 50px 0; border-bottom: 2px solid var(--champagne-gold);">
   <div class="container" style="text-align: center;">
-    <span class="hero-subtitle" style="justify-content: center;"><i class="fa-solid fa-crown"></i> MEMBERSHIP BIANCA VEANA</span>
+    <span class="hero-subtitle" style="justify-content: center;"><img src="{{ asset('images/logo.png') }}" alt="BV" style="height: 15px; width: auto; object-fit: contain; vertical-align: middle; margin-right: 6px;"> MEMBERSHIP BIANCA VEANA</span>
     <h1 class="page-banner-title" style="margin: 8px 0;">REGISTRASI AKUN PEMBACA</h1>
     <p style="color: #BAC7D7; max-width: 600px; margin: 0 auto; font-size: 0.92rem;">
       Daftarkan diri Anda untuk menyimpan keranjang belanja di berbagai perangkat, riwayat pesanan otomatis, dan konsultasi via live chat dengan admin.

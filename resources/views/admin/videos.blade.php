@@ -113,8 +113,8 @@
                 <span style="font-size: 0.75rem; background: #F1F5F9; color: #475569; padding: 4px 8px; border-radius: 4px;">
                   <i class="fa-solid fa-music" style="color: var(--admin-gold);"></i> {{ $v->badge_2 ?: 'Audio' }}
                 </span>
-                <span style="font-size: 0.75rem; background: #F1F5F9; color: #475569; padding: 4px 8px; border-radius: 4px;">
-                  <i class="fa-solid fa-crown" style="color: var(--admin-gold);"></i> {{ $v->badge_3 ?: 'Universe' }}
+                <span style="font-size: 0.75rem; background: #F1F5F9; color: #475569; padding: 4px 8px; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px;">
+                  <img src="{{ asset('images/logo.png') }}" alt="BV" style="height: 12px; width: auto; object-fit: contain; vertical-align: middle;"> {{ $v->badge_3 ?: 'Universe' }}
                 </span>
               </div>
             </div>

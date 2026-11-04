@@ -66,7 +66,7 @@
       <div class="container hero-slide-inner">
         <div class="hero-content">
           <div class="hero-badge">
-            <i class="fa-solid fa-crown"></i> ROMANCE & NOTONEGORO SERIES III
+            <img src="{{ asset('images/logo.png') }}" alt="BV" style="height: 14px; width: auto; object-fit: contain; vertical-align: middle;"> ROMANCE & NOTONEGORO SERIES III
           </div>
           <h1 class="hero-title fate-hero-title-wrap">
             <img src="{{ asset('images/fate-hero-title.png') }}?v=1.1" 
@@ -358,7 +358,7 @@
       <div class="teaser-features">
         <span id="teaser-badge-1"><i class="fa-solid fa-circle-check"></i> {{ $teaserVideo->badge_1 ?? '1080p Full HD' }}</span>
         <span id="teaser-badge-2"><i class="fa-solid fa-music"></i> {{ $teaserVideo->badge_2 ?? 'Original Soundtrack' }}</span>
-        <span id="teaser-badge-3"><i class="fa-solid fa-crown"></i> {{ $teaserVideo->badge_3 ?? 'Official Universe' }}</span>
+        <span id="teaser-badge-3"><img src="{{ asset('images/logo.png') }}" alt="BV" style="height: 14px; width: auto; object-fit: contain; vertical-align: middle;"> {{ $teaserVideo->badge_3 ?? 'Official Universe' }}</span>
       </div>
       <div class="teaser-cta-wrap">
         <a id="teaser-cta-btn" href="{{ $teaserVideo->cta_link ?? '#notonegoro-series' }}" class="btn btn-gold">
@@ -757,7 +757,7 @@
       document.getElementById('teaser-subtitle').innerText = vid.subtitle || '';
       document.getElementById('teaser-badge-1').innerHTML = '<i class="fa-solid fa-circle-check"></i> ' + vid.badge_1;
       document.getElementById('teaser-badge-2').innerHTML = '<i class="fa-solid fa-music"></i> ' + vid.badge_2;
-      document.getElementById('teaser-badge-3').innerHTML = '<i class="fa-solid fa-crown"></i> ' + vid.badge_3;
+      document.getElementById('teaser-badge-3').innerHTML = '<img src="{{ asset("images/logo.png") }}" alt="BV" style="height: 14px; width: auto; object-fit: contain; vertical-align: middle;"> ' + vid.badge_3;
       document.getElementById('teaser-cta-text').innerText = vid.cta_text;
       document.getElementById('teaser-cta-btn').setAttribute('href', vid.cta_link);
 

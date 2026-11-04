@@ -41,11 +41,11 @@
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #F1F5F9;">
       <!-- Series Universe Group Filters -->
       <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-        <span style="font-size: 0.72rem; font-weight: 700; color: #64748B; text-transform: uppercase;">
-          <i class="fa-solid fa-crown" style="color: var(--admin-gold);"></i> Kelompok Seri:
+        <span style="font-size: 0.72rem; font-weight: 700; color: #64748B; text-transform: uppercase; display: inline-flex; align-items: center; gap: 4px;">
+          <img src="{{ asset('images/logo.png') }}" alt="BV" style="height: 13px; width: auto; object-fit: contain; vertical-align: middle;"> Kelompok Seri:
         </span>
         <button type="button" onclick="filterBySeries('all')" class="series-filter-tab active" data-series="all">Semua Seri</button>
-        <button type="button" onclick="filterBySeries('notonegoro')" class="series-filter-tab" data-series="notonegoro">👑 The Seven Notonegoro</button>
+        <button type="button" onclick="filterBySeries('notonegoro')" class="series-filter-tab" data-series="notonegoro"><img src="{{ asset('images/logo.png') }}" alt="BV" style="height: 12px; width: auto; object-fit: contain; vertical-align: middle; margin-right: 4px;">The Seven Notonegoro</button>
         <button type="button" onclick="filterBySeries('standalone')" class="series-filter-tab" data-series="standalone">🌙 Standalone Novels</button>
         <button type="button" onclick="filterBySeries('limited')" class="series-filter-tab" data-series="limited">💎 Limited Editions</button>
         <button type="button" onclick="filterBySeries('merch')" class="series-filter-tab" data-series="merch">🎁 Merchandise</button>

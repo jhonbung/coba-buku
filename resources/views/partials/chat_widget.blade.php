@@ -43,7 +43,7 @@
       <div id="bv-chat-stream" style="flex: 1 1 0%; min-height: 0; overflow-y: auto; padding: 16px; background: #FAF9F6; display: flex; flex-direction: column; gap: 12px; scrollbar-width: thin; scrollbar-color: #CBD5E1 #FAF9F6;">
         <!-- Welcome Prompt -->
         <div id="bv-welcome-prompt" style="background: #FFFDF9; border: 1px solid rgba(198,161,107,0.3); border-radius: 10px; padding: 12px 14px; font-size: 0.78rem; color: var(--ocean-navy, #172B49); line-height: 1.5; text-align: center; flex-shrink: 0;">
-          <i class="fa-solid fa-crown" style="color: var(--champagne-gold, #C6A16B); margin-right: 4px;"></i>
+          <img src="{{ asset('images/logo.png') }}" alt="BV" style="height: 14px; width: auto; object-fit: contain; vertical-align: middle; margin-right: 4px;">
           Halo <strong>{{ Auth::guard('web')->user()->name }}</strong>! Ada yang bisa kami bantu seputar pesanan buku, bab e-book, atau konfirmasi pembayaran?
         </div>
         <!-- Bubbles will be loaded via JS -->
