@@ -39,7 +39,7 @@
         Terima Kasih atas Pesanan Anda!
       </h1>
       <p style="color: var(--text-muted); font-size: 1rem; max-width: 600px; margin: 0 auto 30px; line-height: 1.7;">
-        Pesanan nomor <strong style="color: var(--ocean-navy);">#{{ $order->order_number }}</strong> telah berhasil diverifikasi. Bukti transaksi dan detail pesanan telah dikirimkan ke <strong>{{ $order->customer_email }}</strong>.
+        Pesanan nomor <strong style="color: var(--ocean-navy);">#{{ $order->order_number }}</strong> telah berhasil diverifikasi.
       </p>
     @endif
 
