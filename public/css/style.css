@@ -208,7 +208,7 @@ img {
 }
 
 .brand-crest-img {
-  height: 52px;
+  height: 68px;
   width: auto;
   object-fit: contain;
   filter: drop-shadow(0 2px 5px rgba(10, 25, 47, 0.12));
@@ -2371,7 +2371,7 @@ img {
     text-align: center;
   }
   .brand-crest-img {
-    height: 42px;
+    height: 52px;
   }
   .brand-name {
     font-size: 1.35rem;
@@ -2509,7 +2509,7 @@ img {
     gap: 8px;
   }
   .brand-crest-img {
-    height: 32px;
+    height: 40px;
   }
   .brand-name {
     font-size: 1.05rem;

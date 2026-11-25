@@ -46,6 +46,13 @@
       pointer-events: none !important;
     }
 
+    .brand-crest-img {
+      height: 68px !important;
+      width: auto !important;
+      object-fit: contain !important;
+      filter: drop-shadow(0 2px 5px rgba(10, 25, 47, 0.12));
+    }
+
     /* Critical Mobile Header & Drawer CSS (Guaranteed cache-proof on all phones) */
     .mobile-menu-btn {
       display: none;
@@ -217,7 +224,7 @@
         text-align: center !important;
       }
       .brand-crest-img {
-        height: 38px !important;
+        height: 52px !important;
       }
       .brand-name {
         font-size: 1.25rem !important;
@@ -236,7 +243,7 @@
         gap: 6px !important;
       }
       .brand-crest-img {
-        height: 28px !important;
+        height: 40px !important;
       }
       .brand-name {
         font-size: 0.95rem !important;
@@ -279,7 +286,7 @@
         gap: 4px !important;
       }
       .brand-crest-img {
-        height: 24px !important;
+        height: 34px !important;
       }
       .brand-name {
         font-size: 0.82rem !important;
@@ -968,7 +975,7 @@
   <aside class="mobile-nav-drawer" id="mobileNavDrawer" style="position: fixed; top: 0; left: 0; bottom: 0; width: 84%; max-width: 320px; z-index: 9999; transform: translateX(-100%);" aria-label="Navigasi Seluler">
     <div class="mobile-drawer-header">
       <div class="mobile-drawer-brand">
-        <img src="{{ asset('images/logo.png') }}" alt="Logo" class="mobile-drawer-logo" style="width: 38px; height: 38px; object-fit: contain;">
+        <img src="{{ asset('images/logo.png') }}" alt="Logo" class="mobile-drawer-logo" style="width: 44px; height: 44px; object-fit: contain;">
         <div>
           <span class="mobile-drawer-title">BIANCA VEANA</span>
           <span class="mobile-drawer-subtitle">OFFICIAL BOOKSTORE</span>
@@ -1093,7 +1100,7 @@
         <!-- Col 1: About -->
         <div class="footer-brand">
           <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 14px;">
-            <img src="{{ asset('images/logo.png') }}" alt="Bianca Veana Logo" style="height: 52px; width: auto; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.35));">
+            <img src="{{ asset('images/logo.png') }}" alt="Bianca Veana Logo" style="height: 64px; width: auto; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.35));">
             <div>
               <h3 class="brand-name" style="margin-bottom: 0;">BIANCA VEANA</h3>
               <div class="brand-tagline" style="color: var(--champagne-gold);">BIANCA VEANA UNIVERSE</div>
