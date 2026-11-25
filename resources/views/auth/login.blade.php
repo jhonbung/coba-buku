@@ -92,14 +92,6 @@
       </a>
     </div>
 
-    <!-- Pembeda Jalur Admin Login -->
-    <div style="margin-top: 18px; padding: 12px; background: #FAF9F6; border-radius: 6px; text-align: center; font-size: 0.78rem; color: var(--text-muted); border: 1px dashed var(--soft-beige);">
-      <i class="fa-solid fa-shield-halved" style="color: var(--champagne-gold);"></i> Khusus Tim Pengelola Toko:
-      <a href="{{ route('admin.login') }}" style="color: var(--ocean-navy); font-weight: 700; text-decoration: none; margin-left: 4px;">
-        Masuk ke Portal Admin Control Center &rarr;
-      </a>
-    </div>
-
   </div>
 </div>
 @endsection
